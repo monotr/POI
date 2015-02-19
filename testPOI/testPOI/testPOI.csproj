@@ -44,6 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Chat Individual.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Chat Individual.Designer.cs">
+      <DependentUpon>Chat Individual.cs</DependentUpon>
+    </Compile>
     <Compile Include="Chat.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -76,6 +82,9 @@
     <Compile Include="Videollamada.Designer.cs">
       <DependentUpon>Videollamada.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Chat Individual.resx">
+      <DependentUpon>Chat Individual.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Chat.resx">
       <DependentUpon>Chat.cs</DependentUpon>
     </EmbeddedResource>
@@ -96,6 +105,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="Videollamada.resx">
       <DependentUpon>Videollamada.cs</DependentUpon>
@@ -112,6 +122,54 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Games Badge.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\emoticon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\emotic.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mail.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\paper-clip.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\webcam computer camera video chat videoconferencing webcam icon_32x32_iconmay.com.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\misc_juegos.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\16x16-msg-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\19-msg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logout.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\msg-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\X_exit_out_signout_logout_close_lose_finish_shutdown-128.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logout %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\face_smile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\face_smile1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\16x16-black-white-android-end-call.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
