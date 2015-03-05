@@ -34,7 +34,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnSend = new System.Windows.Forms.Button();
             this.txt_text = new System.Windows.Forms.TextBox();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.clients_list = new System.Windows.Forms.ListBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.txName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -99,18 +99,18 @@
             this.txt_text.Size = new System.Drawing.Size(309, 20);
             this.txt_text.TabIndex = 5;
             // 
-            // listBox1
+            // clients_list
             // 
-            this.listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(3, 16);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(103, 192);
-            this.listBox1.TabIndex = 6;
+            this.clients_list.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.clients_list.FormattingEnabled = true;
+            this.clients_list.Location = new System.Drawing.Point(3, 16);
+            this.clients_list.Name = "clients_list";
+            this.clients_list.Size = new System.Drawing.Size(103, 192);
+            this.clients_list.TabIndex = 6;
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.listBox1);
+            this.groupBox2.Controls.Add(this.clients_list);
             this.groupBox2.Location = new System.Drawing.Point(330, 12);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(109, 211);
@@ -178,7 +178,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btnSend;
         private System.Windows.Forms.TextBox txt_text;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox clients_list;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.TextBox txName;
         private System.Windows.Forms.Label label1;

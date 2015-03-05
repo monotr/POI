@@ -19,6 +19,12 @@ namespace Game
     /// </summary>
     public partial class frm_Main : Form
     {
+        bool myMsg = false;
+        bool firstMsg = false;
+        string readData = null;
+
+        List<string> lista = new List <string>();
+
         private  Socket _clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         public frm_Main()
         {
@@ -28,7 +34,7 @@ namespace Game
         Thread thr;
         private void Form1_Load(object sender, EventArgs e)
         {
-           
+            Emojis.createicons();  
         }
 
         private void ReceiveData(IAsyncResult ar)
@@ -36,11 +42,52 @@ namespace Game
             Socket socket = (Socket)ar.AsyncState;
             int received = socket.EndReceive(ar);
             byte[] dataBuf = new byte[received];
-            Array.Copy(receivedBuf, dataBuf, received);
-            lb_stt.Text = (Encoding.ASCII.GetString(dataBuf));
-            //rb_chat.AppendText("\nServer: " + lb_stt.Text);
-            _clientSocket.BeginReceive(receivedBuf, 0, receivedBuf.Length, SocketFlags.None, new AsyncCallback(ReceiveData), _clientSocket);
+
+            if (firstMsg)
+            {
+                //if (!myMsg)
+                //{
+                    Array.Copy(receivedBuf, dataBuf, received);
+                    //rb_chat.Text += "\n" + (Encoding.ASCII.GetString(dataBuf));
+                    //lb_stt.Text = (Encoding.ASCII.GetString(dataBuf));
+
+                    //desencrypt
+                    string receivedEnc = (Encoding.ASCII.GetString(dataBuf));
+                    int inicio = receivedEnc.IndexOf(":") + 1;
+                    int fin = receivedEnc.IndexOf("*") - inicio;
+                    receivedEnc = receivedEnc.Substring(inicio, fin);
+                    receivedEnc = CryptoEngine.Decrypt(receivedEnc, true);
+
+                    rb_chat.AppendText("\nServer:" + receivedEnc);
+                    readData = "" + receivedEnc;
+                    msg();
+                    _clientSocket.BeginReceive(receivedBuf, 0, receivedBuf.Length, SocketFlags.None, new AsyncCallback(ReceiveData), _clientSocket);
+
+                    
+                    
+                //}
+                //else
+                //    myMsg = false;
+            }
+            else
+            {
+                firstMsg = true;
+                lista.Add(Encoding.ASCII.GetString(dataBuf));
+                //rb_chat.AppendText((Encoding.ASCII.GetString(dataBuf)));
+                
+            }
         }
+
+
+        private void msg()
+        {
+           
+           
+            
+                //conversation.AppendText(conversation.Text + Environment.NewLine + " >> " + readData);
+                Emojis.pegaricono(readData, rb_chat);
+            
+        } 
 
         private  void SendLoop()
         {
@@ -57,8 +104,8 @@ namespace Game
                 {
                     byte[] data = new byte[rev];
                     Array.Copy(receivedBuf, data, rev);
-                    lb_stt.Text = ("Received: " + Encoding.ASCII.GetString(data));
-                    rb_chat.AppendText("\nServer: " + Encoding.ASCII.GetString(data));
+                    lb_stt.Text = ("Received:" + Encoding.ASCII.GetString(data));
+                    rb_chat.AppendText("\nServer:" + Encoding.ASCII.GetString(data));
                 }
                 else _clientSocket.Close();
                 
@@ -93,10 +140,16 @@ namespace Game
         {
             if (_clientSocket.Connected)
             {
-                
-                byte[] buffer = Encoding.ASCII.GetBytes(txt_text.Text);
+                myMsg = true;
+
+                //encrypt
+                string text_to_send = CryptoEngine.Encrypt(txt_text.Text, true);
+                text_to_send += "*";
+                //
+                byte[] buffer = Encoding.ASCII.GetBytes(txName.Text + ":" + text_to_send + "$");
                 _clientSocket.Send(buffer);
-                rb_chat.AppendText("Client: " + txt_text.Text);
+                rb_chat.AppendText("\nClient:" + txt_text.Text);
+                txt_text.Text = "";
             }
             
         }
@@ -108,6 +161,7 @@ namespace Game
             _clientSocket.BeginReceive(receivedBuf, 0, receivedBuf.Length, SocketFlags.None, new AsyncCallback(ReceiveData), _clientSocket);
             byte[] buffer = Encoding.ASCII.GetBytes("@@" + txName.Text);
             _clientSocket.Send(buffer);
+           
         }
     }
 }
