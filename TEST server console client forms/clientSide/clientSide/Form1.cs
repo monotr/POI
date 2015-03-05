@@ -8,13 +8,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net.Sockets;
+using System.Threading;
 
 namespace clientSide
 {
     public partial class Form1 : Form
     {
         System.Net.Sockets.TcpClient clientSocket = new System.Net.Sockets.TcpClient();
-        NetworkStream serverStream; 
+        NetworkStream serverStream = default(NetworkStream);
+        string readData = null;
+        bool first = false;
         public Form1()
         {
             InitializeComponent();
@@ -22,27 +25,80 @@ namespace clientSide
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            msg("Client Started");
-            clientSocket.Connect("192.168.1.87", 2014);
-            label1.Text = "Client Socket Program - Server Connected ...";
+            Emojis.createicons();
         }
 
-        public void msg(string mesg)
+        private void getMessage()
         {
-            textBox1.Text = textBox1.Text + Environment.NewLine + " >> " + mesg;
+            while (true)
+            {
+                serverStream = clientSocket.GetStream();
+                int buffSize = 0;
+                byte[] inStream = new byte[100025];
+                buffSize = clientSocket.ReceiveBufferSize;
+                serverStream.Read(inStream, 0, buffSize);
+                string returndata = System.Text.Encoding.ASCII.GetString(inStream);
+                if (first && !returndata.Contains("Joined"))
+                {
+                    int inicio = returndata.IndexOf(":") + 1;
+                    int fin = returndata.IndexOf("*") - inicio;
+                    returndata = returndata.Substring(inicio, fin);
+                    returndata = CryptoEngine.Decrypt(returndata, true);
+                }
+
+                readData = "" + returndata;
+                msg();
+            }
         }
+
+        private void msg()
+        {
+            if (this.InvokeRequired)
+                this.Invoke(new MethodInvoker(msg));
+            else
+            {
+                //conversation.AppendText(conversation.Text + Environment.NewLine + " >> " + readData);
+                Emojis.pegaricono(readData, conversation);
+            }
+        } 
 
         private void button1_Click(object sender, EventArgs e)
         {
-            NetworkStream serverStream = clientSocket.GetStream();
-            byte[] outStream = System.Text.Encoding.ASCII.GetBytes("Message from Client$");
+
+            string text_to_send = CryptoEngine.Encrypt(textToSend_txt.Text, true);
+
+            text_to_send += "*";
+
+            byte[] outStream = System.Text.Encoding.ASCII.GetBytes(text_to_send + "$");
             serverStream.Write(outStream, 0, outStream.Length);
             serverStream.Flush();
 
-            byte[] inStream = new byte[100025];
-            serverStream.Read(inStream, 0, (int)clientSocket.ReceiveBufferSize);
-            string returndata = System.Text.Encoding.ASCII.GetString(inStream);
-            msg("Data from Server : " + returndata);
+            textToSend_txt.Clear();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            readData = "Conected to Chat Server ... \n";
+            clientSocket.Connect("192.168.1.87", 2014);
+            //clientSocket.Connect("127.0.0.1", 2014);
+            label1.Text = "Client Socket Program - Server Connected ...";
+
+            msg();
+            first = true;
+
+            serverStream = clientSocket.GetStream();
+
+            byte[] outStream = System.Text.Encoding.ASCII.GetBytes(nickname.Text + "$");
+            serverStream.Write(outStream, 0, outStream.Length);
+            serverStream.Flush();
+
+            Thread ctThread = new Thread(getMessage);
+            ctThread.Start();
+        }
+
+        private void conversation_TextChanged(object sender, EventArgs e)
+        {
+
         } 
     }
 }
