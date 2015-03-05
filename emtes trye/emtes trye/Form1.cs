@@ -14,7 +14,7 @@ namespace emtes_trye
     public partial class Form1 : Form
     {
         //bool send;
-        string textsend;
+        //string textsend;
         Hashtable emotions;
         
         void createicons()
