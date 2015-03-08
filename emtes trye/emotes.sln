@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "emtes trye", "emtes trye\emtes trye.csproj", "{5B56DE5A-9CF8-40F0-820D-9862D8CFA8C1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "emotes", "emtes trye\emotes.csproj", "{5B56DE5A-9CF8-40F0-820D-9862D8CFA8C1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
