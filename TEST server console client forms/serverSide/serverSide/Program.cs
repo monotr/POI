@@ -137,10 +137,10 @@ namespace serverSide
                         Program.broadcast(dataFromClient, clNo, true, 0);
                     }
 
-                    else if (b > 0)
+                    else if (b > 0 && dataFromClient.Contains("estado"))
                     {
                         dataFromClient = dataFromClient.Substring(0, dataFromClient.IndexOf("&"));
-                        Console.WriteLine(clNo + " cambió su estado a  : " + dataFromClient + "*");
+                        Console.WriteLine(clNo + " cambió su estado a  : " + dataFromClient + "%");
                         Program.broadcast(dataFromClient, clNo, true, 1);
                     }
                     rCount = Convert.ToString(requestCount);

@@ -48,8 +48,10 @@ namespace clientSide
                 buffSize = clientSocket.ReceiveBufferSize;
                 serverStream.Read(inStream, 0, buffSize);
                 string returndata = System.Text.Encoding.ASCII.GetString(inStream);
-                if (returndata.Contains("estado"))
+                if (returndata.Contains("%"))
                 {
+                    readData = returndata.Substring(0, returndata.IndexOf("%"));
+                    msg();
                     int inicio = returndata.IndexOf(":") + 1;
                     int fin = returndata.IndexOf("%") - 1;
                     string statusActual = returndata.Substring(inicio, fin);
@@ -154,12 +156,12 @@ namespace clientSide
         private void comboEstado_SelectedIndexChanged(object sender, EventArgs e)
         {
             if(first){
-                byte[] outStream = System.Text.Encoding.ASCII.GetBytes(comboEstado.Text + "&");
+                byte[] outStream = System.Text.Encoding.ASCII.GetBytes(comboEstado.Text + "&estado");
                 serverStream.Write(outStream, 0, outStream.Length);
                 serverStream.Flush();
 
                 //contactos_list.SetSelected(1, true);
-                contactos_list.Items[0] = "You\t" + comboEstado.Text;
+                //contactos_list.Items[0] = "You\t" + comboEstado.Text;
             }   
         }
 
