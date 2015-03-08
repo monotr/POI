@@ -18,6 +18,7 @@ namespace clientSide
         NetworkStream serverStream = default(NetworkStream);
         string readData = null;
         bool first = false;
+        string status = null;
         public Form1()
         {
             InitializeComponent();
@@ -26,6 +27,12 @@ namespace clientSide
         private void Form1_Load(object sender, EventArgs e)
         {
             Emojis.createicons();
+          
+            comboEstado.Items.Add("Disponible");
+            comboEstado.Items.Add("Ausente");
+            comboEstado.Items.Add("Ocupado");
+            
+            
         }
 
         private void getMessage()
@@ -42,12 +49,22 @@ namespace clientSide
                 {
                     int inicio = returndata.IndexOf(":") + 1;
                     int fin = returndata.IndexOf("*") - inicio;
+
+
                     returndata = returndata.Substring(inicio, fin);
                     returndata = CryptoEngine.Decrypt(returndata, true);
+
+
+                    readData = "" + returndata;
+                    msg();
                 }
 
-                readData = "" + returndata;
-                msg();
+                else if(returndata.Contains("estado"))
+                {
+                   
+                }
+
+                
             }
         }
 
@@ -79,7 +96,7 @@ namespace clientSide
         private void button2_Click(object sender, EventArgs e)
         {
             readData = "Conected to Chat Server ... \n";
-            clientSocket.Connect("192.168.1.87", 2014);
+            clientSocket.Connect("192.168.1.242", 2014);
             //clientSocket.Connect("127.0.0.1", 2014);
             label1.Text = "Client Socket Program - Server Connected ...";
 
@@ -99,6 +116,20 @@ namespace clientSide
         private void conversation_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void comboEstado_SelectedIndexChanged(object sender, EventArgs e)
+        {
+        
+            byte[] outStream = System.Text.Encoding.ASCII.GetBytes(comboEstado.Text + "&");
+            serverStream.Write(outStream, 0, outStream.Length);
+            serverStream.Flush();
+            
+        }
+
+        private void comboEstado_ValueMemberChanged(object sender, EventArgs e)
+        {
+            
         } 
     }
 }

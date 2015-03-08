@@ -35,6 +35,7 @@
             this.nickname = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.conversation = new System.Windows.Forms.RichTextBox();
+            this.comboEstado = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // label1
@@ -98,11 +99,22 @@
             this.conversation.Text = "";
             this.conversation.TextChanged += new System.EventHandler(this.conversation_TextChanged);
             // 
+            // comboEstado
+            // 
+            this.comboEstado.FormattingEnabled = true;
+            this.comboEstado.Location = new System.Drawing.Point(304, 60);
+            this.comboEstado.Name = "comboEstado";
+            this.comboEstado.Size = new System.Drawing.Size(164, 21);
+            this.comboEstado.TabIndex = 8;
+            this.comboEstado.SelectedIndexChanged += new System.EventHandler(this.comboEstado_SelectedIndexChanged);
+            this.comboEstado.ValueMemberChanged += new System.EventHandler(this.comboEstado_ValueMemberChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ClientSize = new System.Drawing.Size(501, 303);
+            this.Controls.Add(this.comboEstado);
             this.Controls.Add(this.conversation);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.nickname);
@@ -127,6 +139,7 @@
         private System.Windows.Forms.TextBox nickname;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.RichTextBox conversation;
+        private System.Windows.Forms.ComboBox comboEstado;
     }
 }
 

@@ -40,20 +40,33 @@ namespace serverSide
                 clientSocket = serverSocket.AcceptTcpClient();
 
                 byte[] bytesFrom = new byte[100025];
+                byte[] bytesFromstatus = new byte[100025];
                 string dataFromClient = null;
+                
 
                 NetworkStream networkStream = clientSocket.GetStream();
-                networkStream.Read(bytesFrom, 0, (int)clientSocket.ReceiveBufferSize);
+                networkStream.Read(bytesFrom, 0, (int)clientSocket.ReceiveBufferSize);          
                 dataFromClient = System.Text.Encoding.ASCII.GetString(bytesFrom);
-                dataFromClient = dataFromClient.Substring(0, dataFromClient.IndexOf("$"));
+                
+                
+                   
+                    dataFromClient = dataFromClient.Substring(0, dataFromClient.IndexOf("$"));
+                    clientsList.Add(dataFromClient, clientSocket);
 
-                clientsList.Add(dataFromClient, clientSocket);
 
-                broadcast(dataFromClient + " Joined ", dataFromClient, false);
+                    broadcast(dataFromClient + " Joined ", dataFromClient, false);
+                    Console.WriteLine(dataFromClient + " Joined chat room \n");
+                    handleClinet client = new handleClinet();
+                    client.startClient(clientSocket, dataFromClient, clientsList);
+               
+                
+                
 
-                Console.WriteLine(dataFromClient + " Joined chat room \n");
-                handleClinet client = new handleClinet();
-                client.startClient(clientSocket, dataFromClient, clientsList);
+                //statusfromclient = statusfromclient.Substring(0, statusfromclient.IndexOf("$"));
+                
+                
+
+               
             }
 
             clientSocket.Close();
@@ -118,15 +131,28 @@ namespace serverSide
                     NetworkStream networkStream = clientSocket.GetStream();
                     networkStream.Read(bytesFrom, 0, (int)clientSocket.ReceiveBufferSize);
                     dataFromClient = System.Text.Encoding.ASCII.GetString(bytesFrom);
-                    dataFromClient = dataFromClient.Substring(0, dataFromClient.IndexOf("$"));
-                    Console.WriteLine("From client - " + clNo + " : " + dataFromClient);
+
+                    int a = dataFromClient.IndexOf("$");
+                    int b = dataFromClient.IndexOf("&");
+                    if (a > 0)
+                    {
+                        dataFromClient = dataFromClient.Substring(0, dataFromClient.IndexOf("$"));
+                        Console.WriteLine("From client - " + clNo + " : " + dataFromClient);
+                    }
+
+                    else if (b > 0)
+                    {
+                        dataFromClient = dataFromClient.Substring(0, dataFromClient.IndexOf("&"));
+                        Console.WriteLine(clNo + " cambió su estado a  : " + dataFromClient);
+
+                    }
                     rCount = Convert.ToString(requestCount);
 
                     Program.broadcast(dataFromClient, clNo, true);
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(" >> " + ex.ToString());
+                    //Console.WriteLine(" >> " + ex.ToString());
                 }
             }
         }
