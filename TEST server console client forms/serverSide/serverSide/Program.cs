@@ -15,7 +15,8 @@ namespace serverSide
         public static Hashtable clientsList = new Hashtable(); 
         static void Main(string[] args)
         {
-            IPAddress myIP = IPAddress.Parse("127.0.0.1");
+            //IPAddress myIP = IPAddress.Parse("127.0.0.1");
+            IPAddress myIP = IPAddress.Any;
 
             IPAddress[] localIP = Dns.GetHostAddresses(Dns.GetHostName());
             foreach (IPAddress address in localIP)
@@ -48,8 +49,9 @@ namespace serverSide
                 dataFromClient = dataFromClient.Substring(0, dataFromClient.IndexOf("$"));
 
                 clientsList.Add(dataFromClient, clientSocket);
+                //Console.WriteLine(clientsList.get);
 
-                broadcast(dataFromClient + " Joined ", dataFromClient, false);
+                broadcast(dataFromClient + " ^Joined ", dataFromClient, false);
 
                 Console.WriteLine(dataFromClient + " Joined chat room \n");
                 handleClinet client = new handleClinet();
@@ -61,8 +63,29 @@ namespace serverSide
             Console.WriteLine(" >> " + "exit");
             Console.ReadLine();
         }
+        public static void singlebroadcast(string msg, string uName, int clienteNum)
+        {
+            int i = 0;
+            foreach (DictionaryEntry Item in clientsList)
+            {
+                if (i < clientsList.Count)
+                {
+                    TcpClient broadcastSocket;
+                    broadcastSocket = (TcpClient)Item.Value;
+                    NetworkStream broadcastStream = broadcastSocket.GetStream();
+                    Byte[] broadcastBytes = null;
 
-        public static void broadcast(string msg, string uName, bool flag)
+                    broadcastBytes = Encoding.ASCII.GetBytes(clientsList.Values.ToString());
+                    
+                    broadcastStream.Write(broadcastBytes, 0, broadcastBytes.Length);
+                    broadcastStream.Flush();
+                }
+                i++;
+            }
+        }  //end broadcast function
+        
+        
+        public static void broadcast(string msg, string uName, bool flag)//, int conversationNumber)
         {
             foreach (DictionaryEntry Item in clientsList)
             {
@@ -73,7 +96,7 @@ namespace serverSide
 
                 if (flag == true)
                 {
-                    broadcastBytes = Encoding.ASCII.GetBytes(uName + " says : " + msg);
+                    broadcastBytes = Encoding.ASCII.GetBytes(uName + ": " + msg);
                 }
                 else
                 {
@@ -118,11 +141,18 @@ namespace serverSide
                     NetworkStream networkStream = clientSocket.GetStream();
                     networkStream.Read(bytesFrom, 0, (int)clientSocket.ReceiveBufferSize);
                     dataFromClient = System.Text.Encoding.ASCII.GetString(bytesFrom);
-                    dataFromClient = dataFromClient.Substring(0, dataFromClient.IndexOf("$"));
-                    Console.WriteLine("From client - " + clNo + " : " + dataFromClient);
-                    rCount = Convert.ToString(requestCount);
 
-                    Program.broadcast(dataFromClient, clNo, true);
+                    if (dataFromClient.Substring(1, 1) == "¢")
+                    {
+                        //recibe estado
+                    }
+                    else
+                    {
+                        dataFromClient = dataFromClient.Substring(0, dataFromClient.IndexOf("$"));
+                        Console.WriteLine("From client - " + clNo + " : " + dataFromClient);
+                        rCount = Convert.ToString(requestCount);
+                        Program.broadcast(dataFromClient, clNo, true);
+                    }
                 }
                 catch (Exception ex)
                 {

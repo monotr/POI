@@ -35,6 +35,9 @@
             this.nickname = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.conversation = new System.Windows.Forms.RichTextBox();
+            this.contactos_list = new System.Windows.Forms.ListBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // label1
@@ -98,11 +101,45 @@
             this.conversation.Text = "";
             this.conversation.TextChanged += new System.EventHandler(this.conversation_TextChanged);
             // 
+            // contactos_list
+            // 
+            this.contactos_list.FormattingEnabled = true;
+            this.contactos_list.Location = new System.Drawing.Point(278, 67);
+            this.contactos_list.Name = "contactos_list";
+            this.contactos_list.Size = new System.Drawing.Size(120, 147);
+            this.contactos_list.TabIndex = 8;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(275, 51);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(55, 13);
+            this.label3.TabIndex = 9;
+            this.label3.Text = "Contactos";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "1.Online",
+            "2.No disponible",
+            "3.Ausente",
+            "4.Offline"});
+            this.comboBox1.Location = new System.Drawing.Point(278, 228);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(121, 21);
+            this.comboBox1.TabIndex = 10;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ClientSize = new System.Drawing.Size(410, 261);
+            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.contactos_list);
             this.Controls.Add(this.conversation);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.nickname);
@@ -127,6 +164,9 @@
         private System.Windows.Forms.TextBox nickname;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.RichTextBox conversation;
+        private System.Windows.Forms.ListBox contactos_list;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox comboBox1;
     }
 }
 

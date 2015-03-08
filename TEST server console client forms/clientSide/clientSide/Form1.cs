@@ -18,6 +18,7 @@ namespace clientSide
         NetworkStream serverStream = default(NetworkStream);
         string readData = null;
         bool first = false;
+        string nombreCliente;
         public Form1()
         {
             InitializeComponent();
@@ -42,12 +43,27 @@ namespace clientSide
                 {
                     int inicio = returndata.IndexOf(":") + 1;
                     int fin = returndata.IndexOf("*") - inicio;
+
+                    nombreCliente = returndata.Substring(0, inicio-1);
+
                     returndata = returndata.Substring(inicio, fin);
                     returndata = CryptoEngine.Decrypt(returndata, true);
                 }
-
-                readData = "" + returndata;
+                else if (!returndata.Contains("Joined"))
+                {
+                    readData = nombreCliente + ": " + returndata;
+                }
+                else
+                {
+                    readData = "" + returndata;
+                }
                 msg();
+                int inicio2 = returndata.IndexOf("^") + 1;
+                nombreCliente = returndata.Substring(0, inicio2 - 1);
+                if (nombreCliente == nickname.Text+" ")
+                    contactos_list.Items.Add("You");
+                else
+                    contactos_list.Items.Add(nombreCliente);
             }
         }
 
@@ -99,6 +115,15 @@ namespace clientSide
         private void conversation_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string nuevoEstado = comboBox1.Text.Substring(0,0);
+
+            byte[] outStream = System.Text.Encoding.ASCII.GetBytes(nuevoEstado + "¢");
+            serverStream.Write(outStream, 0, outStream.Length);
+            serverStream.Flush();
         } 
     }
 }

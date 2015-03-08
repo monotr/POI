@@ -60,7 +60,7 @@ namespace GameSocket
             socket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback), socket);
             _serverSocket.BeginAccept(new AsyncCallback(AppceptCallback), null);
 
-            enviar(__ClientSockets[__ClientSockets.Count-1]._Name);
+            //enviar(__ClientSockets[__ClientSockets.Count-1]._Name);
         }
         
         private  void ReceiveCallback(IAsyncResult ar)
