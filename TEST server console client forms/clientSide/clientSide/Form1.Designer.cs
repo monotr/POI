@@ -36,6 +36,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.conversation = new System.Windows.Forms.RichTextBox();
             this.comboEstado = new System.Windows.Forms.ComboBox();
+            this.contactos_list = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
             // label1
@@ -109,11 +110,20 @@
             this.comboEstado.SelectedIndexChanged += new System.EventHandler(this.comboEstado_SelectedIndexChanged);
             this.comboEstado.ValueMemberChanged += new System.EventHandler(this.comboEstado_ValueMemberChanged);
             // 
+            // contactos_list
+            // 
+            this.contactos_list.FormattingEnabled = true;
+            this.contactos_list.Location = new System.Drawing.Point(304, 111);
+            this.contactos_list.Name = "contactos_list";
+            this.contactos_list.Size = new System.Drawing.Size(164, 134);
+            this.contactos_list.TabIndex = 9;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(501, 303);
+            this.Controls.Add(this.contactos_list);
             this.Controls.Add(this.comboEstado);
             this.Controls.Add(this.conversation);
             this.Controls.Add(this.label2);
@@ -140,6 +150,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.RichTextBox conversation;
         private System.Windows.Forms.ComboBox comboEstado;
+        private System.Windows.Forms.ListBox contactos_list;
     }
 }
 
