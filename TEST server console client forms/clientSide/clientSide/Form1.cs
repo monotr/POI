@@ -39,7 +39,7 @@ namespace clientSide
                 buffSize = clientSocket.ReceiveBufferSize;
                 serverStream.Read(inStream, 0, buffSize);
                 string returndata = System.Text.Encoding.ASCII.GetString(inStream);
-                if (first && !returndata.Contains("Joined"))
+                if (!returndata.Contains("Joined"))
                 {
                     int inicio = returndata.IndexOf(":") + 1;
                     int fin = returndata.IndexOf("*") - inicio;
@@ -48,22 +48,21 @@ namespace clientSide
 
                     returndata = returndata.Substring(inicio, fin);
                     returndata = CryptoEngine.Decrypt(returndata, true);
-                }
-                else if (!returndata.Contains("Joined"))
-                {
-                    readData = nombreCliente + ": " + returndata;
+
+                    msg();
                 }
                 else
                 {
+                    int inicio2 = returndata.IndexOf("^") + 1;
+                    nombreCliente = returndata.Substring(0, inicio2 - 1);
+                    if (nombreCliente == nickname.Text + " ")
+                        contactos_list.Items.Add("You");
+                    else
+                        contactos_list.Items.Add(nombreCliente);
+
                     readData = "" + returndata;
                 }
-                msg();
-                int inicio2 = returndata.IndexOf("^") + 1;
-                nombreCliente = returndata.Substring(0, inicio2 - 1);
-                if (nombreCliente == nickname.Text+" ")
-                    contactos_list.Items.Add("You");
-                else
-                    contactos_list.Items.Add(nombreCliente);
+                
             }
         }
 
