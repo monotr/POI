@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net.Sockets;
+using System.Net;
 using System.Threading;
 using System.Media;
 
@@ -18,13 +19,16 @@ namespace clientSide
 
         int count,val;
         string emo = null;
-        SoundPlayer zumb = new SoundPlayer("C:/Users/Diego/Documents/base de datos proyect/emtes trye/emtes trye/zumbido.wav");
+        SoundPlayer zumb = new SoundPlayer("C:/Users/Monotr_/Documents/GitHub/POI/TEST server console client forms/clientSide/clientSide/zumbido.wav");
 
         System.Net.Sockets.TcpClient clientSocket = new System.Net.Sockets.TcpClient();
         NetworkStream serverStream = default(NetworkStream);
+        List<string> clientesconect = new List<string>();
         string readData = null;
         bool first = false;
+        string nombreCliente;
         string status = null;
+
         public Form1()
         {
             InitializeComponent();
@@ -38,8 +42,8 @@ namespace clientSide
             comboEstado.Items.Add("Disponible");
             comboEstado.Items.Add("Ausente");
             comboEstado.Items.Add("Ocupado");
-            
-            
+
+            comboEstado.SelectedIndex = 0;
         }
 
         private void getMessage()
@@ -52,38 +56,84 @@ namespace clientSide
                 buffSize = clientSocket.ReceiveBufferSize;
                 serverStream.Read(inStream, 0, buffSize);
                 string returndata = System.Text.Encoding.ASCII.GetString(inStream);
-                if (first && !returndata.Contains("Joined"))
+                if (returndata.Contains("%"))
+                {
+                    readData = returndata.Substring(0, returndata.IndexOf("%"));
+                    msg();
+                    int inicio = returndata.IndexOf(":") + 1;
+                    int fin = returndata.IndexOf("%") - 1;
+                    string statusActual = returndata.Substring(inicio, fin);
+                }
+                else if (!returndata.Contains("Joined") && !returndata.Contains("^") && !returndata.Contains("#") &&
+                    !returndata.Contains("~"))
                 {
                     int inicio = returndata.IndexOf(":") + 1;
                     int fin = returndata.IndexOf("*") - inicio;
 
+                    int inicioName = returndata.IndexOf("-") + 1;
+                    string nameUser = returndata.Substring(inicioName, inicio - 1);
 
+                    nombreCliente = returndata.Substring(0, inicio - 1);
                     returndata = returndata.Substring(inicio, fin);
                     returndata = CryptoEngine.Decrypt(returndata, true);
-
-
-                    readData = "" + returndata;
+                    readData = nameUser + ": " + returndata;
                     msg();
                 }
-
-                else if(returndata.Contains("estado"))
+                else if (returndata.Contains("^"))
                 {
-                   
+                    int inicio2 = returndata.IndexOf("^") - 1;
+                    nombreCliente = returndata.Substring(0, inicio2);
+                    string actualName = nickname.Text + " ";
+                    string estado = returndata.Substring(returndata.IndexOf("{")+1, returndata.IndexOf("}")-1);
+                    if (nombreCliente == actualName)
+                        contactos_list.Items.Add("You\t" + comboEstado.Text);
+                    else
+                        contactos_list.Items.Add(nombreCliente + "\t" + estado);
+                    readData = nombreCliente + " joined the chat room";
+                    msg();
                 }
+                else if (returndata.Contains("#"))
+                {
+                    int finNombre = returndata.IndexOf("#") - 1;
+                    string nombreClienteNuevo = returndata.Substring(0, finNombre);
+                    if (nickname.Text == nombreClienteNuevo) {
+                        int finLinea = returndata.IndexOf("]") - 1;
+                        string infoClienteNuevo = returndata.Substring(finNombre, finLinea);
 
+                        clientesconect.Add(infoClienteNuevo);
+                        updateLista();
+                    }
+                }
+                else if (returndata.Contains("~"))
+                {
+                    zumbido_function();
+                }
                 
             }
+        }
+
+        private void updateLista()
+        {
+            contactos_list.Items.Clear();
+            for (int i = 0; i < clientesconect.Count; i++)
+                contactos_list.Items.Add(clientesconect[i]);
+
         }
 
         private void msg()
         {
             if (this.InvokeRequired)
-                this.Invoke(new MethodInvoker(msg));
+                this.Invoke(new MethodInvoker(msg2));
             else
             {
                 //conversation.AppendText(conversation.Text + Environment.NewLine + " >> " + readData);
                 Emojis.pegaricono(readData, conversation);
             }
+        }
+
+        private void msg2()
+        {
+            Emojis.pegaricono(readData, conversation);
         } 
 
         private void button1_Click(object sender, EventArgs e)
@@ -105,7 +155,17 @@ namespace clientSide
         private void button2_Click(object sender, EventArgs e)
         {
             readData = "Conected to Chat Server ... \n";
-            clientSocket.Connect("25.7.179.51", 2014);
+            IPAddress myIP = IPAddress.Parse("127.0.0.1");
+
+            IPAddress[] localIP = Dns.GetHostAddresses(Dns.GetHostName());
+            foreach (IPAddress address in localIP)
+            {
+                if (address.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    myIP = address;
+                }
+            }
+            clientSocket.Connect(myIP, 9050);
             //clientSocket.Connect("192.168.1.242", 2014);
             //clientSocket.Connect("127.0.0.1", 2014);
             label1.Text = "Client Socket Program - Server Connected ...";
@@ -115,7 +175,7 @@ namespace clientSide
 
             serverStream = clientSocket.GetStream();
 
-            byte[] outStream = System.Text.Encoding.ASCII.GetBytes(nickname.Text + "$");
+            byte[] outStream = System.Text.Encoding.ASCII.GetBytes(nickname.Text + "$" + comboEstado.Text + "{");
             serverStream.Write(outStream, 0, outStream.Length);
             serverStream.Flush();
 
@@ -130,11 +190,15 @@ namespace clientSide
 
         private void comboEstado_SelectedIndexChanged(object sender, EventArgs e)
         {
-        
-            byte[] outStream = System.Text.Encoding.ASCII.GetBytes(comboEstado.Text + "&");
-            serverStream.Write(outStream, 0, outStream.Length);
-            serverStream.Flush();
-            
+            if (first)
+            {
+                byte[] outStream = System.Text.Encoding.ASCII.GetBytes(comboEstado.Text + "&estado");
+                serverStream.Write(outStream, 0, outStream.Length);
+                serverStream.Flush();
+
+                //contactos_list.SetSelected(1, true);
+                contactos_list.Items[0] = "You\t" + comboEstado.Text;
+            }            
         }
 
         private void comboEstado_ValueMemberChanged(object sender, EventArgs e)
@@ -144,7 +208,15 @@ namespace clientSide
 
         private void zumbido_Click(object sender, EventArgs e)
         {
-            while (count < 700)
+            byte[] outStream = System.Text.Encoding.ASCII.GetBytes("zoombido~");
+            serverStream.Write(outStream, 0, outStream.Length);
+            serverStream.Flush();
+        }
+
+        private void zumbido_function()
+        {
+
+            while (count < 300)
             {
                 switch (val)
                 {

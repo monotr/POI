@@ -58,6 +58,7 @@
             this.sleepi = new System.Windows.Forms.Button();
             this.bcwarior = new System.Windows.Forms.Button();
             this.death = new System.Windows.Forms.Button();
+            this.contactos_list = new System.Windows.Forms.ListBox();
             this.emotesmenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -422,11 +423,20 @@
             this.death.UseVisualStyleBackColor = true;
             this.death.Click += new System.EventHandler(this.death_Click);
             // 
+            // contactos_list
+            // 
+            this.contactos_list.FormattingEnabled = true;
+            this.contactos_list.Location = new System.Drawing.Point(432, 63);
+            this.contactos_list.Name = "contactos_list";
+            this.contactos_list.Size = new System.Drawing.Size(105, 108);
+            this.contactos_list.TabIndex = 13;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(547, 339);
+            this.Controls.Add(this.contactos_list);
             this.Controls.Add(this.emotesmenu);
             this.Controls.Add(this.textToSend_txt2);
             this.Controls.Add(this.emotes);
@@ -479,6 +489,7 @@
         private System.Windows.Forms.Button sleepi;
         private System.Windows.Forms.Button bcwarior;
         private System.Windows.Forms.Button death;
+        private System.Windows.Forms.ListBox contactos_list;
     }
 }
 
