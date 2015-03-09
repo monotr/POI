@@ -52,25 +52,11 @@ namespace clientSide
                 {
                     readData = returndata.Substring(0, returndata.IndexOf("%"));
                     msg();
-                    int finNombre = returndata.IndexOf("|") + 1;
-                    string nombreUpdate = returndata.Substring(0, finNombre);
-                    List <string>  clientesconect = new List<string>();
-                    int i=0;
-
-                    foreach (var itemu in contactos_list.Items)
-                    {
-                        clientesconect.Add(itemu.ToString());
-                        if (clientesconect.Contains(nombreUpdate))
-                        {
-                            contactos_list.Items[i] = nombreUpdate;                                            
-                        }
-                        i++;
-                    }
-
+                    int inicio = returndata.IndexOf(":") + 1;
                     int fin = returndata.IndexOf("%") - 1;
-                    //string statusActual = returndata.Substring(inicio, fin);
+                    string statusActual = returndata.Substring(inicio, fin);
                 }
-                else if (!returndata.Contains("Joined") && returndata.IndexOf("^") < 0 && returndata.IndexOf("#") < 0)
+                else if (!returndata.Contains("Joined"))
                 {
                     int inicio = returndata.IndexOf(":") + 1;
                     int fin = returndata.IndexOf("*") - inicio;
@@ -90,21 +76,12 @@ namespace clientSide
                     nombreCliente = returndata.Substring(0, inicio2);
                     string actualName = nickname.Text + " ";
                     string estado = returndata.Substring(returndata.IndexOf("{")+1, returndata.IndexOf("}")-1);
-                    contactos_list.Items.Clear();
-                    readData = nombreCliente + " joined the chat room";
-                    msg();
-                }
-                else if (returndata.IndexOf("#") > 0)
-                {
-                    int inicio2 = returndata.IndexOf("#");
-                    nombreCliente = returndata.Substring(0, inicio2);
-                    string estado = returndata.Substring(returndata.IndexOf("#") + 1, returndata.IndexOf(";") - 1);
-
-                    if (nickname.Text == nombreCliente)
+                    if (nombreCliente == actualName)
                         contactos_list.Items.Add("You\t" + comboEstado.Text);
                     else
                         contactos_list.Items.Add(nombreCliente + "\t" + estado);
-                    
+                    readData = nombreCliente + " joined the chat room";
+                    msg();
                 } 
             }
         }
@@ -183,8 +160,8 @@ namespace clientSide
                 serverStream.Write(outStream, 0, outStream.Length);
                 serverStream.Flush();
 
-                //contactos_list.SetSelected(0, true);
-                contactos_list.Items[0] = "You\t" + comboEstado.Text;
+                //contactos_list.SetSelected(1, true);
+                //contactos_list.Items[0] = "You\t" + comboEstado.Text;
             }   
         }
 
