@@ -12,7 +12,8 @@ namespace serverSide
 {
     class Program
     {
-        public static Hashtable clientsList = new Hashtable(); 
+        public static Hashtable clientsList = new Hashtable();
+        public static Hashtable statusList = new Hashtable();
         static void Main(string[] args)
         {
             IPAddress myIP = IPAddress.Parse("127.0.0.1");
@@ -53,11 +54,18 @@ namespace serverSide
                 dataFromClient = dataFromClient.Substring(0, dataFromClient.IndexOf("$"));
                 
                 clientsList.Add(dataFromClient, clientSocket);
+                statusList.Add(dataFromClient, stateClient);
 
                 broadcast(dataFromClient + " ^Joined{" + stateClient + "}", dataFromClient, false, 0);
+
+                foreach (DictionaryEntry Item in clientsList)
+                {
+                    broadcast(statusList[Item.Key].ToString(), Item.Key.ToString(),true,2);
+                }
+
                 Console.WriteLine(dataFromClient + " Joined chat room \n");
                 handleClinet client = new handleClinet();
-                client.startClient(clientSocket, dataFromClient, clientsList);
+                client.startClient(clientSocket, dataFromClient, clientsList,statusList);
                 //statusfromclient = statusfromclient.Substring(0, statusfromclient.IndexOf("$"));
                 
             }
@@ -81,8 +89,10 @@ namespace serverSide
                 {
                     if(tipoMsg == 0)
                         broadcastBytes = Encoding.ASCII.GetBytes(uName + " says: " + msg);
-                    else
+                    else if (tipoMsg == 1 )
                         broadcastBytes = Encoding.ASCII.GetBytes(uName + " ha cambiado su estado a: " + msg + "%");
+                    else if (tipoMsg == 2 )
+                        broadcastBytes = Encoding.ASCII.GetBytes(uName + "#" + msg + ";");
                 }
                 else
                 {
@@ -101,11 +111,13 @@ namespace serverSide
         TcpClient clientSocket;
         string clNo;
         Hashtable clientsList;
-        public void startClient(TcpClient inClientSocket, string clineNo, Hashtable cList)
+        Hashtable statusList; 
+        public void startClient(TcpClient inClientSocket, string clineNo, Hashtable cList, Hashtable sList)
         {
             this.clientSocket = inClientSocket;
             this.clNo = clineNo;
             this.clientsList = cList;
+            this.statusList = sList;
             Thread ctThread = new Thread(doChat);
             ctThread.Start();
         }
