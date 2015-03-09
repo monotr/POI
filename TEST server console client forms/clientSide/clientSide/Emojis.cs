@@ -158,8 +158,8 @@ namespace clientSide
             }
             tex.Text += chain;
 
-            ricotex.Text = tex.Text;
-            tex.Text = tex.Text.Substring(0, (tex.TextLength - 1));
+            //ricotex.Text = tex.Text;
+            //tex.Text = tex.Text.Substring(0, (tex.TextLength - 1));
             
             return "";
         }

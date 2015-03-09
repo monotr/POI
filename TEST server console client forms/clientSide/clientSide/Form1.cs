@@ -98,7 +98,8 @@ namespace clientSide
             serverStream.Flush();
 
             textToSend_txt.Clear();
-            textToSend_txt2.Clear();
+            //textToSend_txt2.Clear();
+            //conversation.ScrollToCaret();
         }
 
         private void button2_Click(object sender, EventArgs e)

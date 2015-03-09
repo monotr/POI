@@ -132,15 +132,15 @@
             this.textToSend_txt.Name = "textToSend_txt";
             this.textToSend_txt.Size = new System.Drawing.Size(387, 62);
             this.textToSend_txt.TabIndex = 4;
-            this.textToSend_txt.Visible = false;
             // 
             // textToSend_txt2
             // 
-            this.textToSend_txt2.Location = new System.Drawing.Point(20, 200);
+            this.textToSend_txt2.Location = new System.Drawing.Point(465, 200);
             this.textToSend_txt2.Name = "textToSend_txt2";
             this.textToSend_txt2.Size = new System.Drawing.Size(387, 62);
             this.textToSend_txt2.TabIndex = 9;
             this.textToSend_txt2.Text = "";
+            this.textToSend_txt2.Visible = false;
             this.textToSend_txt2.TextChanged += new System.EventHandler(this.textToSend_txt2_TextChanged);
             // 
             // zumbido
@@ -426,7 +426,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(934, 339);
+            this.ClientSize = new System.Drawing.Size(547, 339);
             this.Controls.Add(this.emotesmenu);
             this.Controls.Add(this.textToSend_txt2);
             this.Controls.Add(this.emotes);
