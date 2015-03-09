@@ -21,7 +21,7 @@ namespace clientSide
         string readData = null;
         bool first = false;
         string nombreCliente;
-        string estado;
+        string status = null;
         public Form1()
         {
             InitializeComponent();
@@ -52,10 +52,8 @@ namespace clientSide
                 {
                     readData = returndata.Substring(0, returndata.IndexOf("%"));
                     msg();
-                    int finNombre = returndata.IndexOf("|") - 1;
+                    int finNombre = returndata.IndexOf("|") + 1;
                     string nombreUpdate = returndata.Substring(0, finNombre);
-                    int inicioEstado = returndata.IndexOf(")") + 1;
-                    string estadoUpdate = returndata.Substring(inicioEstado, returndata.IndexOf("%") - 1);
                     List <string>  clientesconect = new List<string>();
                     int i=0;
 
@@ -64,17 +62,21 @@ namespace clientSide
                         clientesconect.Add(itemu.ToString());
                         if (clientesconect.Contains(nombreUpdate))
                         {
-                            contactos_list.Items[i] = nombreUpdate + "\n" + estadoUpdate;                                            
+                            contactos_list.Items[i] = nombreUpdate;                                            
                         }
                         i++;
                     }
+
+                    int fin = returndata.IndexOf("%") - 1;
+                    //string statusActual = returndata.Substring(inicio, fin);
                 }
                 else if (!returndata.Contains("Joined") && returndata.IndexOf("^") < 0 && returndata.IndexOf("#") < 0)
                 {
-                    int inicio = returndata.IndexOf(":");
+                    int inicio = returndata.IndexOf(":") + 1;
                     int fin = returndata.IndexOf("*") - inicio;
 
-                    string nameUser = returndata.Substring(0, inicio);
+                    int inicioName = returndata.IndexOf("[") + 1;
+                    string nameUser = returndata.Substring(inicioName, inicio - 1);
 
                     nombreCliente = returndata.Substring(0, inicio - 1);
                     returndata = returndata.Substring(inicio, fin);
@@ -87,8 +89,8 @@ namespace clientSide
                     int inicio2 = returndata.IndexOf("^");
                     nombreCliente = returndata.Substring(0, inicio2);
                     string actualName = nickname.Text + " ";
-                    estado = returndata.Substring(returndata.IndexOf("{")+1, returndata.IndexOf("}")-1);
-                    this.Invoke(new MethodInvoker(limpiaListBox)); ///
+                    string estado = returndata.Substring(returndata.IndexOf("{")+1, returndata.IndexOf("}")-1);
+                    contactos_list.Items.Clear();
                     readData = nombreCliente + " joined the chat room";
                     msg();
                 }
@@ -98,28 +100,19 @@ namespace clientSide
                     nombreCliente = returndata.Substring(0, inicio2);
                     string estado = returndata.Substring(returndata.IndexOf("#") + 1, returndata.IndexOf(";") - 1);
 
-                    this.Invoke(new MethodInvoker(addToList));//
+                    if (nickname.Text == nombreCliente)
+                        contactos_list.Items.Add("You\t" + comboEstado.Text);
+                    else
+                        contactos_list.Items.Add(nombreCliente + "\t" + estado);
                     
                 } 
             }
         }
 
-        private void addToList()
-        {
-            if (nickname.Text == nombreCliente)
-                contactos_list.Items.Add("You\t" + comboEstado.Text);
-            else
-                contactos_list.Items.Add(nombreCliente + "\t" + estado);
-        }
-
-        private void limpiaListBox()
-        {
-            contactos_list.Items.Clear();
-        }
-
         private void msg()
         {
-            this.Invoke(new MethodInvoker(msg2));
+            if (this.InvokeRequired)
+                this.Invoke(new MethodInvoker(msg2));
             /*else
             {
                 //conversation.AppendText(conversation.Text + Environment.NewLine + " >> " + readData);

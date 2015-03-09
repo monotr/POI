@@ -51,8 +51,8 @@ namespace serverSide
                 networkStream.Read(bytesFrom, 0, (int)clientSocket.ReceiveBufferSize);          
                 dataFromClient = System.Text.Encoding.ASCII.GetString(bytesFrom);
 
-                stateClient = dataFromClient.Substring(dataFromClient.IndexOf("$")+1, dataFromClient.IndexOf("{") - 1);
-                dataFromClient = dataFromClient.Substring(0, dataFromClient.IndexOf("$") - 1);
+                stateClient = dataFromClient.Substring(dataFromClient.IndexOf("$")+1, dataFromClient.IndexOf("{"));
+                dataFromClient = dataFromClient.Substring(0, dataFromClient.IndexOf("$"));
                 
                 clientsList.Add(dataFromClient, clientSocket);
                 statusList.Add(dataFromClient, stateClient);
@@ -66,6 +66,9 @@ namespace serverSide
                    //}
                     
                 }
+                    
+
+                
                 
                 Console.WriteLine(dataFromClient + " Joined chat room \n");
                 handleClinet client = new handleClinet();
@@ -92,9 +95,9 @@ namespace serverSide
                 if (flag == true)
                 {
                     if(tipoMsg == 0)
-                        broadcastBytes = Encoding.ASCII.GetBytes(uName + "[ says: " + msg);
+                        broadcastBytes = Encoding.ASCII.GetBytes(uName + " says: " + msg);
                     else if (tipoMsg == 1)
-                        broadcastBytes = Encoding.ASCII.GetBytes(uName + "| ha cambiado su estado a: )" + msg + "%");
+                        broadcastBytes = Encoding.ASCII.GetBytes(uName + "| ha cambiado su estado a: " + msg + "%");
                     else if (tipoMsg == 2 )
                         broadcastBytes = Encoding.ASCII.GetBytes(uName + "#" + msg + ";");
                 }
@@ -150,14 +153,14 @@ namespace serverSide
                     if (a > 0 && b < 0)
                     {
                         dataFromClient = dataFromClient.Substring(0, dataFromClient.IndexOf("$"));
-                        Console.WriteLine("From client - " + clNo + " : " + dataFromClient);
+                        Console.WriteLine("From client [ " + clNo + " : " + dataFromClient);
                         Program.broadcast(dataFromClient, clNo, true, 0);
                     }
 
                     else if (b > 0 && dataFromClient.Contains("estado"))
                     {
                         dataFromClient = dataFromClient.Substring(0, dataFromClient.IndexOf("&"));
-                        Console.WriteLine(clNo + " cambió su estado a  : " + dataFromClient);
+                        Console.WriteLine(clNo + " cambió su estado a  : " + dataFromClient + "%");
                         Program.broadcast(dataFromClient, clNo, true, 1);
                     }
                     rCount = Convert.ToString(requestCount);
