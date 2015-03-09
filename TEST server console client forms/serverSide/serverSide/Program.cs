@@ -12,7 +12,8 @@ namespace serverSide
 {
     class Program
     {
-        public static Hashtable clientsList = new Hashtable(); 
+        public static Hashtable clientsList = new Hashtable();
+        public static Hashtable statusList = new Hashtable(); 
         static void Main(string[] args)
         {
             IPAddress myIP = IPAddress.Parse("127.0.0.1");
@@ -49,12 +50,23 @@ namespace serverSide
                 networkStream.Read(bytesFrom, 0, (int)clientSocket.ReceiveBufferSize);          
                 dataFromClient = System.Text.Encoding.ASCII.GetString(bytesFrom);
 
-                stateClient = dataFromClient.Substring(dataFromClient.IndexOf("$")+1, dataFromClient.IndexOf("{"));
+                stateClient = dataFromClient.Substring(dataFromClient.IndexOf("$")+1, dataFromClient.IndexOf("{") - 1);
                 dataFromClient = dataFromClient.Substring(0, dataFromClient.IndexOf("$"));
                 
                 clientsList.Add(dataFromClient, clientSocket);
+                statusList.Add(dataFromClient, stateClient);
 
                 broadcast(dataFromClient + " ^Joined{" + stateClient + "}", dataFromClient, false, 0);
+
+                string todosCLientes = "";
+
+                foreach (DictionaryEntry item in clientsList)
+                {
+                    todosCLientes = item.Key.ToString() + "\t" + statusList[item.Key.ToString()];
+                    broadcast(todosCLientes, dataFromClient, false, 2);
+                }
+                
+                
                 Console.WriteLine(dataFromClient + " Joined chat room \n");
                 handleClinet client = new handleClinet();
                 client.startClient(clientSocket, dataFromClient, clientsList);
@@ -81,12 +93,18 @@ namespace serverSide
                 {
                     if(tipoMsg == 0)
                         broadcastBytes = Encoding.ASCII.GetBytes(uName + " says: " + msg);
-                    else
+                    else if (tipoMsg == 1)
                         broadcastBytes = Encoding.ASCII.GetBytes(uName + " ha cambiado su estado a: " + msg + "%");
                 }
                 else
                 {
-                    broadcastBytes = Encoding.ASCII.GetBytes(msg);
+                    if (tipoMsg != 2)
+                        broadcastBytes = Encoding.ASCII.GetBytes(msg);
+                    else
+                    {
+                        broadcastBytes = Encoding.ASCII.GetBytes(uName + "#" + msg + "]");
+
+                    }
                 }
 
                 broadcastStream.Write(broadcastBytes, 0, broadcastBytes.Length);
@@ -133,7 +151,7 @@ namespace serverSide
                     if (a > 0 && b < 0)
                     {
                         dataFromClient = dataFromClient.Substring(0, dataFromClient.IndexOf("$"));
-                        Console.WriteLine("From client [ " + clNo + " : " + dataFromClient);
+                        Console.WriteLine("From client - " + clNo + " : " + dataFromClient);
                         Program.broadcast(dataFromClient, clNo, true, 0);
                     }
 

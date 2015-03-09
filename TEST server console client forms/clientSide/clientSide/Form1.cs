@@ -17,7 +17,8 @@ namespace clientSide
     {
         System.Net.Sockets.TcpClient clientSocket = new System.Net.Sockets.TcpClient();
         NetworkStream serverStream = default(NetworkStream);
-        
+
+        List<string> clientesconect = new List<string>();
         string readData = null;
         bool first = false;
         string nombreCliente;
@@ -56,12 +57,12 @@ namespace clientSide
                     int fin = returndata.IndexOf("%") - 1;
                     string statusActual = returndata.Substring(inicio, fin);
                 }
-                else if (!returndata.Contains("Joined"))
+                else if (!returndata.Contains("Joined") && !returndata.Contains("^") && !returndata.Contains("#"))
                 {
                     int inicio = returndata.IndexOf(":") + 1;
                     int fin = returndata.IndexOf("*") - inicio;
 
-                    int inicioName = returndata.IndexOf("[") + 1;
+                    int inicioName = returndata.IndexOf("-") + 1;
                     string nameUser = returndata.Substring(inicioName, inicio - 1);
 
                     nombreCliente = returndata.Substring(0, inicio - 1);
@@ -70,9 +71,9 @@ namespace clientSide
                     readData = nameUser + ": " + returndata;
                     msg();
                 }
-                else if (returndata.IndexOf("^") > 0)
+                else if (returndata.Contains("^"))
                 {
-                    int inicio2 = returndata.IndexOf("^");
+                    int inicio2 = returndata.IndexOf("^") - 1;
                     nombreCliente = returndata.Substring(0, inicio2);
                     string actualName = nickname.Text + " ";
                     string estado = returndata.Substring(returndata.IndexOf("{")+1, returndata.IndexOf("}")-1);
@@ -82,19 +83,38 @@ namespace clientSide
                         contactos_list.Items.Add(nombreCliente + "\t" + estado);
                     readData = nombreCliente + " joined the chat room";
                     msg();
+                }
+                else if (returndata.Contains("#"))
+                {
+                    int finNombre = returndata.IndexOf("#") - 1;
+                    string nombreClienteNuevo = returndata.Substring(0, finNombre);
+                    if (nickname.Text == nombreClienteNuevo) {
+                        int finLinea = returndata.IndexOf("]") - 1;
+                        string infoClienteNuevo = returndata.Substring(finNombre, finLinea);
+
+                        clientesconect.Add(infoClienteNuevo);
+                        updateLista();
+                    }
                 } 
             }
+        }
+
+        private void updateLista(){
+            contactos_list.Items.Clear();
+            for (int i = 0; i < clientesconect.Count; i++ )
+                contactos_list.Items.Add(clientesconect[i]);
+
         }
 
         private void msg()
         {
             if (this.InvokeRequired)
                 this.Invoke(new MethodInvoker(msg2));
-            /*else
+            else
             {
                 //conversation.AppendText(conversation.Text + Environment.NewLine + " >> " + readData);
                 Emojis.pegaricono(readData, conversation);
-            }*/
+            }
         }
 
         private void msg2()
@@ -161,7 +181,7 @@ namespace clientSide
                 serverStream.Flush();
 
                 //contactos_list.SetSelected(1, true);
-                //contactos_list.Items[0] = "You\t" + comboEstado.Text;
+                contactos_list.Items[0] = "You\t" + comboEstado.Text;
             }   
         }
 
