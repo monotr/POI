@@ -63,10 +63,10 @@ namespace serverSide
                 foreach (DictionaryEntry item in clientsList)
                 {
                     todosCLientes = item.Key.ToString() + "\t" + statusList[item.Key.ToString()];
-                    broadcast(todosCLientes, dataFromClient, false, 2);
+                    
                 }
                 
-                
+                broadcast(todosCLientes, dataFromClient, false, 2);
                 Console.WriteLine(dataFromClient + " Joined chat room \n");
                 handleClinet client = new handleClinet();
                 client.startClient(clientSocket, dataFromClient, clientsList);

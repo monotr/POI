@@ -91,8 +91,9 @@ namespace clientSide
                     if (nickname.Text == nombreClienteNuevo) {
                         int finLinea = returndata.IndexOf("]") - 1;
                         string infoClienteNuevo = returndata.Substring(finNombre, finLinea);
-
+                        //contactos_list.Items.Clear();
                         clientesconect.Add(infoClienteNuevo);
+                        
                         updateLista();
                     }
                 } 
@@ -100,7 +101,7 @@ namespace clientSide
         }
 
         private void updateLista(){
-            contactos_list.Items.Clear();
+            
             for (int i = 0; i < clientesconect.Count; i++ )
                 contactos_list.Items.Add(clientesconect[i]);
 
