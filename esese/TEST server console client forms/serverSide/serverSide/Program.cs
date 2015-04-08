@@ -27,12 +27,12 @@ namespace serverSide
                 }
             }
 
-            TcpListener serverSocket = new TcpListener(myIP, 9050);
+            TcpListener serverSocket = new TcpListener(myIP, 55555);
             TcpClient clientSocket = default(TcpClient);
             int counter = 0;
 
             serverSocket.Start();
-            Console.WriteLine(" >> " + "Server Started with IP= " + myIP.ToString() + " PORT= 9050");
+            Console.WriteLine(" >> " + "Server Started with IP= " + myIP.ToString() + " PORT= 55555");
 
             counter = 0;
             while (true)
