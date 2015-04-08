@@ -46,7 +46,7 @@
             this.Estado});
             this.statusStrip1.Location = new System.Drawing.Point(0, 371);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(458, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(461, 22);
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -95,17 +95,19 @@
             // 
             // EspacioCamara
             // 
+            this.EspacioCamara.Cursor = System.Windows.Forms.Cursors.Hand;
             this.EspacioCamara.Location = new System.Drawing.Point(6, 19);
             this.EspacioCamara.Name = "EspacioCamara";
             this.EspacioCamara.Size = new System.Drawing.Size(414, 295);
             this.EspacioCamara.TabIndex = 0;
             this.EspacioCamara.TabStop = false;
+            this.EspacioCamara.Click += new System.EventHandler(this.EspacioCamara_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(458, 393);
+            this.ClientSize = new System.Drawing.Size(461, 393);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnIniciar);
             this.Controls.Add(this.cbxDispositivos);
@@ -113,6 +115,7 @@
             this.Controls.Add(this.statusStrip1);
             this.Name = "Form1";
             this.Text = "Webcam";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.groupBox1.ResumeLayout(false);

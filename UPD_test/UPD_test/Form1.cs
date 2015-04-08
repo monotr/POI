@@ -22,6 +22,9 @@ namespace UPD_test
         {
             UdpClient udpClient = new UdpClient();
             udpClient.Connect(textBox1.Text, 8080);
+
+            ImageConverter converter = new ImageConverter();
+
             Byte[] senddata = Encoding.ASCII.GetBytes(textikawaii.Text);
             udpClient.Send(senddata, senddata.Length);
         }

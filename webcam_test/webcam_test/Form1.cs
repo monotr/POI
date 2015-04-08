@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using AForge.Video;
 using AForge.Video.DirectShow;
+using System.Net.Sockets;
 
 namespace webcam_test
 {
@@ -61,8 +62,15 @@ namespace webcam_test
 
         public  void Video_NuevoFrame( object sender, NewFrameEventArgs eventArgs)
         {
-            Bitmap Imagen = (Bitmap)eventArgs.Frame.Clone();
+            UdpClient udpClient = new UdpClient();
+            udpClient.Connect("192.168.56.1", 8080);
+
+            Image Imagen = (Image)eventArgs.Frame.Clone();
             EspacioCamara.Image = Imagen;
+            ImageConverter converter = new ImageConverter();
+            Byte[] senddata = (byte[])converter.ConvertTo(Imagen, typeof(byte[]));
+
+            udpClient.Send(senddata, senddata.Length);
         }
 
 
@@ -73,6 +81,8 @@ namespace webcam_test
                 if (ExisteDispositivo)
                 {
                     FuenteDeVideo = new VideoCaptureDevice(DispositivoDeVideo[cbxDispositivos.SelectedIndex].MonikerString);
+                    FuenteDeVideo.DesiredFrameRate = 15;
+                    FuenteDeVideo.DesiredFrameSize = new Size(320,240);
                     FuenteDeVideo.NewFrame += new NewFrameEventHandler(Video_NuevoFrame);
                     FuenteDeVideo.Start();
                     Estado.Text = "Ejecutando Dispositivo…";
@@ -93,6 +103,17 @@ namespace webcam_test
                     cbxDispositivos.Enabled = true;
                 }
             }
+        }
+
+        private void EspacioCamara_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            TerminarFuenteDeVideo();
+            cbxDispositivos.Enabled = true;
         }
     }
 }
