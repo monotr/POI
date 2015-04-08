@@ -46,7 +46,7 @@
             this.Estado});
             this.statusStrip1.Location = new System.Drawing.Point(0, 371);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(458, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(873, 22);
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -105,7 +105,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(458, 393);
+            this.ClientSize = new System.Drawing.Size(873, 393);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnIniciar);
             this.Controls.Add(this.cbxDispositivos);
