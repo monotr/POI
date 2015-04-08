@@ -16,6 +16,8 @@ namespace UDP_Server
 {
     public partial class Form1 : Form
     {
+        Thread thdUDPServer;
+        UdpClient udpClient;
         int num = 0;
         public Form1()
         {
@@ -24,13 +26,13 @@ namespace UDP_Server
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Thread thdUDPServer = new Thread(new ThreadStart(serverThread));
+            thdUDPServer = new Thread(new ThreadStart(serverThread));
             thdUDPServer.Start();
         }
 
         public void serverThread() {
-            UdpClient udpClient = new UdpClient(8080);
-            udpClient.Client.ReceiveBufferSize = 639988;
+            udpClient = new UdpClient(8080);
+            udpClient.Client.ReceiveBufferSize = 1024*1024;
             while(true) {
                 IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
                 Byte[] receiveBytes = udpClient.Receive(ref RemoteIpEndPoint);
@@ -39,7 +41,7 @@ namespace UDP_Server
                 videoReceived.Image = Imagen;
                 num++;
                 string returnData = Encoding.ASCII.GetString(receiveBytes);
-                conectionsList.Items.Add(RemoteIpEndPoint.Address.ToString() + ":" + returnData.ToString() + " / " + num);
+                conectionsList.Items.Add(num + " / " + RemoteIpEndPoint.Address.ToString() + ":" + returnData.ToString());
                 
             }
         }
@@ -50,6 +52,12 @@ namespace UDP_Server
             {
                 return Image.FromStream(mStream);
             }
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            thdUDPServer.Abort();
+            udpClient.Close();
         }
     }
 }

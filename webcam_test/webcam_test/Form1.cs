@@ -62,15 +62,15 @@ namespace webcam_test
 
         public  void Video_NuevoFrame( object sender, NewFrameEventArgs eventArgs)
         {
-            UdpClient udpClient = new UdpClient();
-            udpClient.Connect("192.168.56.1", 8080);
-
             Image Imagen = (Image)eventArgs.Frame.Clone();
-            EspacioCamara.Image = Imagen;
             ImageConverter converter = new ImageConverter();
             Byte[] senddata = (byte[])converter.ConvertTo(Imagen, typeof(byte[]));
 
+            UdpClient udpClient = new UdpClient();
+            udpClient.Connect("192.168.56.1", 8080);
             udpClient.Send(senddata, senddata.Length);
+
+            EspacioCamara.Image = Imagen;
         }
 
 
@@ -82,7 +82,7 @@ namespace webcam_test
                 {
                     FuenteDeVideo = new VideoCaptureDevice(DispositivoDeVideo[cbxDispositivos.SelectedIndex].MonikerString);
                     FuenteDeVideo.DesiredFrameRate = 15;
-                    FuenteDeVideo.DesiredFrameSize = new Size(320,240);
+                    FuenteDeVideo.DesiredFrameSize = new Size(160,120);
                     FuenteDeVideo.NewFrame += new NewFrameEventHandler(Video_NuevoFrame);
                     FuenteDeVideo.Start();
                     Estado.Text = "Ejecutando Dispositivo…";
