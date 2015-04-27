@@ -71,7 +71,7 @@ namespace webcam_test
             Byte[] senddata = (byte[])converter.ConvertTo(Imagen, typeof(byte[]));
 
             UdpClient udpClient = new UdpClient();
-            udpClient.Connect("192.168.56.1", 8080);
+            udpClient.Connect("192.168.1.242", 8080);
             udpClient.Send(senddata, senddata.Length);
 
             EspacioCamara.Image = Imagen;
@@ -98,8 +98,7 @@ namespace webcam_test
 
                     
                     ////aqui inicia codigo de microfono 
-                    v.Send("192.168.56.1", 2000);
-
+                    v.Send("192.168.1.242", 2000);
                     ////aqui termina codigo de audio
                     
                 }
