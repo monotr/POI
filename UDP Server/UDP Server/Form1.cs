@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -17,15 +18,15 @@ namespace UDP_Server
     using Sending_voice_Over_IP;
     public partial class Form1 : Form
     {
-        Thread thdUDPServer;//, thdUDPAudioServer;
-        UdpClient udpClient;//, udpAudioClient;
-        
+        ArrayList clientList;
+        Thread thdUDPServer;
+        UdpClient udpClient;
         Voice v = new Voice();
-        
-        int num = 0;
+
         public Form1()
         {
             InitializeComponent();
+            clientList = new ArrayList();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -33,7 +34,7 @@ namespace UDP_Server
             thdUDPServer = new Thread(new ThreadStart(serverThread));
             thdUDPServer.Start();
 
-            v.Receive(2000);
+            //v.Receive(2000);
         }
 
         public void serverThread() {
@@ -43,21 +44,22 @@ namespace UDP_Server
                 IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
                 Byte[] receiveBytes = udpClient.Receive(ref RemoteIpEndPoint);
 
-                Image Imagen = byteArrayToImage(receiveBytes);
-                videoReceived.Image = Imagen;
-                //num++;
-                //string returnData = Encoding.ASCII.GetString(receiveBytes);
-                //conectionsList.Items.Add(num + " / " + RemoteIpEndPoint.Address.ToString() + ":" + returnData.ToString());
+                //EndPoint epSender = (EndPoint)RemoteIpEndPoint;
+                IPAddress ipAux = RemoteIpEndPoint.Address;
+                if (!clientList.Contains(ipAux))
+                    clientList.Add(ipAux);
+                
+                foreach(IPAddress addr in clientList){
+                    UdpClient udpOTHERClient = new UdpClient();
+                    udpOTHERClient.Connect(addr, 8080);
+                    udpOTHERClient.Send(receiveBytes, receiveBytes.Length);
+                }
+
+                
             }
         }
 
-        public Image byteArrayToImage(Byte[] byteArrayIn)
-        {
-            using (MemoryStream mStream = new MemoryStream(byteArrayIn))
-            {
-                return Image.FromStream(mStream);
-            }
-        }
+        
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {

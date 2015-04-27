@@ -38,9 +38,20 @@ namespace Sending_voice_Over_IP
         private System.Windows.Forms.Timer c_v = null;
         private Socket connector, sc, sock = null;
 
-        public void Send(string ip, int port)
+        public IPAddress serverIPAddress;
+
+        public void Send(int port)
         {
-            this.Ip = ip;
+            serverIPAddress = IPAddress.Parse("127.0.0.1");
+            IPAddress[] localIP = Dns.GetHostAddresses("USER");
+            foreach (IPAddress address in localIP)
+            {
+                if (address.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    serverIPAddress = address;
+                }
+            }
+
             this.VPort = port;
 
             c_v = new System.Windows.Forms.Timer();
@@ -85,7 +96,7 @@ namespace Sending_voice_Over_IP
             Data_ary = File.ReadAllBytes(path);
 
             connector = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            IPEndPoint ie = new IPEndPoint(IPAddress.Parse("192.168.1.242"), this.VPort);
+            IPEndPoint ie = new IPEndPoint(serverIPAddress, this.VPort);
             //ie.Address = IPAddress.Loopback;
             connector.Connect(ie);
             connector.Send(Data_ary, 0, Data_ary.Length, 0);
@@ -113,22 +124,20 @@ namespace Sending_voice_Over_IP
             return wf.TotalTime;
 
         }
-        /*
+        
         public void Receive(int port)
         {
             this.VPort = port;
             rec_thread = new Thread(new ThreadStart(VoiceReceive));
             rec_thread.Start();
-
         }
 
 
 
         private void VoiceReceive()
         {
-
             sc = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            IPEndPoint ie = new IPEndPoint(0, this.VPort);
+            IPEndPoint ie = new IPEndPoint(serverIPAddress, this.VPort);
 
             sc.Bind(ie);
 
@@ -155,7 +164,7 @@ namespace Sending_voice_Over_IP
                 SoundPlayer sp = new SoundPlayer(ns);
                 sp.Play();
             }
-        }*/
+        }
 
 
         private void Dispose()

@@ -14,6 +14,8 @@ using System.Net.Sockets;
 namespace webcam_test
 {
     using Sending_voice_Over_IP;
+using System.Net;
+    using System.IO;
     public partial class Form1 : Form
     {
         Voice v = new Voice();
@@ -71,7 +73,7 @@ namespace webcam_test
             Byte[] senddata = (byte[])converter.ConvertTo(Imagen, typeof(byte[]));
 
             UdpClient udpClient = new UdpClient();
-            udpClient.Connect("192.168.1.242", 8080);
+            udpClient.Connect(v.serverIPAddress, 8080);
             udpClient.Send(senddata, senddata.Length);
 
             EspacioCamara.Image = Imagen;
@@ -86,6 +88,11 @@ namespace webcam_test
                 
                 if (ExisteDispositivo)
                 {
+                    ////aqui inicia codigo de microfono 
+                    v.Send(2000);
+                    v.Receive(2000);
+                    ////aqui termina codigo de audio
+
                     FuenteDeVideo = new VideoCaptureDevice(DispositivoDeVideo[cbxDispositivos.SelectedIndex].MonikerString);
                     FuenteDeVideo.DesiredFrameRate = 15;
                     FuenteDeVideo.DesiredFrameSize = new Size(160,120);
@@ -96,10 +103,7 @@ namespace webcam_test
                     cbxDispositivos.Enabled = false;
                     groupBox1.Text = DispositivoDeVideo[cbxDispositivos.SelectedIndex].Name.ToString();
 
-                    
-                    ////aqui inicia codigo de microfono 
-                    v.Send("192.168.1.242", 2000);
-                    ////aqui termina codigo de audio
+                    receiveData();
                     
                 }
                 else
@@ -123,6 +127,27 @@ namespace webcam_test
             }
 
             
+        }
+
+        private void receiveData()
+        {
+            while (true)
+            {
+                IPEndPoint RemoteIpEndPoint = new IPEndPoint(v.serverIPAddress, 8080);
+                UdpClient udpClient = new UdpClient();
+                Byte[] receiveBytes = udpClient.Receive(ref RemoteIpEndPoint);
+
+                Image Imagen = byteArrayToImage(receiveBytes);
+                otherVideo.Image = Imagen;
+            }
+        }
+
+        public Image byteArrayToImage(Byte[] byteArrayIn)
+        {
+            using (MemoryStream mStream = new MemoryStream(byteArrayIn))
+            {
+                return Image.FromStream(mStream);
+            }
         }
 
         private void EspacioCamara_Click(object sender, EventArgs e)
