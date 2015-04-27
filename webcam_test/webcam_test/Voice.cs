@@ -42,15 +42,15 @@ namespace Sending_voice_Over_IP
 
         public void Send(int port)
         {
-            serverIPAddress = IPAddress.Parse("127.0.0.1");
-            IPAddress[] localIP = Dns.GetHostAddresses("USER");
+            serverIPAddress = IPAddress.Parse("192.168.1.242");
+            /*IPAddress[] localIP = Dns.GetHostAddresses("USER");
             foreach (IPAddress address in localIP)
             {
                 if (address.AddressFamily == AddressFamily.InterNetwork)
                 {
                     serverIPAddress = address;
                 }
-            }
+            }*/
 
             this.VPort = port;
 

@@ -16,6 +16,7 @@ namespace webcam_test
     using Sending_voice_Over_IP;
 using System.Net;
     using System.IO;
+    using System.Threading;
     public partial class Form1 : Form
     {
         Voice v = new Voice();
@@ -24,6 +25,7 @@ using System.Net;
         private VideoCaptureDevice FuenteDeVideo = null;
         private NAudio.Wave.WaveIn sourceStream = null;
         private NAudio.Wave.DirectSoundOut waveOut = null;
+        Thread thdUDPServer;
         public Form1()
         {
             InitializeComponent();
@@ -73,7 +75,8 @@ using System.Net;
             Byte[] senddata = (byte[])converter.ConvertTo(Imagen, typeof(byte[]));
 
             UdpClient udpClient = new UdpClient();
-            udpClient.Connect(v.serverIPAddress, 8080);
+            //udpClient.Connect(v.serverIPAddress, 8080);
+            udpClient.Connect(IPAddress.Parse("192.168.1.242"), 8080);
             udpClient.Send(senddata, senddata.Length);
 
             EspacioCamara.Image = Imagen;
@@ -89,8 +92,8 @@ using System.Net;
                 if (ExisteDispositivo)
                 {
                     ////aqui inicia codigo de microfono 
-                    v.Send(2000);
-                    v.Receive(2000);
+                    //v.Send(2000);
+                    //v.Receive(2000);
                     ////aqui termina codigo de audio
 
                     FuenteDeVideo = new VideoCaptureDevice(DispositivoDeVideo[cbxDispositivos.SelectedIndex].MonikerString);
@@ -103,7 +106,9 @@ using System.Net;
                     cbxDispositivos.Enabled = false;
                     groupBox1.Text = DispositivoDeVideo[cbxDispositivos.SelectedIndex].Name.ToString();
 
-                    receiveData();
+
+                    thdUDPServer = new Thread(new ThreadStart(receiveData));
+                    thdUDPServer.Start();
                     
                 }
                 else
@@ -117,7 +122,7 @@ using System.Net;
                     Estado.Text = "Dispositivo Detenido…";
                     btnIniciar.Text = "Iniciar";
                     cbxDispositivos.Enabled = true;
-
+                    thdUDPServer.Abort();
                     
                     ///////////aqui inicia codigo de audio
 
@@ -131,14 +136,23 @@ using System.Net;
 
         private void receiveData()
         {
+            UdpClient udpClient = new UdpClient(8080);
+            IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Parse("192.168.1.242"), 0);
             while (true)
             {
-                IPEndPoint RemoteIpEndPoint = new IPEndPoint(v.serverIPAddress, 8080);
-                UdpClient udpClient = new UdpClient();
-                Byte[] receiveBytes = udpClient.Receive(ref RemoteIpEndPoint);
+                try
+                {
+                    //udpClient.Client.Bind(new IPEndPoint(IPAddress.Parse("192.168.1.242"), 8080));
+                    //udpClient.Connect(IPAddress.Parse("192.168.1.242"), 8080);
+                    Byte[] receiveBytes = udpClient.Receive(ref RemoteIpEndPoint);
 
-                Image Imagen = byteArrayToImage(receiveBytes);
-                otherVideo.Image = Imagen;
+                    if (receiveBytes != null)
+                    {
+                        Image Imagen = byteArrayToImage(receiveBytes);
+                        otherVideo.Image = Imagen;
+                    }
+                }
+                catch { }
             }
         }
 
