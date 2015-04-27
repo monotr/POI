@@ -94,6 +94,7 @@ namespace webcam_test
                     cbxDispositivos.Enabled = false;
                     groupBox1.Text = DispositivoDeVideo[cbxDispositivos.SelectedIndex].Name.ToString();
 
+                    /*
                     ////aqui inicia codigo de microfono 
                     sourceStream = new NAudio.Wave.WaveIn();
 
@@ -116,6 +117,7 @@ namespace webcam_test
                     waveOut.Play();
 
                     ////aqui termina codigo de audio
+                    */
                 }
                 else
                     Estado.Text = "Error: No se encuenta el Dispositivo";
