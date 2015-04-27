@@ -58,7 +58,7 @@ namespace UDP_Server
                     }
                 }
 
-                
+                conectionsList.Items.Add(RemoteIpEndPoint.Address.ToString());
             }
         }
 
