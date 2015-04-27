@@ -28,7 +28,6 @@ namespace Sending_voice_Over_IP
         Voice v = new Voice();
         private void frm_Load(object sender, EventArgs e)
         {
- 
              v.Receive(2000);
         }
 

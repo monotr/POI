@@ -35,7 +35,7 @@ namespace Sending_voice_Over_IP
           private Byte[] Data_ary;
           private NetworkStream ns;
            private  WaveFileWriter waveWriter = null;
-           private System.Windows.Forms.Timer c_v=null;
+           private System.Windows.Forms.Timer c_v = null;
            private Socket connector, sc, sock = null;
       
            public void Send(string ip,int port)
@@ -108,8 +108,7 @@ namespace Sending_voice_Over_IP
        public void Receive(int port) {
            this.VPort = port;
            rec_thread = new Thread(new ThreadStart(VoiceReceive));
-            rec_thread.Start();
-            
+           rec_thread.Start();
        }
 
     

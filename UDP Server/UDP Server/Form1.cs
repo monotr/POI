@@ -14,10 +14,14 @@ using System.IO;
 
 namespace UDP_Server
 {
+    using Sending_voice_Over_IP;
     public partial class Form1 : Form
     {
-        Thread thdUDPServer;
-        UdpClient udpClient;
+        Thread thdUDPServer;//, thdUDPAudioServer;
+        UdpClient udpClient;//, udpAudioClient;
+        
+        Voice v = new Voice();
+        
         int num = 0;
         public Form1()
         {
@@ -28,6 +32,8 @@ namespace UDP_Server
         {
             thdUDPServer = new Thread(new ThreadStart(serverThread));
             thdUDPServer.Start();
+
+            v.Receive(2000);
         }
 
         public void serverThread() {
@@ -39,10 +45,9 @@ namespace UDP_Server
 
                 Image Imagen = byteArrayToImage(receiveBytes);
                 videoReceived.Image = Imagen;
-                num++;
-                string returnData = Encoding.ASCII.GetString(receiveBytes);
-                conectionsList.Items.Add(num + " / " + RemoteIpEndPoint.Address.ToString() + ":" + returnData.ToString());
-                
+                //num++;
+                //string returnData = Encoding.ASCII.GetString(receiveBytes);
+                //conectionsList.Items.Add(num + " / " + RemoteIpEndPoint.Address.ToString() + ":" + returnData.ToString());
             }
         }
 

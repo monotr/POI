@@ -13,8 +13,10 @@ using System.Net.Sockets;
 
 namespace webcam_test
 {
+    using Sending_voice_Over_IP;
     public partial class Form1 : Form
     {
+        Voice v = new Voice();
         private bool ExisteDispositivo = false;
         private FilterInfoCollection DispositivoDeVideo;
         private VideoCaptureDevice FuenteDeVideo = null;
@@ -94,30 +96,12 @@ namespace webcam_test
                     cbxDispositivos.Enabled = false;
                     groupBox1.Text = DispositivoDeVideo[cbxDispositivos.SelectedIndex].Name.ToString();
 
-                    /*
+                    
                     ////aqui inicia codigo de microfono 
-                    sourceStream = new NAudio.Wave.WaveIn();
-
-                    NAudio.Wave.WaveInProvider waveIn = new NAudio.Wave.WaveInProvider(sourceStream);
-                    byte[] audiobyte = 0;
-
-                    using (NAudio.Wave.WaveStream waveStream = NAudio.Wave.WaveFormatConversionStream.CreatePcmStream(sourceStream))
-                    using (WaveFileWriter waveFileWriter = new WaveFileWriter(outputStream, waveStream.WaveFormat))
-                    {
-                        byte[] bytes = new byte[waveStream.Length];
-                        waveStream.Position = 0;
-                        waveStream.Read(bytes, 0, waveStream.Length);
-                        waveFileWriter.WriteData(bytes, 0, bytes.Length);
-                        waveFileWriter.Flush();
-                    } 
-
-                    waveOut = new NAudio.Wave.DirectSoundOut();
-                    waveOut.Init(waveIn);
-                    sourceStream.StartRecording();
-                    waveOut.Play();
+                    v.Send("192.168.56.1", 2000);
 
                     ////aqui termina codigo de audio
-                    */
+                    
                 }
                 else
                     Estado.Text = "Error: No se encuenta el Dispositivo";
@@ -131,22 +115,9 @@ namespace webcam_test
                     btnIniciar.Text = "Iniciar";
                     cbxDispositivos.Enabled = true;
 
+                    
                     ///////////aqui inicia codigo de audio
 
-                    if (waveOut != null)
-                    {
-                        waveOut.Stop();
-                        waveOut.Dispose();
-                        waveOut = null;
-                        
-                    }
-
-                    if (sourceStream != null)
-                    {
-                        sourceStream.StopRecording();
-                        sourceStream.Dispose();
-                        sourceStream = null;
-                    }
 
                     ////////////aqui termina codigo de audio
                 }
