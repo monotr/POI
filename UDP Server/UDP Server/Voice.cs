@@ -118,7 +118,6 @@ namespace Sending_voice_Over_IP
         {
 
             sc = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            IPEndPoint ie = new IPEndPoint(0, this.VPort);
 
             sc.Bind(ie);
 
