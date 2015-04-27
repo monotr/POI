@@ -63,7 +63,7 @@ namespace Sending_voice_Over_IP
             sourceStream.DeviceNumber = devicenum;
             sourceStream.WaveFormat = new WaveFormat(22000, WaveIn.GetCapabilities(devicenum).Channels);
             sourceStream.DataAvailable += new EventHandler<WaveInEventArgs>(sourceStream_DataAvailable);
-
+            
             waveWriter = new WaveFileWriter(path, sourceStream.WaveFormat);
 
             sourceStream.StartRecording();
@@ -85,8 +85,8 @@ namespace Sending_voice_Over_IP
             Data_ary = File.ReadAllBytes(path);
 
             connector = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            IPEndPoint ie = new IPEndPoint(IPAddress.Parse(this.Ip), this.VPort);
-            ie.Address = IPAddress.Loopback;
+            IPEndPoint ie = new IPEndPoint(IPAddress.Parse("192.168.1.242"), this.VPort);
+            //ie.Address = IPAddress.Loopback;
             connector.Connect(ie);
             connector.Send(Data_ary, 0, Data_ary.Length, 0);
             connector.Close();
@@ -94,6 +94,7 @@ namespace Sending_voice_Over_IP
             Recordwav();
         }
 
+        
         private void sourceStream_DataAvailable(object sender, WaveInEventArgs e)
         {
             if (waveWriter == null) return;
@@ -104,7 +105,15 @@ namespace Sending_voice_Over_IP
 
         }
 
+        //not used here but its useful to get the length of wav file
+        public static TimeSpan GetSoundLength(string fileName)
+        {
 
+            WaveFileReader wf = new WaveFileReader(fileName);
+            return wf.TotalTime;
+
+        }
+        /*
         public void Receive(int port)
         {
             this.VPort = port;
@@ -138,14 +147,6 @@ namespace Sending_voice_Over_IP
 
 
         }
-        //not used here but its useful to get the length of wav file
-        public static TimeSpan GetSoundLength(string fileName)
-        {
-
-            WaveFileReader wf = new WaveFileReader(fileName);
-            return wf.TotalTime;
-
-        }
 
         private void WriteBytes()
         {
@@ -154,7 +155,7 @@ namespace Sending_voice_Over_IP
                 SoundPlayer sp = new SoundPlayer(ns);
                 sp.Play();
             }
-        }
+        }*/
 
 
         private void Dispose()
