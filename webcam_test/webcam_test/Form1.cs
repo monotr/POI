@@ -26,6 +26,7 @@ using System.Net;
         private NAudio.Wave.WaveIn sourceStream = null;
         private NAudio.Wave.DirectSoundOut waveOut = null;
         Thread thdUDPServer;
+        IPAddress myIP;
         public Form1()
         {
             InitializeComponent();

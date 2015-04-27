@@ -50,9 +50,12 @@ namespace UDP_Server
                     clientList.Add(ipAux);
                 
                 foreach(IPAddress addr in clientList){
-                    UdpClient udpOTHERClient = new UdpClient();
-                    udpOTHERClient.Connect(addr, 8080);
-                    udpOTHERClient.Send(receiveBytes, receiveBytes.Length);
+                    if (addr != RemoteIpEndPoint.Address)
+                    {
+                        UdpClient udpOTHERClient = new UdpClient();
+                        udpOTHERClient.Connect(addr, 8080);
+                        udpOTHERClient.Send(receiveBytes, receiveBytes.Length);
+                    }
                 }
 
                 
