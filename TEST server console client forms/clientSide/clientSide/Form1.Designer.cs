@@ -58,11 +58,15 @@
             this.sleepi = new System.Windows.Forms.Button();
             this.bcwarior = new System.Windows.Forms.Button();
             this.death = new System.Windows.Forms.Button();
-            this.contactos_list = new System.Windows.Forms.ListBox();
             this.label3 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
+            this.clientes_grid = new System.Windows.Forms.DataGridView();
+            this.User_Nickname = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.User_Estado = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.User_IP = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.emotesmenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.clientes_grid)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -426,15 +430,6 @@
             this.death.UseVisualStyleBackColor = true;
             this.death.Click += new System.EventHandler(this.death_Click);
             // 
-            // contactos_list
-            // 
-            this.contactos_list.FormattingEnabled = true;
-            this.contactos_list.Location = new System.Drawing.Point(432, 63);
-            this.contactos_list.Name = "contactos_list";
-            this.contactos_list.Size = new System.Drawing.Size(105, 108);
-            this.contactos_list.TabIndex = 13;
-            this.contactos_list.SelectedIndexChanged += new System.EventHandler(this.contactos_list_SelectedIndexChanged);
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -446,7 +441,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(432, 177);
+            this.button3.Location = new System.Drawing.Point(556, 250);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(105, 48);
             this.button3.TabIndex = 15;
@@ -456,22 +451,51 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(429, 268);
+            this.label4.Location = new System.Drawing.Point(242, 304);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(35, 13);
             this.label4.TabIndex = 16;
             this.label4.Text = "label4";
             // 
+            // clientes_grid
+            // 
+            this.clientes_grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.clientes_grid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.User_Nickname,
+            this.User_Estado,
+            this.User_IP});
+            this.clientes_grid.Location = new System.Drawing.Point(431, 43);
+            this.clientes_grid.Name = "clientes_grid";
+            this.clientes_grid.Size = new System.Drawing.Size(344, 150);
+            this.clientes_grid.TabIndex = 17;
+            this.clientes_grid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.clientes_grid_CellContentClick);
+            this.clientes_grid.SelectionChanged += new System.EventHandler(this.clientes_grid_SelectionChanged);
+            // 
+            // User_Nickname
+            // 
+            this.User_Nickname.HeaderText = "Nickname";
+            this.User_Nickname.Name = "User_Nickname";
+            // 
+            // User_Estado
+            // 
+            this.User_Estado.HeaderText = "Estado";
+            this.User_Estado.Name = "User_Estado";
+            // 
+            // User_IP
+            // 
+            this.User_IP.HeaderText = "IP";
+            this.User_IP.Name = "User_IP";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(547, 339);
+            this.ClientSize = new System.Drawing.Size(829, 339);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.contactos_list);
             this.Controls.Add(this.emotesmenu);
+            this.Controls.Add(this.clientes_grid);
             this.Controls.Add(this.textToSend_txt2);
             this.Controls.Add(this.emotes);
             this.Controls.Add(this.zumbido);
@@ -487,6 +511,7 @@
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.emotesmenu.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.clientes_grid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -523,10 +548,13 @@
         private System.Windows.Forms.Button sleepi;
         private System.Windows.Forms.Button bcwarior;
         private System.Windows.Forms.Button death;
-        private System.Windows.Forms.ListBox contactos_list;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.DataGridView clientes_grid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn User_Nickname;
+        private System.Windows.Forms.DataGridViewTextBoxColumn User_Estado;
+        private System.Windows.Forms.DataGridViewTextBoxColumn User_IP;
     }
 }
 

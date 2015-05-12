@@ -16,7 +16,7 @@ namespace clientSide
 {
     public partial class Form1 : Form
     {
-
+        delegate void SetTextCallback(string text);
         int count,val;
         string emo = null;
         SoundPlayer zumb = new SoundPlayer("C:/Users/Monotr_/Documents/GitHub/POI/TEST server console client forms/clientSide/clientSide/zumbido.wav");
@@ -27,7 +27,12 @@ namespace clientSide
         string readData = null;
         bool first = false;
         string nombreCliente;
+        private string auxString;
         string status = null;
+        private Thread demoThread = null;
+        private bool bulean = false;
+
+        IPAddress myIP;
 
         public Form1()
         {
@@ -56,16 +61,23 @@ namespace clientSide
                 buffSize = clientSocket.ReceiveBufferSize;
                 serverStream.Read(inStream, 0, buffSize);
                 string returndata = System.Text.Encoding.ASCII.GetString(inStream);
-                if (returndata.Contains("%"))
+                if (returndata.Contains("%")) //otro cliente cambia de estado
                 {
                     readData = returndata.Substring(0, returndata.IndexOf("%"));
                     msg();
                     int inicio = returndata.IndexOf(":") + 1;
                     int fin = returndata.IndexOf("%") - 1;
                     string statusActual = returndata.Substring(inicio, fin);
+
+                    int finName = returndata.IndexOf("-") - 1;
+                    string name = returndata.Substring(0, finName);
+                    
+                    //clientes_grid.Rows.Add
+
+                    //clientesconect.Add(name + " " + statusActual);
                 }
                 else if (!returndata.Contains("Joined") && !returndata.Contains("^") && !returndata.Contains("#") &&
-                    !returndata.Contains("~"))
+                    !returndata.Contains("~")) //mensaje recibido
                 {
                     int inicio = returndata.IndexOf(":") + 1;
                     int fin = returndata.IndexOf("*") - inicio;
@@ -79,32 +91,32 @@ namespace clientSide
                     readData = nameUser + ": " + returndata;
                     msg();
                 }
-                else if (returndata.Contains("^"))
+                else if (returndata.Contains("^")) //nuevo cliente conectado
                 {
                     int inicio2 = returndata.IndexOf("^") - 1;
                     nombreCliente = returndata.Substring(0, inicio2);
-                    string actualName = nickname.Text + " ";
-                    string estado = returndata.Substring(returndata.IndexOf("{")+1, returndata.IndexOf("}")-1);
-                    if (nombreCliente == actualName)
-                        contactos_list.Items.Add("You\t" + comboEstado.Text);
-                    else
-                        contactos_list.Items.Add(nombreCliente + "\t" + estado);
+                    string actualName = nickname.Text;
+                    string estado = returndata.Substring(returndata.IndexOf("+")+1, returndata.IndexOf("-"));
+                    string ipus = returndata.Substring(returndata.IndexOf("-") + 1, returndata.IndexOf("|") - 1);
+
+                        
                     readData = nombreCliente + " joined the chat room";
                     msg();
                 }
                 else if (returndata.Contains("#"))
                 {
-                    int finNombre = returndata.IndexOf("#") - 1;
-                    string nombreClienteNuevo = returndata.Substring(0, finNombre);
-                    if (nickname.Text == nombreClienteNuevo) {
-                        int finLinea = returndata.IndexOf("]") - 1;
-                        string infoClienteNuevo = returndata.Substring(finNombre, finLinea);
+                    string temp = returndata.Substring(1, returndata.IndexOf("]") - 1);
+                    string[] parts = temp.Split(',');
+                    deleteGrid();
+                    int users = (parts.Length-1)/3;
 
-                        clientesconect.Add(infoClienteNuevo);
-                        updateLista();
+                    for (int i = 0; i < users; i++)
+                    {
+                        addToGrid(parts[(3*i)], parts[(3*i)+1], parts[(3*i)+2]);
                     }
+
                 }
-                else if (returndata.Contains("~"))
+                else if (returndata.Contains("~")) //zumbido
                 {
                     zumbido_function();
                 }
@@ -112,13 +124,25 @@ namespace clientSide
             }
         }
 
-        private void updateLista()
+        private string GetSelecetedIndex()
         {
-            contactos_list.Items.Clear();
-            for (int i = 0; i < clientesconect.Count; i++)
-                contactos_list.Items.Add(clientesconect[i]);
-
+            if (comboEstado.InvokeRequired)
+                return (string)comboEstado.Invoke(new Func<string>(GetSelecetedIndex));
+            else
+                return comboEstado.Text;
         }
+
+
+        private void deleteGrid()
+        {
+            clientes_grid.Invoke(new Action(() => clientes_grid.Rows.Clear()));
+        }
+
+        private void addToGrid(string name, string state, string aipi)
+        {
+            clientes_grid.Invoke(new Action(() => clientes_grid.Rows.Add(name, state, aipi)));
+        }
+
 
         private void msg()
         {
@@ -159,7 +183,7 @@ namespace clientSide
                 try
                 {
                     readData = "Conected to Chat Server ... \n";
-                    IPAddress myIP = IPAddress.Parse("127.0.0.1");
+                    myIP = IPAddress.Parse("127.0.0.1");
 
                     //IPAddress[] localIP = Dns.GetHostAddresses("USER");
                     IPAddress[] localIP = Dns.GetHostAddresses(Dns.GetHostName());
@@ -172,17 +196,19 @@ namespace clientSide
                     }
                     //clientSocket.Connect(myIP, 55555);
                     clientSocket.Connect(localIP, 9050);
-                    label1.Text = "Client Socket Program - Server Connected ... " + myIP.ToString();
+                    label1.Text = "Client Socket Program - Server Connected ... " + myIP;
            
                     msg();
                     first = true;
 
                     serverStream = clientSocket.GetStream();
 
-                    byte[] outStream = System.Text.Encoding.ASCII.GetBytes(nickname.Text + "$" + comboEstado.Text + "{");
+                    byte[] outStream = System.Text.Encoding.ASCII.GetBytes("$" + nickname.Text + "|" + comboEstado.Text + "|" + (string)myIP.ToString() + "|NADA");
                     //byte[] outStream = System.Text.Encoding.ASCII.GetBytes("hola $");
                     serverStream.Write(outStream, 0, outStream.Length);
                     serverStream.Flush();
+
+                    //clientes_grid.Rows.Add(nickname.Text, comboEstado.Text, (string)myIP.ToString());
 
                     Thread ctThread = new Thread(getMessage);
                     ctThread.Start();
@@ -209,7 +235,8 @@ namespace clientSide
                 serverStream.Flush();
 
                 //contactos_list.SetSelected(1, true);
-                contactos_list.Items[0] = "You\t" + comboEstado.Text;
+                //clientes_grid.Rows[0].Cells[1].Value = comboEstado.Text;
+                //contactos_list.Items[0] = "You\t" + comboEstado.Text;
             }            
         }
 
@@ -225,55 +252,30 @@ namespace clientSide
             serverStream.Flush();
         }
 
+        private void zumbidoInvoke()
+        {
+            if (this.InvokeRequired)
+                this.Invoke(new MethodInvoker(zumbidoInvoke));
+            else
+            {
+                Random random = new Random();
+                this.Location = new Point(this.Location.X + random.Next(-20, 21), this.Location.Y + random.Next(-20, 21));
+            }
+        }
+
         private void zumbido_function()
         {
 
-            while (count < 300)
+            while (count < 10)
             {
-                switch (val)
-                {
-                    case 1:
-                        this.Location = new Point(this.Location.X - 20, this.Location.Y + 20);
-                        val++;
-                        break;
-                    case 2:
-                        this.Location = new Point(this.Location.X + 20, this.Location.Y - 20);
-                        val++;
-                        break;
-                    case 3:
-                        this.Location = new Point(this.Location.X - 20, this.Location.Y + 20);
-                        val++;
-                        break;
-                    case 4:
-                        this.Location = new Point(this.Location.X + 20, this.Location.Y - 20);
-                        val++;
-                        break;
-                    case 5:
-                        this.Location = new Point(this.Location.X - 20, this.Location.Y + 20);
-                        val++;
-                        break;
-                    case 6:
-                        this.Location = new Point(this.Location.X + 20, this.Location.Y - 20);
-                        val++;
-                        break;
-                    case 7:
-                        this.Location = new Point(this.Location.X - 20, this.Location.Y + 20);
-                        val++;
-                        break;
-                    case 8:
-                        this.Location = new Point(this.Location.X + 20, this.Location.Y - 20);
-                        val++;
-                        val = 1;
-                        break;
-
-                }
+                System.Threading.Thread.Sleep(20);
+                zumbidoInvoke();
+                
                 count++;
-
-
             }
             count = 0;
             zumb.Play();
-            System.Threading.Thread.Sleep(20);
+            
         }
 
         //iconos botones
@@ -466,10 +468,15 @@ namespace clientSide
             Emojis.pegaricono2(textToSend_txt2);
         }
 
-        private void contactos_list_SelectedIndexChanged(object sender, EventArgs e)
+
+        private void clientes_grid_SelectionChanged(object sender, EventArgs e)
         {
-            string curItem = contactos_list.SelectedItem.ToString();
-            label4.Text = curItem;
+        }
+
+        private void clientes_grid_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+            ////// poner conversacion individual y videollamada
         }
 
 

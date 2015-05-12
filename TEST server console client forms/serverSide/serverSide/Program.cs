@@ -13,7 +13,8 @@ namespace serverSide
     class Program
     {
         public static Hashtable clientsList = new Hashtable();
-        public static Hashtable statusList = new Hashtable(); 
+        public static Hashtable statusList = new Hashtable();
+        public static Hashtable ipList = new Hashtable();
         static void Main(string[] args)
         {
             IPAddress myIP = IPAddress.Parse("127.0.0.1");
@@ -37,38 +38,43 @@ namespace serverSide
             counter = 0;
             while (true)
             {
-                counter += 1;
+                //counter += 1;
                 //Console.WriteLine(counter.ToString());
                 clientSocket = serverSocket.AcceptTcpClient();
 
                 byte[] bytesFrom = new byte[100025];
                 byte[] bytesFromstatus = new byte[100025];
                 string dataFromClient = null;
+                string ipUser = null;
                 string stateClient = null;
 
                 NetworkStream networkStream = clientSocket.GetStream();
                 networkStream.Read(bytesFrom, 0, (int)clientSocket.ReceiveBufferSize);          
                 dataFromClient = System.Text.Encoding.ASCII.GetString(bytesFrom);
 
+                string tempor = dataFromClient.Substring(1, dataFromClient.Length-1);
+                string[] partess = tempor.Split('|');
 
-                stateClient = dataFromClient.Substring(dataFromClient.IndexOf("$") + 1, dataFromClient.IndexOf("{") - 1);
-                dataFromClient = dataFromClient.Substring(0, dataFromClient.IndexOf("$"));
-                clientsList.Add(dataFromClient, clientSocket);
-                statusList.Add(dataFromClient, stateClient);
-
-                broadcast(dataFromClient + " ^Joined{" + stateClient + "}", dataFromClient, false, 0);
-
-                string todosCLientes = "";
-
-                foreach (DictionaryEntry item in clientsList)
-                {
-                    todosCLientes = item.Key.ToString() + "\t" + statusList[item.Key.ToString()];
-                    broadcast(todosCLientes, dataFromClient, false, 2);
-                }
-                
-                Console.WriteLine(dataFromClient + " Joined chat room \n");
+                Console.WriteLine(partess[0] + " Joined chat room \n");
                 handleClinet client = new handleClinet();
-                client.startClient(clientSocket, dataFromClient, clientsList);
+                client.startClient(clientSocket, partess[0], clientsList);
+
+
+                string tipo = dataFromClient.Substring(0, 1);
+                if (tipo == "$")
+                {
+                    string temp = dataFromClient.Substring(1, dataFromClient.Length - 1);
+                    string[] partes = temp.Split('|');
+                    stateClient = partes[1];
+                    ipUser = partes[2];
+                    dataFromClient = partes[0];
+                    clientsList.Add(dataFromClient, clientSocket);
+                    statusList.Add(dataFromClient, stateClient);
+                    ipList.Add(dataFromClient, ipUser);
+                }
+                broadcast(dataFromClient + " ^Joined+" + stateClient + "-" + ipUser + "|NADA", dataFromClient, false, 0);
+
+                updateGrids(dataFromClient);
                 //statusfromclient = statusfromclient.Substring(0, statusfromclient.IndexOf("$"));
             }
 
@@ -76,6 +82,23 @@ namespace serverSide
             serverSocket.Stop();
             Console.WriteLine(" >> " + "exit");
             Console.ReadLine();
+        }
+
+        public static void updateGrids(string dataFromClient)
+        {
+            string todosCLientes = "";
+
+            foreach (DictionaryEntry item in clientsList)
+                todosCLientes += item.Key.ToString() + "," + statusList[item.Key.ToString()] + "," + ipList[item.Key.ToString()] + ",";
+
+            string[] parts = todosCLientes.Split(',');
+
+            broadcast(todosCLientes, dataFromClient, false, 2);
+        }
+
+        public static void changeStado(string user, string stado)
+        {
+            statusList[user] = stado;
         }
 
         public static void broadcast(string msg, string uName, bool flag, int tipoMsg)
@@ -92,17 +115,14 @@ namespace serverSide
                     if (tipoMsg == 0)
                         broadcastBytes = Encoding.ASCII.GetBytes(uName + " says: " + msg);
                     else if (tipoMsg == 1)
-                        broadcastBytes = Encoding.ASCII.GetBytes(uName + " ha cambiado su estado a: " + msg + "%");
+                        broadcastBytes = Encoding.ASCII.GetBytes(uName + "- ha cambiado su estado a: " + msg + "%");
                 }
                 else
                 {
                     if (tipoMsg != 2)
                         broadcastBytes = Encoding.ASCII.GetBytes(msg);
                     else
-                    {
-                        broadcastBytes = Encoding.ASCII.GetBytes(uName + "#" + msg + "]");
-
-                    }
+                        broadcastBytes = Encoding.ASCII.GetBytes("#" + msg + "]");
                 }
 
                 broadcastStream.Write(broadcastBytes, 0, broadcastBytes.Length);
@@ -156,7 +176,11 @@ namespace serverSide
                     else if (b > 0 && dataFromClient.Contains("estado"))
                     {
                         dataFromClient = dataFromClient.Substring(0, dataFromClient.IndexOf("&"));
-                        Console.WriteLine(clNo + " cambió su estado a  : " + dataFromClient + "%");
+
+                        Program.changeStado(clNo, dataFromClient);
+                        Program.updateGrids(clNo);
+
+                        Console.WriteLine(clNo + "- cambió su estado a  : " + dataFromClient + "%");
                         Program.broadcast(dataFromClient, clNo, true, 1);
                     }
                     else if (dataFromClient.Contains("zoombido"))
