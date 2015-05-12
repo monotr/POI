@@ -59,6 +59,9 @@
             this.bcwarior = new System.Windows.Forms.Button();
             this.death = new System.Windows.Forms.Button();
             this.contactos_list = new System.Windows.Forms.ListBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.button3 = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
             this.emotesmenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -136,7 +139,7 @@
             // 
             // textToSend_txt2
             // 
-            this.textToSend_txt2.Location = new System.Drawing.Point(465, 200);
+            this.textToSend_txt2.Location = new System.Drawing.Point(488, 315);
             this.textToSend_txt2.Name = "textToSend_txt2";
             this.textToSend_txt2.Size = new System.Drawing.Size(387, 62);
             this.textToSend_txt2.TabIndex = 9;
@@ -430,12 +433,43 @@
             this.contactos_list.Name = "contactos_list";
             this.contactos_list.Size = new System.Drawing.Size(105, 108);
             this.contactos_list.TabIndex = 13;
+            this.contactos_list.SelectedIndexChanged += new System.EventHandler(this.contactos_list_SelectedIndexChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(333, 12);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(40, 13);
+            this.label3.TabIndex = 14;
+            this.label3.Text = "Estado";
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(432, 177);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(105, 48);
+            this.button3.TabIndex = 15;
+            this.button3.Text = "Iniciar conversación privada";
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(429, 268);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(35, 13);
+            this.label4.TabIndex = 16;
+            this.label4.Text = "label4";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(547, 339);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.contactos_list);
             this.Controls.Add(this.emotesmenu);
             this.Controls.Add(this.textToSend_txt2);
@@ -490,6 +524,9 @@
         private System.Windows.Forms.Button bcwarior;
         private System.Windows.Forms.Button death;
         private System.Windows.Forms.ListBox contactos_list;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Label label4;
     }
 }
 

@@ -161,8 +161,8 @@ namespace clientSide
                     readData = "Conected to Chat Server ... \n";
                     IPAddress myIP = IPAddress.Parse("127.0.0.1");
 
-                    IPAddress[] localIP = Dns.GetHostAddresses("USER");
-                    //IPAddress[] localIP = Dns.GetHostAddresses(Dns.GetHostName());
+                    //IPAddress[] localIP = Dns.GetHostAddresses("USER");
+                    IPAddress[] localIP = Dns.GetHostAddresses(Dns.GetHostName());
                     foreach (IPAddress address in localIP)
                     {
                         if (address.AddressFamily == AddressFamily.InterNetwork)
@@ -273,6 +273,7 @@ namespace clientSide
             }
             count = 0;
             zumb.Play();
+            System.Threading.Thread.Sleep(20);
         }
 
         //iconos botones
@@ -463,6 +464,12 @@ namespace clientSide
 
             }
             Emojis.pegaricono2(textToSend_txt2);
+        }
+
+        private void contactos_list_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string curItem = contactos_list.SelectedItem.ToString();
+            label4.Text = curItem;
         }
 
 

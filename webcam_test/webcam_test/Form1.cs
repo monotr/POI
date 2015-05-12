@@ -77,7 +77,7 @@ using System.Net;
 
             UdpClient udpClient = new UdpClient();
             //udpClient.Connect(v.serverIPAddress, 8080);
-            udpClient.Connect(IPAddress.Parse("192.168.1.242"), 8080);
+            udpClient.Connect(IPAddress.Parse("172.20.10.7"), 8080);
             udpClient.Send(senddata, senddata.Length);
 
             EspacioCamara.Image = Imagen;
@@ -93,7 +93,7 @@ using System.Net;
                 if (ExisteDispositivo)
                 {
                     ////aqui inicia codigo de microfono 
-                    //v.Send(2000);
+                    v.Send(2000);
                     //v.Receive(2000);
                     ////aqui termina codigo de audio
 
@@ -138,7 +138,7 @@ using System.Net;
         private void receiveData()
         {
             UdpClient udpClient = new UdpClient(8080);
-            IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Parse("192.168.1.242"), 0);
+            IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Parse("172.20.10.7"), 0);
             while (true)
             {
                 try
