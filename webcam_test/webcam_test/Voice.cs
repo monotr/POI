@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using NAudio.Wave;
+using System.Media.SoundPlayer;
 
 namespace Sending_voice_Over_IP
 {
@@ -95,12 +96,11 @@ namespace Sending_voice_Over_IP
         {
             Data_ary = File.ReadAllBytes(path);
 
-            connector = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            IPEndPoint ie = new IPEndPoint(serverIPAddress, this.VPort);
-            //ie.Address = IPAddress.Loopback;
-            connector.Connect(ie);
-            connector.Send(Data_ary, 0, Data_ary.Length, 0);
-            connector.Close();
+            UdpClient udpClient = new UdpClient();
+
+            udpClient.Connect(IPAddress.Parse("192.168.1.124"), 2000);
+            udpClient.Send(Data_ary, Data_ary.Length);
+            udpClient.Close(); // no estaba
 
             Recordwav();
         }
@@ -136,33 +136,28 @@ namespace Sending_voice_Over_IP
 
         private void VoiceReceive()
         {
-            sc = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            IPEndPoint ie = new IPEndPoint(serverIPAddress, this.VPort);
-
-            sc.Bind(ie);
-
-            sc.Listen(0);
-            sock = sc.Accept();
-            ns = new NetworkStream(sock);
-
-
-            WriteBytes();
-            sc.Close();
-
+            UdpClient udpClient = new UdpClient(2000);
+            IPEndPoint RemoteIpEndPoint = new IPEndPoint(serverIPAddress, 0);
             while (true)
             {
-                VoiceReceive();
+                try
+                {
+                    Byte[] receiveBytes = udpClient.Receive(ref RemoteIpEndPoint);
+
+                    if (receiveBytes != null)
+                        WriteBytes(receiveBytes);
+                }
+                catch { }
             }
-
-
         }
 
-        private void WriteBytes()
+        private void WriteBytes(Byte[] sound)
         {
-            if (ns != null)
+            using (MemoryStream ms = new MemoryStream(sound))
             {
-                SoundPlayer sp = new SoundPlayer(ns);
-                sp.Play();
+                // Construct the sound player
+                SoundPlayer player = new SoundPlayer(ms);
+                player.Play();
             }
         }
 
