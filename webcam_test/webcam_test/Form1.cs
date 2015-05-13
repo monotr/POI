@@ -76,8 +76,8 @@ using System.Net;
             Byte[] senddata = (byte[])converter.ConvertTo(Imagen, typeof(byte[]));
 
             UdpClient udpClient = new UdpClient();
-            //udpClient.Connect(v.serverIPAddress, 8080);
-            udpClient.Connect(IPAddress.Parse("172.20.10.7"), 8080);
+            
+            udpClient.Connect(IPAddress.Parse("192.168.1.124"), 8080);
             udpClient.Send(senddata, senddata.Length);
 
             EspacioCamara.Image = Imagen;
@@ -125,10 +125,7 @@ using System.Net;
                     cbxDispositivos.Enabled = true;
                     thdUDPServer.Abort();
                     
-                    ///////////aqui inicia codigo de audio
-
-
-                    ////////////aqui termina codigo de audio
+                   
                 }
             }
 
@@ -138,12 +135,12 @@ using System.Net;
         private void receiveData()
         {
             UdpClient udpClient = new UdpClient(8080);
-            IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Parse("172.20.10.7"), 0);
+            IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
             while (true)
             {
                 try
                 {
-                    //udpClient.Client.Bind(new IPEndPoint(IPAddress.Parse("192.168.1.242"), 8080));
+                    //udpClient.Client.Bind(new IPEndPoint(IPAddress.Parse("192.168.56.1"), 8080));
                     //udpClient.Connect(IPAddress.Parse("192.168.1.242"), 8080);
                     Byte[] receiveBytes = udpClient.Receive(ref RemoteIpEndPoint);
 

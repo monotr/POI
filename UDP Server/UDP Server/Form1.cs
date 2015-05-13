@@ -37,10 +37,12 @@ namespace UDP_Server
             //v.Receive(2000);
         }
 
-        public void serverThread() {
+        public void serverThread()
+        {
             udpClient = new UdpClient(8080);
-            udpClient.Client.ReceiveBufferSize = 1024*1024;
-            while(true) {
+            udpClient.Client.ReceiveBufferSize = 1024 * 1024;
+            while (true)
+            {
                 IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
                 Byte[] receiveBytes = udpClient.Receive(ref RemoteIpEndPoint);
 
@@ -48,21 +50,25 @@ namespace UDP_Server
                 IPAddress ipAux = RemoteIpEndPoint.Address;
                 if (!clientList.Contains(ipAux))
                     clientList.Add(ipAux);
-                
-                foreach(IPAddress addr in clientList){
-                    if (addr != RemoteIpEndPoint.Address)
+
+                foreach (IPAddress addr in clientList)
+                {
+                    if (!addr.Equals(RemoteIpEndPoint.Address))
                     {
                         UdpClient udpOTHERClient = new UdpClient();
                         udpOTHERClient.Connect(addr, 8080);
                         udpOTHERClient.Send(receiveBytes, receiveBytes.Length);
+                        //conectionsList.Invoke(new Action(() => conectionsList.Items.Clear()));
+                        conectionsList.Invoke(new Action(() => conectionsList.Items.Add(addr.ToString() + " SENT TO " + RemoteIpEndPoint.Address.ToString())));
                     }
+                    else
+                        conectionsList.Invoke(new Action(() => conectionsList.Items.Add("caqui")));
                 }
 
-                conectionsList.Items.Add(RemoteIpEndPoint.Address.ToString());
+
             }
         }
 
-        
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {

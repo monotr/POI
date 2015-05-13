@@ -42,7 +42,7 @@ namespace Sending_voice_Over_IP
 
         public void Send(int port)
         {
-            serverIPAddress = IPAddress.Parse("172.20.10.7");
+            serverIPAddress = IPAddress.Parse("192.168.1.124");
             /*IPAddress[] localIP = Dns.GetHostAddresses("USER");
             foreach (IPAddress address in localIP)
             {
