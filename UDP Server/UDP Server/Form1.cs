@@ -74,6 +74,7 @@ namespace UDP_Server
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
+            v.rec_thread.Abort();
             thdUDPServer.Abort();
             udpClient.Close();
         }

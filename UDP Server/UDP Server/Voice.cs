@@ -11,14 +11,15 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using NAudio.Wave;
+using System.Media.SoundPlayer;
 
 namespace Sending_voice_Over_IP
 {
     class Voice
     {
+        public ArrayList clientListV;
         private string ip;
         private string path = Application.StartupPath + "\\buffer.wav";
-        public ArrayList clientListV;
 
         public string Ip
         {
@@ -40,114 +41,47 @@ namespace Sending_voice_Over_IP
         private System.Windows.Forms.Timer c_v = null;
         private Socket connector, sc, sock = null;
 
+        public IPAddress serverIPAddress;
+        IPEndPoint RemoteIpEndPoint;
 
-        void c_v_Tick(object sender, EventArgs e)
-        {
-            this.Dispose();
-            Send_Bytes();
 
-        }
         private void Send_Bytes()
         {
-            Data_ary = File.ReadAllBytes(path);
-
-            IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
-
             foreach (IPAddress addr in clientListV)
             {
                 if (!addr.Equals(RemoteIpEndPoint.Address))
                 {
-                    connector = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                    IPEndPoint ie = new IPEndPoint(addr, this.VPort);
-                    ie.Address = IPAddress.Loopback;
-                    connector.Connect(ie);
-                    connector.Send(Data_ary, 0, Data_ary.Length, 0);
-                    connector.Close();
+                    UdpClient udpClient = new UdpClient();
+
+                    udpClient.Connect(addr, 2000);
+                    udpClient.Send(Data_ary, Data_ary.Length);
+                    udpClient.Close(); // no estaba
                 }
             }
         }
 
-        private void sourceStream_DataAvailable(object sender, WaveInEventArgs e)
-        {
-            if (waveWriter == null) return;
-
-            waveWriter.WriteData(e.Buffer, 0, e.BytesRecorded);
-
-            waveWriter.Flush();
-
-        }
-
-
         public void Receive(int port)
         {
-            c_v = new System.Windows.Forms.Timer();
-            c_v.Interval = 1000;
-            c_v.Enabled = false;
-            c_v.Tick += c_v_Tick;
-
             this.VPort = port;
-
             rec_thread = new Thread(new ThreadStart(VoiceReceive));
             rec_thread.Start();
         }
 
-
-
         private void VoiceReceive()
         {
-            sc = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            IPEndPoint ie = new IPEndPoint(IPAddress.Any, this.VPort);
-
-            sc.Bind(ie);
-
-            sc.Listen(0);
-            sock = sc.Accept();
-            ns = new NetworkStream(sock);
-
-
-            //WriteBytes();
-            sc.Close();
-
+            UdpClient udpClient = new UdpClient(2000);
+            RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
             while (true)
             {
-                VoiceReceive();
+                try
+                {
+                    Data_ary = udpClient.Receive(ref RemoteIpEndPoint);
+
+                    if (Data_ary != null)
+                        Send_Bytes();
+                }
+                catch { }
             }
         }
-        //not used here but its useful to get the length of wav file
-        public static TimeSpan GetSoundLength(string fileName)
-        {
-
-            WaveFileReader wf = new WaveFileReader(fileName);
-            return wf.TotalTime;
-
-        }
-
-        private void WriteBytes()
-        {
-            if (ns != null)
-            {
-                SoundPlayer sp = new SoundPlayer(ns);
-                sp.Play();
-            }
-        }
-
-
-        private void Dispose()
-        {
-            c_v.Stop();
-            if (sourceStream != null)
-            {
-                sourceStream.StopRecording();
-                sourceStream.Dispose();
-            }
-            if (waveWriter != null)
-            {
-                waveWriter.Dispose();
-
-            }
-            GC.SuppressFinalize(this);
-        }
-
-
     }
 }
