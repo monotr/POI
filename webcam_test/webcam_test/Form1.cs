@@ -79,7 +79,7 @@ using System.Net;
             
             udpClient.Connect(IPAddress.Parse("192.168.1.124"), 8080);
             udpClient.Send(senddata, senddata.Length);
-
+            udpClient.Close();
             EspacioCamara.Image = Imagen;
         }
 
@@ -141,7 +141,7 @@ using System.Net;
                 try
                 {
                     Byte[] receiveBytes = udpClient.Receive(ref RemoteIpEndPoint);
-
+                    udpClient.Close();
                     if (receiveBytes != null)
                     {
                         Image Imagen = byteArrayToImage(receiveBytes);
@@ -167,6 +167,8 @@ using System.Net;
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
+            thdUDPServer.Abort();
+            v.rec_thread.Abort();
             TerminarFuenteDeVideo();
             cbxDispositivos.Enabled = true;
         }

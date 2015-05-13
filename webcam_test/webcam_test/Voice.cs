@@ -10,7 +10,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using NAudio.Wave;
-using System.Media.SoundPlayer;
 
 namespace Sending_voice_Over_IP
 {
@@ -25,7 +24,7 @@ namespace Sending_voice_Over_IP
             set { ip = value; }
         }
         private int port;
-        private Thread rec_thread;
+        public Thread rec_thread;
         public int VPort
         {
             get { return port; }
@@ -56,7 +55,7 @@ namespace Sending_voice_Over_IP
             this.VPort = port;
 
             c_v = new System.Windows.Forms.Timer();
-            c_v.Interval = 1000;
+            c_v.Interval = 500;
             c_v.Enabled = false;
             c_v.Tick += c_v_Tick;
             Recordwav();
@@ -75,11 +74,13 @@ namespace Sending_voice_Over_IP
             sourceStream.DeviceNumber = devicenum;
             sourceStream.WaveFormat = new WaveFormat(22000, WaveIn.GetCapabilities(devicenum).Channels);
             sourceStream.DataAvailable += new EventHandler<WaveInEventArgs>(sourceStream_DataAvailable);
-            
-            waveWriter = new WaveFileWriter(path, sourceStream.WaveFormat);
-
+            try
+            {
+                waveWriter = new WaveFileWriter(path, sourceStream.WaveFormat);
+            }
+            catch { }
             sourceStream.StartRecording();
-
+            
             c_v.Start();
 
         }
@@ -95,13 +96,15 @@ namespace Sending_voice_Over_IP
         private void Send_Bytes()
         {
             Data_ary = File.ReadAllBytes(path);
-
-            UdpClient udpClient = new UdpClient();
-
-            udpClient.Connect(IPAddress.Parse("192.168.1.124"), 2000);
-            udpClient.Send(Data_ary, Data_ary.Length);
-            udpClient.Close(); // no estaba
-
+            try
+            {
+                UdpClient udpClient = new UdpClient();
+                udpClient.Client.SendBufferSize = 1024 * 1024 * 10;
+                udpClient.Connect(IPAddress.Parse("192.168.1.124"), 2000);
+                udpClient.Send(Data_ary, Data_ary.Length);
+                udpClient.Close(); // no estaba
+            }
+            catch { }
             Recordwav();
         }
 
@@ -143,7 +146,7 @@ namespace Sending_voice_Over_IP
                 try
                 {
                     Byte[] receiveBytes = udpClient.Receive(ref RemoteIpEndPoint);
-
+                    udpClient.Close();
                     if (receiveBytes != null)
                         WriteBytes(receiveBytes);
                 }
