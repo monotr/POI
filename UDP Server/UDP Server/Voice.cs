@@ -27,7 +27,7 @@ namespace Sending_voice_Over_IP
             set { ip = value; }
         }
         private int port;
-        private Thread rec_thread;
+        public Thread rec_thread;
         public int VPort
         {
             get { return port; }
