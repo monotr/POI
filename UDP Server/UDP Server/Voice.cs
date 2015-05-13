@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.IO;
 using System.Linq;
 using System.Media;
@@ -17,6 +18,7 @@ namespace Sending_voice_Over_IP
     {
         private string ip;
         private string path = Application.StartupPath + "\\buffer.wav";
+        public ArrayList clientListV;
 
         public string Ip
         {
@@ -38,40 +40,6 @@ namespace Sending_voice_Over_IP
         private System.Windows.Forms.Timer c_v = null;
         private Socket connector, sc, sock = null;
 
-        public void Send(string ip, int port)
-        {
-            this.Ip = ip;
-            this.VPort = port;
-
-            c_v = new System.Windows.Forms.Timer();
-            c_v.Interval = 1000;
-            c_v.Enabled = false;
-            c_v.Tick += c_v_Tick;
-            Recordwav();
-        }
-
-        private void Recordwav()
-        {
-            sourceStream = new WaveIn();
-            int devicenum = 0;
-
-            for (int i = 0; i < NAudio.Wave.WaveIn.DeviceCount; i++)
-            {
-                if (NAudio.Wave.WaveIn.GetCapabilities(i).ProductName.Contains("icrophone"))
-                    devicenum = i;
-            }
-            sourceStream.DeviceNumber = devicenum;
-            sourceStream.WaveFormat = new WaveFormat(22000, WaveIn.GetCapabilities(devicenum).Channels);
-            sourceStream.DataAvailable += new EventHandler<WaveInEventArgs>(sourceStream_DataAvailable);
-
-            waveWriter = new WaveFileWriter(path, sourceStream.WaveFormat);
-
-            sourceStream.StartRecording();
-
-            c_v.Start();
-
-        }
-
 
         void c_v_Tick(object sender, EventArgs e)
         {
@@ -79,19 +47,24 @@ namespace Sending_voice_Over_IP
             Send_Bytes();
 
         }
-
         private void Send_Bytes()
         {
             Data_ary = File.ReadAllBytes(path);
 
-            connector = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            IPEndPoint ie = new IPEndPoint(IPAddress.Parse(this.Ip), this.VPort);
-            ie.Address = IPAddress.Loopback;
-            connector.Connect(ie);
-            connector.Send(Data_ary, 0, Data_ary.Length, 0);
-            connector.Close();
+            IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
 
-            Recordwav();
+            foreach (IPAddress addr in clientListV)
+            {
+                if (!addr.Equals(RemoteIpEndPoint.Address))
+                {
+                    connector = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                    IPEndPoint ie = new IPEndPoint(addr, this.VPort);
+                    ie.Address = IPAddress.Loopback;
+                    connector.Connect(ie);
+                    connector.Send(Data_ary, 0, Data_ary.Length, 0);
+                    connector.Close();
+                }
+            }
         }
 
         private void sourceStream_DataAvailable(object sender, WaveInEventArgs e)
@@ -107,7 +80,13 @@ namespace Sending_voice_Over_IP
 
         public void Receive(int port)
         {
+            c_v = new System.Windows.Forms.Timer();
+            c_v.Interval = 1000;
+            c_v.Enabled = false;
+            c_v.Tick += c_v_Tick;
+
             this.VPort = port;
+
             rec_thread = new Thread(new ThreadStart(VoiceReceive));
             rec_thread.Start();
         }
@@ -116,7 +95,6 @@ namespace Sending_voice_Over_IP
 
         private void VoiceReceive()
         {
-
             sc = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             IPEndPoint ie = new IPEndPoint(IPAddress.Any, this.VPort);
 
@@ -127,15 +105,13 @@ namespace Sending_voice_Over_IP
             ns = new NetworkStream(sock);
 
 
-            WriteBytes();
+            //WriteBytes();
             sc.Close();
 
             while (true)
             {
                 VoiceReceive();
             }
-
-
         }
         //not used here but its useful to get the length of wav file
         public static TimeSpan GetSoundLength(string fileName)

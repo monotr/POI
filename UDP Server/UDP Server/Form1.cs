@@ -18,7 +18,7 @@ namespace UDP_Server
     using Sending_voice_Over_IP;
     public partial class Form1 : Form
     {
-        ArrayList clientList;
+        public ArrayList clientList;
         Thread thdUDPServer;
         UdpClient udpClient;
         Voice v = new Voice();
@@ -34,7 +34,7 @@ namespace UDP_Server
             thdUDPServer = new Thread(new ThreadStart(serverThread));
             thdUDPServer.Start();
 
-            //v.Receive(2000);
+            v.Receive(2000);
         }
 
         public void serverThread()
@@ -48,8 +48,10 @@ namespace UDP_Server
 
                 //EndPoint epSender = (EndPoint)RemoteIpEndPoint;
                 IPAddress ipAux = RemoteIpEndPoint.Address;
-                if (!clientList.Contains(ipAux))
+                if (!clientList.Contains(ipAux)) { 
                     clientList.Add(ipAux);
+                    v.clientListV.Add(ipAux);
+                }
 
                 foreach (IPAddress addr in clientList)
                 {

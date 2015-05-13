@@ -94,7 +94,7 @@ using System.Net;
                 {
                     ////aqui inicia codigo de microfono 
                     v.Send(2000);
-                    //v.Receive(2000);
+                    v.Receive(2000);
                     ////aqui termina codigo de audio
 
                     FuenteDeVideo = new VideoCaptureDevice(DispositivoDeVideo[cbxDispositivos.SelectedIndex].MonikerString);
@@ -140,8 +140,6 @@ using System.Net;
             {
                 try
                 {
-                    //udpClient.Client.Bind(new IPEndPoint(IPAddress.Parse("192.168.56.1"), 8080));
-                    //udpClient.Connect(IPAddress.Parse("192.168.1.242"), 8080);
                     Byte[] receiveBytes = udpClient.Receive(ref RemoteIpEndPoint);
 
                     if (receiveBytes != null)
