@@ -188,6 +188,11 @@ namespace serverSide
                         Console.WriteLine(clNo + " envió zoombido~");
                         Program.broadcast("~", clNo, false, 1);
                     }
+                    else if (dataFromClient.Contains("¿"))
+                    {
+                        Console.WriteLine(clNo + " quiere iniciar chat privado");
+                        Program.broadcast(dataFromClient, clNo, false, 1);
+                    }
                     
                     rCount = Convert.ToString(requestCount);
                 }

@@ -1,6 +1,6 @@
 ﻿namespace clientSide
 {
-    partial class Form1
+    partial class Privado
     {
         /// <summary>
         /// Required designer variable.
@@ -28,19 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.nickname = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.conversation = new System.Windows.Forms.RichTextBox();
-            this.comboEstado = new System.Windows.Forms.ComboBox();
-            this.textToSend_txt = new System.Windows.Forms.TextBox();
-            this.textToSend_txt2 = new System.Windows.Forms.RichTextBox();
-            this.zumbido = new System.Windows.Forms.Button();
-            this.emotes = new System.Windows.Forms.Button();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Privado));
             this.emotesmenu = new System.Windows.Forms.FlowLayoutPanel();
+            this.clientes_grid = new System.Windows.Forms.DataGridView();
+            this.textToSend_txt2 = new System.Windows.Forms.RichTextBox();
+            this.emotes = new System.Windows.Forms.Button();
+            this.zumbido = new System.Windows.Forms.Button();
+            this.conversation = new System.Windows.Forms.RichTextBox();
+            this.textToSend_txt = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.kappa = new System.Windows.Forms.Button();
             this.smile = new System.Windows.Forms.Button();
             this.sad = new System.Windows.Forms.Button();
@@ -58,119 +55,11 @@
             this.sleepi = new System.Windows.Forms.Button();
             this.bcwarior = new System.Windows.Forms.Button();
             this.death = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.convprivada = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.clientes_grid = new System.Windows.Forms.DataGridView();
             this.User_Nickname = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.User_Estado = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.User_IP = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.emotesmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.clientes_grid)).BeginInit();
             this.SuspendLayout();
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "label1";
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(20, 268);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "Enviar";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(184, 38);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 2;
-            this.button2.Text = "Conectar";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // nickname
-            // 
-            this.nickname.Location = new System.Drawing.Point(78, 40);
-            this.nickname.Name = "nickname";
-            this.nickname.Size = new System.Drawing.Size(100, 20);
-            this.nickname.TabIndex = 5;
-            this.nickname.TextChanged += new System.EventHandler(this.nickname_TextChanged);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(17, 43);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(55, 13);
-            this.label2.TabIndex = 6;
-            this.label2.Text = "Nickname";
-            // 
-            // conversation
-            // 
-            this.conversation.Location = new System.Drawing.Point(20, 67);
-            this.conversation.Name = "conversation";
-            this.conversation.Size = new System.Drawing.Size(387, 119);
-            this.conversation.TabIndex = 7;
-            this.conversation.Text = "";
-            this.conversation.TextChanged += new System.EventHandler(this.conversation_TextChanged);
-            // 
-            // comboEstado
-            // 
-            this.comboEstado.FormattingEnabled = true;
-            this.comboEstado.Location = new System.Drawing.Point(374, 9);
-            this.comboEstado.Name = "comboEstado";
-            this.comboEstado.Size = new System.Drawing.Size(164, 21);
-            this.comboEstado.TabIndex = 8;
-            this.comboEstado.SelectedIndexChanged += new System.EventHandler(this.comboEstado_SelectedIndexChanged);
-            this.comboEstado.ValueMemberChanged += new System.EventHandler(this.comboEstado_ValueMemberChanged);
-            // 
-            // textToSend_txt
-            // 
-            this.textToSend_txt.Location = new System.Drawing.Point(20, 200);
-            this.textToSend_txt.Multiline = true;
-            this.textToSend_txt.Name = "textToSend_txt";
-            this.textToSend_txt.Size = new System.Drawing.Size(387, 62);
-            this.textToSend_txt.TabIndex = 4;
-            // 
-            // textToSend_txt2
-            // 
-            this.textToSend_txt2.Location = new System.Drawing.Point(488, 315);
-            this.textToSend_txt2.Name = "textToSend_txt2";
-            this.textToSend_txt2.Size = new System.Drawing.Size(387, 62);
-            this.textToSend_txt2.TabIndex = 9;
-            this.textToSend_txt2.Text = "";
-            this.textToSend_txt2.Visible = false;
-            this.textToSend_txt2.TextChanged += new System.EventHandler(this.textToSend_txt2_TextChanged);
-            // 
-            // zumbido
-            // 
-            this.zumbido.Location = new System.Drawing.Point(343, 268);
-            this.zumbido.Name = "zumbido";
-            this.zumbido.Size = new System.Drawing.Size(25, 25);
-            this.zumbido.TabIndex = 10;
-            this.zumbido.Text = "Z";
-            this.zumbido.UseVisualStyleBackColor = true;
-            this.zumbido.Click += new System.EventHandler(this.zumbido_Click);
-            // 
-            // emotes
-            // 
-            this.emotes.Location = new System.Drawing.Point(374, 268);
-            this.emotes.Name = "emotes";
-            this.emotes.Size = new System.Drawing.Size(25, 25);
-            this.emotes.TabIndex = 10;
-            this.emotes.Text = "button3";
-            this.emotes.UseVisualStyleBackColor = true;
-            this.emotes.Click += new System.EventHandler(this.emotes_Click);
             // 
             // emotesmenu
             // 
@@ -194,11 +83,83 @@
             this.emotesmenu.Controls.Add(this.bcwarior);
             this.emotesmenu.Controls.Add(this.death);
             this.emotesmenu.ForeColor = System.Drawing.Color.White;
-            this.emotesmenu.Location = new System.Drawing.Point(255, 67);
+            this.emotesmenu.Location = new System.Drawing.Point(250, 75);
             this.emotesmenu.Name = "emotesmenu";
             this.emotesmenu.Size = new System.Drawing.Size(152, 195);
-            this.emotesmenu.TabIndex = 12;
+            this.emotesmenu.TabIndex = 29;
             this.emotesmenu.Visible = false;
+            // 
+            // clientes_grid
+            // 
+            this.clientes_grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.clientes_grid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.User_Nickname,
+            this.User_IP});
+            this.clientes_grid.Location = new System.Drawing.Point(427, 80);
+            this.clientes_grid.Name = "clientes_grid";
+            this.clientes_grid.Size = new System.Drawing.Size(243, 150);
+            this.clientes_grid.TabIndex = 33;
+            // 
+            // textToSend_txt2
+            // 
+            this.textToSend_txt2.Location = new System.Drawing.Point(483, 323);
+            this.textToSend_txt2.Name = "textToSend_txt2";
+            this.textToSend_txt2.Size = new System.Drawing.Size(387, 62);
+            this.textToSend_txt2.TabIndex = 26;
+            this.textToSend_txt2.Text = "";
+            this.textToSend_txt2.Visible = false;
+            // 
+            // emotes
+            // 
+            this.emotes.Location = new System.Drawing.Point(369, 276);
+            this.emotes.Name = "emotes";
+            this.emotes.Size = new System.Drawing.Size(25, 25);
+            this.emotes.TabIndex = 27;
+            this.emotes.Text = "button3";
+            this.emotes.UseVisualStyleBackColor = true;
+            // 
+            // zumbido
+            // 
+            this.zumbido.Location = new System.Drawing.Point(338, 276);
+            this.zumbido.Name = "zumbido";
+            this.zumbido.Size = new System.Drawing.Size(25, 25);
+            this.zumbido.TabIndex = 28;
+            this.zumbido.Text = "Z";
+            this.zumbido.UseVisualStyleBackColor = true;
+            // 
+            // conversation
+            // 
+            this.conversation.Location = new System.Drawing.Point(15, 75);
+            this.conversation.Name = "conversation";
+            this.conversation.Size = new System.Drawing.Size(387, 119);
+            this.conversation.TabIndex = 24;
+            this.conversation.Text = "";
+            // 
+            // textToSend_txt
+            // 
+            this.textToSend_txt.Location = new System.Drawing.Point(15, 208);
+            this.textToSend_txt.Multiline = true;
+            this.textToSend_txt.Name = "textToSend_txt";
+            this.textToSend_txt.Size = new System.Drawing.Size(387, 62);
+            this.textToSend_txt.TabIndex = 21;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(15, 276);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 19;
+            this.button1.Text = "Enviar";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 24);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(35, 13);
+            this.label1.TabIndex = 18;
+            this.label1.Text = "label1";
             // 
             // kappa
             // 
@@ -213,7 +174,6 @@
             this.kappa.Size = new System.Drawing.Size(30, 30);
             this.kappa.TabIndex = 0;
             this.kappa.UseVisualStyleBackColor = true;
-            this.kappa.Click += new System.EventHandler(this.kappa_Click);
             // 
             // smile
             // 
@@ -227,7 +187,6 @@
             this.smile.Size = new System.Drawing.Size(30, 30);
             this.smile.TabIndex = 0;
             this.smile.UseVisualStyleBackColor = true;
-            this.smile.Click += new System.EventHandler(this.smile_Click);
             // 
             // sad
             // 
@@ -242,7 +201,6 @@
             this.sad.Size = new System.Drawing.Size(30, 30);
             this.sad.TabIndex = 0;
             this.sad.UseVisualStyleBackColor = true;
-            this.sad.Click += new System.EventHandler(this.sad_Click);
             // 
             // happy
             // 
@@ -256,7 +214,6 @@
             this.happy.Size = new System.Drawing.Size(30, 30);
             this.happy.TabIndex = 0;
             this.happy.UseVisualStyleBackColor = true;
-            this.happy.Click += new System.EventHandler(this.happy_Click);
             // 
             // cring
             // 
@@ -269,7 +226,6 @@
             this.cring.Size = new System.Drawing.Size(30, 30);
             this.cring.TabIndex = 0;
             this.cring.UseVisualStyleBackColor = true;
-            this.cring.Click += new System.EventHandler(this.cring_Click);
             // 
             // me
             // 
@@ -282,7 +238,6 @@
             this.me.Size = new System.Drawing.Size(30, 30);
             this.me.TabIndex = 0;
             this.me.UseVisualStyleBackColor = true;
-            this.me.Click += new System.EventHandler(this.me_Click);
             // 
             // scream
             // 
@@ -295,7 +250,6 @@
             this.scream.Size = new System.Drawing.Size(30, 30);
             this.scream.TabIndex = 0;
             this.scream.UseVisualStyleBackColor = true;
-            this.scream.Click += new System.EventHandler(this.scream_Click);
             // 
             // whut
             // 
@@ -308,7 +262,6 @@
             this.whut.Size = new System.Drawing.Size(30, 30);
             this.whut.TabIndex = 0;
             this.whut.UseVisualStyleBackColor = true;
-            this.whut.Click += new System.EventHandler(this.whut_Click);
             // 
             // wow
             // 
@@ -321,7 +274,6 @@
             this.wow.Size = new System.Drawing.Size(30, 30);
             this.wow.TabIndex = 0;
             this.wow.UseVisualStyleBackColor = true;
-            this.wow.Click += new System.EventHandler(this.wow_Click);
             // 
             // wink
             // 
@@ -334,7 +286,6 @@
             this.wink.Size = new System.Drawing.Size(30, 30);
             this.wink.TabIndex = 0;
             this.wink.UseVisualStyleBackColor = true;
-            this.wink.Click += new System.EventHandler(this.wink_Click);
             // 
             // smush
             // 
@@ -347,7 +298,6 @@
             this.smush.Size = new System.Drawing.Size(30, 30);
             this.smush.TabIndex = 0;
             this.smush.UseVisualStyleBackColor = true;
-            this.smush.Click += new System.EventHandler(this.smush_Click);
             // 
             // like
             // 
@@ -361,7 +311,6 @@
             this.like.Size = new System.Drawing.Size(30, 30);
             this.like.TabIndex = 0;
             this.like.UseVisualStyleBackColor = true;
-            this.like.Click += new System.EventHandler(this.like_Click);
             // 
             // heart
             // 
@@ -374,7 +323,6 @@
             this.heart.Size = new System.Drawing.Size(30, 30);
             this.heart.TabIndex = 0;
             this.heart.UseVisualStyleBackColor = true;
-            this.heart.Click += new System.EventHandler(this.heart_Click);
             // 
             // faiñ
             // 
@@ -387,7 +335,6 @@
             this.faiñ.Size = new System.Drawing.Size(30, 30);
             this.faiñ.TabIndex = 0;
             this.faiñ.UseVisualStyleBackColor = true;
-            this.faiñ.Click += new System.EventHandler(this.faiñ_Click);
             // 
             // sleepi
             // 
@@ -400,7 +347,6 @@
             this.sleepi.Size = new System.Drawing.Size(30, 30);
             this.sleepi.TabIndex = 0;
             this.sleepi.UseVisualStyleBackColor = true;
-            this.sleepi.Click += new System.EventHandler(this.sleepi_Click);
             // 
             // bcwarior
             // 
@@ -415,7 +361,6 @@
             this.bcwarior.Size = new System.Drawing.Size(30, 30);
             this.bcwarior.TabIndex = 0;
             this.bcwarior.UseVisualStyleBackColor = true;
-            this.bcwarior.Click += new System.EventHandler(this.bcwarior_Click);
             // 
             // death
             // 
@@ -429,90 +374,33 @@
             this.death.Size = new System.Drawing.Size(30, 30);
             this.death.TabIndex = 0;
             this.death.UseVisualStyleBackColor = true;
-            this.death.Click += new System.EventHandler(this.death_Click);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(333, 12);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(40, 13);
-            this.label3.TabIndex = 14;
-            this.label3.Text = "Estado";
-            // 
-            // convprivada
-            // 
-            this.convprivada.Enabled = false;
-            this.convprivada.Location = new System.Drawing.Point(556, 250);
-            this.convprivada.Name = "convprivada";
-            this.convprivada.Size = new System.Drawing.Size(105, 48);
-            this.convprivada.TabIndex = 15;
-            this.convprivada.Text = "Iniciar conversación privada";
-            this.convprivada.UseVisualStyleBackColor = true;
-            this.convprivada.Click += new System.EventHandler(this.convprivada_Click);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(242, 304);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(35, 13);
-            this.label4.TabIndex = 16;
-            this.label4.Text = "label4";
-            // 
-            // clientes_grid
-            // 
-            this.clientes_grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.clientes_grid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.User_Nickname,
-            this.User_Estado,
-            this.User_IP});
-            this.clientes_grid.Location = new System.Drawing.Point(431, 43);
-            this.clientes_grid.Name = "clientes_grid";
-            this.clientes_grid.Size = new System.Drawing.Size(344, 150);
-            this.clientes_grid.TabIndex = 17;
-            this.clientes_grid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.clientes_grid_CellContentClick);
-            this.clientes_grid.SelectionChanged += new System.EventHandler(this.clientes_grid_SelectionChanged);
             // 
             // User_Nickname
             // 
             this.User_Nickname.HeaderText = "Nickname";
             this.User_Nickname.Name = "User_Nickname";
             // 
-            // User_Estado
-            // 
-            this.User_Estado.HeaderText = "Estado";
-            this.User_Estado.Name = "User_Estado";
-            // 
             // User_IP
             // 
             this.User_IP.HeaderText = "IP";
             this.User_IP.Name = "User_IP";
             // 
-            // Form1
+            // Privado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(829, 339);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.convprivada);
-            this.Controls.Add(this.label3);
+            this.ClientSize = new System.Drawing.Size(793, 347);
             this.Controls.Add(this.emotesmenu);
             this.Controls.Add(this.clientes_grid);
             this.Controls.Add(this.textToSend_txt2);
             this.Controls.Add(this.emotes);
             this.Controls.Add(this.zumbido);
-            this.Controls.Add(this.comboEstado);
             this.Controls.Add(this.conversation);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.nickname);
             this.Controls.Add(this.textToSend_txt);
-            this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
-            this.Name = "Form1";
-            this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Name = "Privado";
+            this.Text = "Privado";
             this.emotesmenu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.clientes_grid)).EndInit();
             this.ResumeLayout(false);
@@ -522,17 +410,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.TextBox nickname;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.RichTextBox conversation;
-        private System.Windows.Forms.ComboBox comboEstado;
-        private System.Windows.Forms.TextBox textToSend_txt;
-        private System.Windows.Forms.RichTextBox textToSend_txt2;
-        private System.Windows.Forms.Button zumbido;
-        private System.Windows.Forms.Button emotes;
         private System.Windows.Forms.FlowLayoutPanel emotesmenu;
         private System.Windows.Forms.Button kappa;
         private System.Windows.Forms.Button smile;
@@ -551,13 +428,15 @@
         private System.Windows.Forms.Button sleepi;
         private System.Windows.Forms.Button bcwarior;
         private System.Windows.Forms.Button death;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button convprivada;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DataGridView clientes_grid;
+        private System.Windows.Forms.RichTextBox textToSend_txt2;
+        private System.Windows.Forms.Button emotes;
+        private System.Windows.Forms.Button zumbido;
+        private System.Windows.Forms.RichTextBox conversation;
+        private System.Windows.Forms.TextBox textToSend_txt;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridViewTextBoxColumn User_Nickname;
-        private System.Windows.Forms.DataGridViewTextBoxColumn User_Estado;
         private System.Windows.Forms.DataGridViewTextBoxColumn User_IP;
     }
 }
-

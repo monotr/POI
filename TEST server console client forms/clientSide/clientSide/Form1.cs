@@ -31,8 +31,10 @@ namespace clientSide
         string status = null;
         private Thread demoThread = null;
         private bool bulean = false;
-
-        IPAddress myIP;
+        string clientip, clientenickname;
+        int clientindex;
+        public IPAddress[] localIP;
+        public IPAddress myIP;
 
         public Form1()
         {
@@ -120,7 +122,18 @@ namespace clientSide
                 {
                     zumbido_function();
                 }
-                
+
+                else if (returndata.Substring(0, 1) == "¿") //zumbido
+                {
+                    //string msg = "¿," + nickname.Text + "," + clientenickname + "," + localIP.ToString() + "," + clientip;
+                    string []cadena = returndata.Split(',');
+
+                    if (localIP.ToString() == cadena[3])
+                    {
+                        Privado privada = new Privado(cadena[1], cadena[2], cadena[3], cadena[4]);
+                        privada.Show();
+                    }
+                }                
             }
         }
 
@@ -186,7 +199,7 @@ namespace clientSide
                     myIP = IPAddress.Parse("127.0.0.1");
 
                     //IPAddress[] localIP = Dns.GetHostAddresses("USER");
-                    IPAddress[] localIP = Dns.GetHostAddresses(Dns.GetHostName());
+                    localIP = Dns.GetHostAddresses(Dns.GetHostName());
                     foreach (IPAddress address in localIP)
                     {
                         if (address.AddressFamily == AddressFamily.InterNetwork)
@@ -471,12 +484,35 @@ namespace clientSide
 
         private void clientes_grid_SelectionChanged(object sender, EventArgs e)
         {
+            clientindex = clientes_grid.CurrentCell.RowIndex;
+            clientenickname = clientes_grid.Rows[clientindex].Cells[0].Value.ToString();
+            //clientes_grid.Rows.Add("nuevo", "estado", clientindex);
+            clientip = clientes_grid.Rows[clientindex].Cells[2].Value.ToString();
+            if (clientip != "")
+                convprivada.Enabled = true;
         }
 
         private void clientes_grid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
             ////// poner conversacion individual y videollamada
+        }
+
+        private void convprivada_Click(object sender, EventArgs e)
+        {
+            string message = "¿," + nickname.Text + "," + clientenickname + "," + localIP.ToString() + "," + clientip;
+            byte[] outStream = System.Text.Encoding.ASCII.GetBytes(message);
+            serverStream.Write(outStream, 0, outStream.Length);
+            serverStream.Flush();
+
+
+            Privado privada = new Privado(nickname.Text,clientenickname, localIP.ToString(), clientip );
+            privada.Show();
+        }
+
+        private void nickname_TextChanged(object sender, EventArgs e)
+        {
+
         }
 
 
