@@ -19,7 +19,7 @@ namespace clientSide
 
         Thread thdUDPServer;
         UdpClient udpClient;
-        IPAddress serverIP;
+        public IPAddress[] serverIP;
 
         string nickname1, nickname2, ip1, ip2;
         public Privado()
@@ -31,7 +31,7 @@ namespace clientSide
         {
             InitializeComponent();
 
-            serverIP = IPAddress.Parse("192.168.1.123");
+            serverIP = Dns.GetHostAddresses("Cabrera");
       
             thdUDPServer = new Thread(new ThreadStart(receiveThread));
             thdUDPServer.Start();
@@ -40,13 +40,16 @@ namespace clientSide
             this.ip1 = ipe1;
             this.ip2 = ipe2;
 
-            clientes_grid.Invoke(new Action(() => clientes_grid.Rows.Add(nickname1, ip1)));
-            clientes_grid.Invoke(new Action(() => clientes_grid.Rows.Add(nickname2, ip2)));
-
             if(ipe1 == Dns.GetHostAddresses(Dns.GetHostName()).ToString())
                 Send_Bytes("$,"+ nick1 + ","+ nick2 + "," + ipe1 + ","+ ipe2);
 
 
+        }
+
+        private void addGrid()
+        {
+            clientes_grid.Invoke(new Action(() => clientes_grid.Rows.Add(nickname1, ip1)));
+            clientes_grid.Invoke(new Action(() => clientes_grid.Rows.Add(nickname2, ip2)));
         }
 
          private void Send_Bytes(string action)
@@ -84,12 +87,11 @@ namespace clientSide
                  //    diceBut.Invoke(new Action(() => diceBut.Enabled = true));
                  //    turno_label.Invoke(new Action(() => turno_label.Enabled = true));
                  //}
-                 /*if (returndata.Substring(0, 1) == "$")
+                 if (returndata.Substring(0, 1) == "$")
                  {
-                     int privad = Convert.ToInt32(returndata.Substring(1,1));
-                     moveFicha(dice);
+                     addGrid();
                  }
-                 else if (returndata.Substring(0, 1) == "%")
+                 /*else if (returndata.Substring(0, 1) == "%")
                  {
                      int privad = Convert.ToInt32(returndata.Substring(0,1));
                      diceBut.Invoke(new Action(() => diceBut.Enabled = false));

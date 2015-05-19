@@ -198,8 +198,8 @@ namespace clientSide
                     readData = "Conected to Chat Server ... \n";
                     myIP = IPAddress.Parse("192.168.0.5");
 
-                    localIP = Dns.GetHostAddresses("Cabrera");
-                    //localIP = Dns.GetHostAddresses(Dns.GetHostName());
+                    //localIP = Dns.GetHostAddresses("Cabrera");
+                    localIP = Dns.GetHostAddresses(Dns.GetHostName());
                     foreach (IPAddress address in localIP)
                     {
                         if (address.AddressFamily == AddressFamily.InterNetwork)
@@ -208,7 +208,7 @@ namespace clientSide
                         }
                     }
                     //clientSocket.Connect(myIP, 55555);
-                    clientSocket.Connect(localIP, 9050);
+                    clientSocket.Connect(Dns.GetHostAddresses("Cabrera"), 9050);
                     label1.Text = "Client Socket Program - Server Connected ... " + localIP.ToString();
            
                     msg();
