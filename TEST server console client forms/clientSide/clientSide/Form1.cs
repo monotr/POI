@@ -196,10 +196,10 @@ namespace clientSide
                 try
                 {
                     readData = "Conected to Chat Server ... \n";
-                    myIP = IPAddress.Parse("127.0.0.1");
+                    myIP = IPAddress.Parse("192.168.0.5");
 
-                    //IPAddress[] localIP = Dns.GetHostAddresses("USER");
-                    localIP = Dns.GetHostAddresses(Dns.GetHostName());
+                    localIP = Dns.GetHostAddresses("Cabrera");
+                    //localIP = Dns.GetHostAddresses(Dns.GetHostName());
                     foreach (IPAddress address in localIP)
                     {
                         if (address.AddressFamily == AddressFamily.InterNetwork)
@@ -209,7 +209,7 @@ namespace clientSide
                     }
                     //clientSocket.Connect(myIP, 55555);
                     clientSocket.Connect(localIP, 9050);
-                    label1.Text = "Client Socket Program - Server Connected ... " + myIP;
+                    label1.Text = "Client Socket Program - Server Connected ... " + localIP.ToString();
            
                     msg();
                     first = true;
@@ -488,7 +488,7 @@ namespace clientSide
             clientenickname = clientes_grid.Rows[clientindex].Cells[0].Value.ToString();
             //clientes_grid.Rows.Add("nuevo", "estado", clientindex);
             clientip = clientes_grid.Rows[clientindex].Cells[2].Value.ToString();
-            if (clientip != "")
+            if (clientip != "" && clientip != myIP.ToString())
                 convprivada.Enabled = true;
         }
 
@@ -500,13 +500,13 @@ namespace clientSide
 
         private void convprivada_Click(object sender, EventArgs e)
         {
-            string message = "¿," + nickname.Text + "," + clientenickname + "," + localIP.ToString() + "," + clientip;
+            string message = "¿," + nickname.Text + "," + clientenickname + "," + myIP.ToString() + "," + clientip;
             byte[] outStream = System.Text.Encoding.ASCII.GetBytes(message);
             serverStream.Write(outStream, 0, outStream.Length);
             serverStream.Flush();
 
 
-            Privado privada = new Privado(nickname.Text,clientenickname, localIP.ToString(), clientip );
+            Privado privada = new Privado(nickname.Text,clientenickname, myIP.ToString(), clientip );
             privada.Show();
         }
 

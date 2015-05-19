@@ -31,7 +31,7 @@ namespace clientSide
         {
             InitializeComponent();
 
-            serverIP = IPAddress.Parse("192.168.1.242");
+            serverIP = IPAddress.Parse("192.168.1.123");
       
             thdUDPServer = new Thread(new ThreadStart(receiveThread));
             thdUDPServer.Start();
@@ -55,63 +55,64 @@ namespace clientSide
             try
             {
                 UdpClient udpClient = new UdpClient();
-                udpClient.Connect(serverIP, 5420);
+                udpClient.Connect(serverIP, 5421);
                 udpClient.Send(outStream, outStream.Length);
             }
             catch { }
         }
 
-        public void receiveThread()
-        {
-           udpClient = new UdpClient(5420);
+         public void receiveThread()
+         {
+             udpClient = new UdpClient(5421);
 
-            while (true)
-            {
-                IPEndPoint RemoteIpEndPoint = new IPEndPoint(serverIP, 0);
-                Byte[] receiveBytes = udpClient.Receive(ref RemoteIpEndPoint);
-                string returndata = System.Text.Encoding.ASCII.GetString(receiveBytes);
+             while (true)
+             {
+                 IPEndPoint RemoteIpEndPoint = new IPEndPoint(serverIP, 0);
+                 Byte[] receiveBytes = udpClient.Receive(ref RemoteIpEndPoint);
+                 string returndata = System.Text.Encoding.ASCII.GetString(receiveBytes);
 
-                //if (returndata.Contains('|'))
-                //{
-                //    playerList.Invoke(new Action(() => playerList.Items.Clear()));
-                //}
-                //else if (returndata.Contains('&'))
-                //{
-                //    playerList.Invoke(new Action(() => playerList.Items.Add(returndata.Substring(1, returndata.Length-1))));
-                //}
-                //else if (returndata.Contains('/'))
-                //{
-                //    diceBut.Invoke(new Action(() => diceBut.Enabled = true));
-                //    turno_label.Invoke(new Action(() => turno_label.Enabled = true));
-                //}
-                if (returndata.Substring(0, 1) == "$")
-                {
-                    int privad = Convert.ToInt32(returndata.Substring(1,1));
-                    moveFicha(dice);
-                }
-                else if (returndata.Substring(0, 1) == "%")
-                {
-                    int privad = Convert.ToInt32(returndata.Substring(0,1));
-                    diceBut.Invoke(new Action(() => diceBut.Enabled = false));
-                }
-                else if (returndata.Substring(0, 1) == "!")
-                {
-                    int privad = Convert.ToInt32(returndata.Substring(0,1));
-                    diceBut.Invoke(new Action(() => diceBut.Enabled = false));
-                }
-                else if (returndata.Substring(0, 1) =="q")
-                {
-                    int privad = Convert.ToInt32(returndata.Substring(0,1));
-                    diceBut.Invoke(new Action(() => diceBut.Enabled = false));
-                }
-                //else if (returndata.Contains('('))
-                //{
-                //    diceBut.Invoke(new Action(() => diceBut.Enabled = false));
-                //}
-                //else if (returndata.Contains(')'))
-                //{
-                //    diceBut.Invoke(new Action(() => diceBut.Enabled = true));
-                //}
-            }
+                 //if (returndata.Contains('|'))
+                 //{
+                 //    playerList.Invoke(new Action(() => playerList.Items.Clear()));
+                 //}
+                 //else if (returndata.Contains('&'))
+                 //{
+                 //    playerList.Invoke(new Action(() => playerList.Items.Add(returndata.Substring(1, returndata.Length-1))));
+                 //}
+                 //else if (returndata.Contains('/'))
+                 //{
+                 //    diceBut.Invoke(new Action(() => diceBut.Enabled = true));
+                 //    turno_label.Invoke(new Action(() => turno_label.Enabled = true));
+                 //}
+                 /*if (returndata.Substring(0, 1) == "$")
+                 {
+                     int privad = Convert.ToInt32(returndata.Substring(1,1));
+                     moveFicha(dice);
+                 }
+                 else if (returndata.Substring(0, 1) == "%")
+                 {
+                     int privad = Convert.ToInt32(returndata.Substring(0,1));
+                     diceBut.Invoke(new Action(() => diceBut.Enabled = false));
+                 }
+                 else if (returndata.Substring(0, 1) == "!")
+                 {
+                     int privad = Convert.ToInt32(returndata.Substring(0,1));
+                     diceBut.Invoke(new Action(() => diceBut.Enabled = false));
+                 }
+                 else if (returndata.Substring(0, 1) =="q")
+                 {
+                     int privad = Convert.ToInt32(returndata.Substring(0,1));
+                     diceBut.Invoke(new Action(() => diceBut.Enabled = false));
+                 }
+                 //else if (returndata.Contains('('))
+                 //{
+                 //    diceBut.Invoke(new Action(() => diceBut.Enabled = false));
+                 //}
+                 //else if (returndata.Contains(')'))
+                 //{
+                 //    diceBut.Invoke(new Action(() => diceBut.Enabled = true));
+                 //}*/
+             }
+         }
     }
 }
