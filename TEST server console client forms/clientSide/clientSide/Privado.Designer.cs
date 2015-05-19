@@ -30,14 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Privado));
             this.emotesmenu = new System.Windows.Forms.FlowLayoutPanel();
-            this.clientes_grid = new System.Windows.Forms.DataGridView();
-            this.textToSend_txt2 = new System.Windows.Forms.RichTextBox();
-            this.emotes = new System.Windows.Forms.Button();
-            this.zumbido = new System.Windows.Forms.Button();
-            this.conversation = new System.Windows.Forms.RichTextBox();
-            this.textToSend_txt = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
             this.kappa = new System.Windows.Forms.Button();
             this.smile = new System.Windows.Forms.Button();
             this.sad = new System.Windows.Forms.Button();
@@ -55,8 +47,16 @@
             this.sleepi = new System.Windows.Forms.Button();
             this.bcwarior = new System.Windows.Forms.Button();
             this.death = new System.Windows.Forms.Button();
+            this.clientes_grid = new System.Windows.Forms.DataGridView();
             this.User_Nickname = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.User_IP = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.textToSend_txt2 = new System.Windows.Forms.RichTextBox();
+            this.emotes = new System.Windows.Forms.Button();
+            this.zumbido = new System.Windows.Forms.Button();
+            this.conversation = new System.Windows.Forms.RichTextBox();
+            this.textToSend_txt = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.emotesmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.clientes_grid)).BeginInit();
             this.SuspendLayout();
@@ -88,78 +88,6 @@
             this.emotesmenu.Size = new System.Drawing.Size(152, 195);
             this.emotesmenu.TabIndex = 29;
             this.emotesmenu.Visible = false;
-            // 
-            // clientes_grid
-            // 
-            this.clientes_grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.clientes_grid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.User_Nickname,
-            this.User_IP});
-            this.clientes_grid.Location = new System.Drawing.Point(427, 80);
-            this.clientes_grid.Name = "clientes_grid";
-            this.clientes_grid.Size = new System.Drawing.Size(243, 150);
-            this.clientes_grid.TabIndex = 33;
-            // 
-            // textToSend_txt2
-            // 
-            this.textToSend_txt2.Location = new System.Drawing.Point(483, 323);
-            this.textToSend_txt2.Name = "textToSend_txt2";
-            this.textToSend_txt2.Size = new System.Drawing.Size(387, 62);
-            this.textToSend_txt2.TabIndex = 26;
-            this.textToSend_txt2.Text = "";
-            this.textToSend_txt2.Visible = false;
-            // 
-            // emotes
-            // 
-            this.emotes.Location = new System.Drawing.Point(369, 276);
-            this.emotes.Name = "emotes";
-            this.emotes.Size = new System.Drawing.Size(25, 25);
-            this.emotes.TabIndex = 27;
-            this.emotes.Text = "button3";
-            this.emotes.UseVisualStyleBackColor = true;
-            // 
-            // zumbido
-            // 
-            this.zumbido.Location = new System.Drawing.Point(338, 276);
-            this.zumbido.Name = "zumbido";
-            this.zumbido.Size = new System.Drawing.Size(25, 25);
-            this.zumbido.TabIndex = 28;
-            this.zumbido.Text = "Z";
-            this.zumbido.UseVisualStyleBackColor = true;
-            // 
-            // conversation
-            // 
-            this.conversation.Location = new System.Drawing.Point(15, 75);
-            this.conversation.Name = "conversation";
-            this.conversation.Size = new System.Drawing.Size(387, 119);
-            this.conversation.TabIndex = 24;
-            this.conversation.Text = "";
-            // 
-            // textToSend_txt
-            // 
-            this.textToSend_txt.Location = new System.Drawing.Point(15, 208);
-            this.textToSend_txt.Multiline = true;
-            this.textToSend_txt.Name = "textToSend_txt";
-            this.textToSend_txt.Size = new System.Drawing.Size(387, 62);
-            this.textToSend_txt.TabIndex = 21;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(15, 276);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 19;
-            this.button1.Text = "Enviar";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 24);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
-            this.label1.TabIndex = 18;
-            this.label1.Text = "label1";
             // 
             // kappa
             // 
@@ -375,6 +303,17 @@
             this.death.TabIndex = 0;
             this.death.UseVisualStyleBackColor = true;
             // 
+            // clientes_grid
+            // 
+            this.clientes_grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.clientes_grid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.User_Nickname,
+            this.User_IP});
+            this.clientes_grid.Location = new System.Drawing.Point(427, 80);
+            this.clientes_grid.Name = "clientes_grid";
+            this.clientes_grid.Size = new System.Drawing.Size(243, 150);
+            this.clientes_grid.TabIndex = 33;
+            // 
             // User_Nickname
             // 
             this.User_Nickname.HeaderText = "Nickname";
@@ -384,6 +323,68 @@
             // 
             this.User_IP.HeaderText = "IP";
             this.User_IP.Name = "User_IP";
+            // 
+            // textToSend_txt2
+            // 
+            this.textToSend_txt2.Location = new System.Drawing.Point(483, 323);
+            this.textToSend_txt2.Name = "textToSend_txt2";
+            this.textToSend_txt2.Size = new System.Drawing.Size(387, 62);
+            this.textToSend_txt2.TabIndex = 26;
+            this.textToSend_txt2.Text = "";
+            this.textToSend_txt2.Visible = false;
+            // 
+            // emotes
+            // 
+            this.emotes.Location = new System.Drawing.Point(369, 276);
+            this.emotes.Name = "emotes";
+            this.emotes.Size = new System.Drawing.Size(25, 25);
+            this.emotes.TabIndex = 27;
+            this.emotes.Text = "button3";
+            this.emotes.UseVisualStyleBackColor = true;
+            // 
+            // zumbido
+            // 
+            this.zumbido.Location = new System.Drawing.Point(338, 276);
+            this.zumbido.Name = "zumbido";
+            this.zumbido.Size = new System.Drawing.Size(25, 25);
+            this.zumbido.TabIndex = 28;
+            this.zumbido.Text = "Z";
+            this.zumbido.UseVisualStyleBackColor = true;
+            // 
+            // conversation
+            // 
+            this.conversation.Location = new System.Drawing.Point(15, 75);
+            this.conversation.Name = "conversation";
+            this.conversation.Size = new System.Drawing.Size(387, 119);
+            this.conversation.TabIndex = 24;
+            this.conversation.Text = "";
+            // 
+            // textToSend_txt
+            // 
+            this.textToSend_txt.Location = new System.Drawing.Point(15, 208);
+            this.textToSend_txt.Multiline = true;
+            this.textToSend_txt.Name = "textToSend_txt";
+            this.textToSend_txt.Size = new System.Drawing.Size(387, 62);
+            this.textToSend_txt.TabIndex = 21;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(15, 276);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 19;
+            this.button1.Text = "Enviar";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 24);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(35, 13);
+            this.label1.TabIndex = 18;
+            this.label1.Text = "label1";
             // 
             // Privado
             // 

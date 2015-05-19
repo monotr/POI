@@ -133,18 +133,17 @@ namespace serpientesYescaleras_server
                         nicknames.Add(parte[2]);
                         listCP.Add(parte[4]);
 
-                        //Console.WriteLine("Player - " + name1 + " joined with IP : " + ipAux);                               
+                        Console.WriteLine("private conversation : " + nicknames[0] + " & " + nicknames[1]);                               
                         sendThreadCP("$", IPAddress.Parse(listCP[0]));
                         sendThreadCP("$", IPAddress.Parse(listCP[1]));
                     }
                 }
                 else if (returndata.Substring(0, 1) == "%") // mensajes normales 
                 {
-                    string mensaje = returndata.Substring(0, 1);  // falta forma de obtenerlo
                     for (int i = 0; i < listCP.Count; i++)
                     {
                         if (RemoteIpEndPoint.Address.ToString() != listCP[i])
-                            sendThreadCP("$" + mensaje, IPAddress.Parse(listCP[i]));
+                            sendThreadCP(returndata, IPAddress.Parse(listCP[i]));
                     }
                 }
                 else if (returndata.Substring(0, 1) == "!") // zumbidos

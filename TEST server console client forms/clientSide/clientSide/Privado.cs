@@ -55,15 +55,23 @@ namespace clientSide
             }
 
             if(ipe2.Equals(myIP.ToString()))
-                Send_Bytes("$,"+ nick1 + ","+ nick2 + "," + ipe1 + ","+ ipe2 + ",NADA");
-
-            
+                Send_Bytes("$,"+ nick1 + ","+ nick2 + "," + ipe1 + ","+ ipe2 + ",NADA"); 
         }
 
-        private void addGrid()
+        private void addGrid1()
         {
-            clientes_grid.Invoke(new Action(() => clientes_grid.Rows.Add(nickname1, ip1)));
-            //clientes_grid.Invoke(new Action(() => clientes_grid.Rows.Add(nickname2, ip2)));
+            if (clientes_grid.InvokeRequired)
+                clientes_grid.Invoke(new Action(() => clientes_grid.Rows.Add(nickname1, ip1)));
+            else
+                clientes_grid.Rows.Add(nickname1, ip1);
+        }
+
+        private void addGrid2()
+        {
+            if (clientes_grid.InvokeRequired)
+                clientes_grid.Invoke(new Action(() => clientes_grid.Rows.Add(nickname2, ip2)));
+            else
+                clientes_grid.Rows.Add(nickname2, ip2);
         }
 
          private void Send_Bytes(string action)
@@ -103,14 +111,17 @@ namespace clientSide
                  //}
                  if (returndata.Substring(0, 1) == "$")
                  {
-                     addGrid();
+                     addGrid1();
+                     addGrid2();
                  }
-                 /*else if (returndata.Substring(0, 1) == "%")
+                 else if (returndata.Substring(0, 1) == "%")
                  {
-                     int privad = Convert.ToInt32(returndata.Substring(0,1));
-                     diceBut.Invoke(new Action(() => diceBut.Enabled = false));
+                     string message = returndata.Substring(1, returndata.IndexOf("]") - 1);
+                     message = CryptoEngine.Decrypt(message, true);
+
+                     conversation.AppendText("\n" + " >> " + message);
                  }
-                 else if (returndata.Substring(0, 1) == "!")
+                 /*else if (returndata.Substring(0, 1) == "!")
                  {
                      int privad = Convert.ToInt32(returndata.Substring(0,1));
                      diceBut.Invoke(new Action(() => diceBut.Enabled = false));
@@ -129,6 +140,15 @@ namespace clientSide
                  //    diceBut.Invoke(new Action(() => diceBut.Enabled = true));
                  //}*/
              }
+         }
+
+         private void button1_Click(object sender, EventArgs e)
+         {
+             string text_to_send = "%" + CryptoEngine.Encrypt(textToSend_txt.Text, true) + "]";
+
+             //byte[] outStream = System.Text.Encoding.ASCII.GetBytes(text_to_send + "$");
+
+             Send_Bytes(text_to_send);
          }
     }
 }
