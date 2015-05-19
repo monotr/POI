@@ -28,12 +28,12 @@ namespace serverSide
                 }
             }
 
-            TcpListener serverSocket = new TcpListener(myIP, 9050);
+            TcpListener serverSocket = new TcpListener(localIP[3], 9050);
             TcpClient clientSocket = default(TcpClient);
             int counter = 0;
 
             serverSocket.Start();
-            Console.WriteLine(" >> " + "Server Started with IP= " + myIP.ToString() + " PORT= 9050");
+            Console.WriteLine(" >> " + "Server Started with IP= " + localIP[3].ToString() + " PORT= 9050");
 
             counter = 0;
             while (true)
@@ -188,7 +188,7 @@ namespace serverSide
                         Console.WriteLine(clNo + " envió zoombido~");
                         Program.broadcast("~", clNo, false, 1);
                     }
-                    else if (dataFromClient.Contains("¿"))
+                    else if (dataFromClient.Contains("="))
                     {
                         Console.WriteLine(clNo + " quiere iniciar chat privado");
                         Program.broadcast(dataFromClient, clNo, false, 1);
