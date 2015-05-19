@@ -76,8 +76,8 @@ using System.Net;
             Byte[] senddata = (byte[])converter.ConvertTo(Imagen, typeof(byte[]));
 
             UdpClient udpClient = new UdpClient();
-            
-            udpClient.Connect(IPAddress.Parse("192.168.1.124"), 8080);
+
+            udpClient.Connect(IPAddress.Parse("192.168.173.1"), 8080); //192.168.1.124
             udpClient.Send(senddata, senddata.Length);
             //udpClient.Close();
             EspacioCamara.Image = Imagen;

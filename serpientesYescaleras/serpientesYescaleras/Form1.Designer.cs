@@ -32,13 +32,14 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.dice_image = new System.Windows.Forms.PictureBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.diceBut = new System.Windows.Forms.Button();
             this.diceList_image = new System.Windows.Forms.ImageList(this.components);
             this.player1_image = new System.Windows.Forms.PictureBox();
             this.player2_image = new System.Windows.Forms.PictureBox();
             this.player3_image = new System.Windows.Forms.PictureBox();
             this.turno_label = new System.Windows.Forms.Label();
             this.reset_btn = new System.Windows.Forms.Button();
+            this.playerList = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dice_image)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.player1_image)).BeginInit();
@@ -65,15 +66,15 @@
             this.dice_image.TabIndex = 1;
             this.dice_image.TabStop = false;
             // 
-            // button1
+            // diceBut
             // 
-            this.button1.Location = new System.Drawing.Point(531, 256);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Tirar dado";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.diceBut.Location = new System.Drawing.Point(531, 256);
+            this.diceBut.Name = "diceBut";
+            this.diceBut.Size = new System.Drawing.Size(75, 23);
+            this.diceBut.TabIndex = 2;
+            this.diceBut.Text = "Tirar dado";
+            this.diceBut.UseVisualStyleBackColor = true;
+            this.diceBut.Click += new System.EventHandler(this.button1_Click);
             // 
             // diceList_image
             // 
@@ -136,17 +137,26 @@
             this.reset_btn.UseVisualStyleBackColor = true;
             this.reset_btn.Click += new System.EventHandler(this.reset_btn_Click);
             // 
+            // playerList
+            // 
+            this.playerList.FormattingEnabled = true;
+            this.playerList.Location = new System.Drawing.Point(508, 12);
+            this.playerList.Name = "playerList";
+            this.playerList.Size = new System.Drawing.Size(120, 95);
+            this.playerList.TabIndex = 8;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(672, 472);
+            this.Controls.Add(this.playerList);
             this.Controls.Add(this.reset_btn);
             this.Controls.Add(this.turno_label);
             this.Controls.Add(this.player3_image);
             this.Controls.Add(this.player2_image);
             this.Controls.Add(this.player1_image);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.diceBut);
             this.Controls.Add(this.dice_image);
             this.Controls.Add(this.pictureBox1);
             this.Name = "Form1";
@@ -165,13 +175,14 @@
 
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox dice_image;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button diceBut;
         private System.Windows.Forms.ImageList diceList_image;
         private System.Windows.Forms.PictureBox player1_image;
         private System.Windows.Forms.PictureBox player2_image;
         private System.Windows.Forms.PictureBox player3_image;
         private System.Windows.Forms.Label turno_label;
         private System.Windows.Forms.Button reset_btn;
+        private System.Windows.Forms.ListBox playerList;
 
     }
 }

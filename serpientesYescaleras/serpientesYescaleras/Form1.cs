@@ -7,7 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Collections.Generic;
+using System.Collections;
+using System.Net.Sockets;
+using System.Net;
+using System.Threading;
 
 namespace serpientesYescaleras
 {
@@ -17,6 +20,15 @@ namespace serpientesYescaleras
         int[] posJugador;
         List<PictureBox> fichasJugadores;
         int[] posOriginal;
+
+        public ArrayList clientList;
+        Thread thdUDPServer;
+        UdpClient udpClient;
+        IPAddress serverIP;
+
+        private bool yourTurn;
+        private string nick;
+
         public Form1()
         {
             InitializeComponent();
@@ -38,12 +50,30 @@ namespace serpientesYescaleras
             posOriginal[3] = player2_image.Location.Y;
             posOriginal[4] = player3_image.Location.X;
             posOriginal[5] = player3_image.Location.Y;
+
+            diceBut.Enabled = false;
+            turno_label.Enabled = false;
+            yourTurn = false;
+
+            serverIP = IPAddress.Parse("192.168.1.242");
+
+            nick = "oli";
+
+            thdUDPServer = new Thread(new ThreadStart(receiveThread));
+            thdUDPServer.Start();
+
+            Send_Bytes("$"+nick);
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             Random random = new Random();
             int randomNumber = random.Next(0, 6);
+            Send_Bytes("%" + randomNumber.ToString());
+        }
+
+        private void moveFicha(int randomNumber)
+        {
             dice_image.Image = diceList_image.Images[randomNumber];
 
             for (int dice = 0; dice < (randomNumber + 1); dice++)
@@ -52,18 +82,18 @@ namespace serpientesYescaleras
                 {
                     if (posJugador[turno - 1] % 8 == 0)
                     {
-                        serpiente_escalera(0,-1);
+                        serpiente_escalera(0, -1);
                     }
                     else if ((posJugador[turno - 1] > 8 && posJugador[turno - 1] < 16) ||
                         (posJugador[turno - 1] > 24 && posJugador[turno - 1] < 32) ||
                         (posJugador[turno - 1] > 40 && posJugador[turno - 1] < 48) ||
                         (posJugador[turno - 1] > 56 && posJugador[turno - 1] < 63))
                     {
-                        serpiente_escalera(-1,0);
+                        serpiente_escalera(-1, 0);
                     }
                     else
                     {
-                        serpiente_escalera(1,0);
+                        serpiente_escalera(1, 0);
                     }
 
                     posJugador[turno - 1]++;
@@ -74,7 +104,7 @@ namespace serpientesYescaleras
             if (posJugador[turno - 1] == 3 || posJugador[turno - 1] == 24)
             {
                 serpiente_escalera(-1, -2);
-                posJugador[turno - 1]+= 15;
+                posJugador[turno - 1] += 15;
             }
             else if (posJugador[turno - 1] == 29)
             {
@@ -110,10 +140,12 @@ namespace serpientesYescaleras
             }
 
             turno++;
-            if (turno == 4)
+            if (turno == 3)
                 turno = 1;
-            turno_label.Text = "Turno: Jugador " + turno;
+
+            Send_Bytes("!" + turno.ToString());
             
+            turno_label.Text = "Turno: Jugador " + turno;
         }
 
         private void serpiente_escalera(int movX, int movY)
@@ -136,6 +168,57 @@ namespace serpientesYescaleras
             posJugador[0] = 1;
             posJugador[1] = 1;
             posJugador[2] = 1;
+        }
+
+        private void Send_Bytes(string action)
+        {
+            byte[] outStream = System.Text.Encoding.ASCII.GetBytes(action);
+            try
+            {
+                UdpClient udpClient = new UdpClient();
+                udpClient.Connect(serverIP, 5420);
+                udpClient.Send(outStream, outStream.Length);
+            }
+            catch { }
+        }
+
+        public void receiveThread()
+        {
+           udpClient = new UdpClient(5420);
+
+            while (true)
+            {
+                IPEndPoint RemoteIpEndPoint = new IPEndPoint(serverIP, 0);
+                Byte[] receiveBytes = udpClient.Receive(ref RemoteIpEndPoint);
+                string returndata = System.Text.Encoding.ASCII.GetString(receiveBytes);
+
+                if (returndata.Contains('|'))
+                {
+                    playerList.Invoke(new Action(() => playerList.Items.Clear()));
+                }
+                else if (returndata.Contains('&'))
+                {
+                    playerList.Invoke(new Action(() => playerList.Items.Add(returndata.Substring(1, returndata.Length-1))));
+                }
+                else if (returndata.Contains('/'))
+                {
+                    diceBut.Invoke(new Action(() => diceBut.Enabled = true));
+                    turno_label.Invoke(new Action(() => turno_label.Enabled = true));
+                }
+                else if (returndata.Contains('$'))
+                {
+                    int dice = Convert.ToInt32(returndata.Substring(1,1));
+                    moveFicha(dice);
+                }
+                else if (returndata.Contains('('))
+                {
+                    diceBut.Invoke(new Action(() => diceBut.Enabled = false));
+                }
+                else if (returndata.Contains(')'))
+                {
+                    diceBut.Invoke(new Action(() => diceBut.Enabled = true));
+                }
+            }
         }
     }
 }
