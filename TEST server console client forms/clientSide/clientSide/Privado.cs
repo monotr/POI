@@ -20,6 +20,7 @@ namespace clientSide
         Thread thdUDPServer;
         UdpClient udpClient;
         public IPAddress[] serverIP;
+        string ipserver;
 
         string nickname1, nickname2, ip1, ip2;
         public Privado()
@@ -32,6 +33,7 @@ namespace clientSide
             InitializeComponent();
 
             serverIP = Dns.GetHostAddresses("Cabrera");
+            ipserver = serverIP[0].ToString();
       
             thdUDPServer = new Thread(new ThreadStart(receiveThread));
             thdUDPServer.Start();
@@ -58,7 +60,7 @@ namespace clientSide
             try
             {
                 UdpClient udpClient = new UdpClient();
-                udpClient.Connect(serverIP, 5421);
+                udpClient.Connect(ipserver, 5421);
                 udpClient.Send(outStream, outStream.Length);
             }
             catch { }
@@ -70,7 +72,7 @@ namespace clientSide
 
              while (true)
              {
-                 IPEndPoint RemoteIpEndPoint = new IPEndPoint(serverIP, 0);
+                 IPEndPoint RemoteIpEndPoint = new IPEndPoint(serverIP[0], 0);
                  Byte[] receiveBytes = udpClient.Receive(ref RemoteIpEndPoint);
                  string returndata = System.Text.Encoding.ASCII.GetString(receiveBytes);
 
