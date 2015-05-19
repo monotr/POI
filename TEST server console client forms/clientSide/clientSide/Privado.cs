@@ -39,6 +39,7 @@ namespace clientSide
       
             thdUDPServer = new Thread(new ThreadStart(receiveThread));
             thdUDPServer.Start();
+
             this.nickname1 = nick1;
             this.nickname2 = nick2;
             this.ip1 = ipe1;
@@ -56,13 +57,13 @@ namespace clientSide
             if(ipe2.Equals(myIP.ToString()))
                 Send_Bytes("$,"+ nick1 + ","+ nick2 + "," + ipe1 + ","+ ipe2 + ",NADA");
 
-
+            
         }
 
         private void addGrid()
         {
             clientes_grid.Invoke(new Action(() => clientes_grid.Rows.Add(nickname1, ip1)));
-            clientes_grid.Invoke(new Action(() => clientes_grid.Rows.Add(nickname2, ip2)));
+            //clientes_grid.Invoke(new Action(() => clientes_grid.Rows.Add(nickname2, ip2)));
         }
 
          private void Send_Bytes(string action)
@@ -83,7 +84,7 @@ namespace clientSide
 
              while (true)
              {
-                 IPEndPoint RemoteIpEndPoint = new IPEndPoint(serverIP[1], 0);
+                 IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Parse(ipserver), 0);
                  Byte[] receiveBytes = udpClient.Receive(ref RemoteIpEndPoint);
                  string returndata = System.Text.Encoding.ASCII.GetString(receiveBytes);
 
@@ -102,7 +103,6 @@ namespace clientSide
                  //}
                  if (returndata.Substring(0, 1) == "$")
                  {
-                     Console.WriteLine("Recibidos 2 cientes");
                      addGrid();
                  }
                  /*else if (returndata.Substring(0, 1) == "%")
