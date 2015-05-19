@@ -44,6 +44,18 @@ namespace serpientesYescaleras_server
             catch { }
         }
 
+        private static void sendThreadCP(string action, IPAddress playerIP)
+        {
+            byte[] outStream = System.Text.Encoding.ASCII.GetBytes(action);
+            try
+            {
+                UdpClient udpClient = new UdpClient();
+                udpClient.Connect(playerIP, 5421);
+                udpClient.Send(outStream, outStream.Length);
+            }
+            catch { }
+        }
+
         public static void receiveThreadSYE()
         {
             udpClientSyE = new UdpClient(5420);
@@ -117,14 +129,13 @@ namespace serpientesYescaleras_server
                     if (listCP.Contains(ipAux.ToString()) && listCP.Count < 2)
                     {
                         listCP.Add(parte[3]);
-                     
                         nicknames.Add(parte[1]);
                         nicknames.Add(parte[2]);
                         listCP.Add(parte[4]);
 
                         //Console.WriteLine("Player - " + name1 + " joined with IP : " + ipAux);                               
-                        sendThread("/" + nicknames[0] + "," + nicknames[1] + "," + listCP[0] + "," + listCP[1], IPAddress.Parse(listCP[0]));
-                        sendThread("/" + nicknames[0] + "," + nicknames[1] + "," + listCP[0] + "," + listCP[1], IPAddress.Parse(listCP[1]));
+                        sendThreadCP("$", IPAddress.Parse(listCP[0]));
+                        sendThreadCP("$", IPAddress.Parse(listCP[1]));
                     }
                 }
                 else if (returndata.Substring(0, 1) == "%") // mensajes normales 
@@ -133,7 +144,7 @@ namespace serpientesYescaleras_server
                     for (int i = 0; i < listCP.Count; i++)
                     {
                         if (RemoteIpEndPoint.Address.ToString() != listCP[i])
-                            sendThread("$" + mensaje, IPAddress.Parse(listCP[i]));
+                            sendThreadCP("$" + mensaje, IPAddress.Parse(listCP[i]));
                     }
                 }
                 else if (returndata.Substring(0, 1) == "!") // zumbidos
@@ -141,7 +152,7 @@ namespace serpientesYescaleras_server
                     for (int i = 0; i < listCP.Count; i++)
                     {
                         if (RemoteIpEndPoint.Address.ToString() != listCP[i])
-                            sendThread("z", IPAddress.Parse(listCP[i]));
+                            sendThreadCP("z", IPAddress.Parse(listCP[i]));
                     }
                 }
                 else if (returndata.Substring(0, 1) == "q") // cierra ventana
@@ -149,7 +160,7 @@ namespace serpientesYescaleras_server
                     for (int i = 0; i < listCP.Count; i++)
                     {
                         if (RemoteIpEndPoint.Address.ToString() != listCP[i])
-                            sendThread("q", IPAddress.Parse(listCP[i]));
+                            sendThreadCP("q", IPAddress.Parse(listCP[i]));
                     }
                 }
             }

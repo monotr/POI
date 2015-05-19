@@ -53,8 +53,8 @@ namespace clientSide
                 }
             }
 
-            if(ipe1.Equals(myIP.ToString()))
-                Send_Bytes("$,"+ nick1 + ","+ nick2 + "," + ipe1 + ","+ ipe2);
+            if(ipe2.Equals(myIP.ToString()))
+                Send_Bytes("$,"+ nick1 + ","+ nick2 + "," + ipe1 + ","+ ipe2 + ",NADA");
 
 
         }
@@ -102,6 +102,7 @@ namespace clientSide
                  //}
                  if (returndata.Substring(0, 1) == "$")
                  {
+                     Console.WriteLine("Recibidos 2 cientes");
                      addGrid();
                  }
                  /*else if (returndata.Substring(0, 1) == "%")

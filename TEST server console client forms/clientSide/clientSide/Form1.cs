@@ -505,7 +505,7 @@ namespace clientSide
 
         private void convprivada_Click(object sender, EventArgs e)
         {
-            string message = "=," + nickname.Text + "," + clientenickname + "," + myIP.ToString() + "," + clientip;
+            string message = "=," + nickname.Text + "," + clientenickname + "," + myIP.ToString() + "," + clientip + ",NADA";
             byte[] outStream = System.Text.Encoding.ASCII.GetBytes(message);
             serverStream.Write(outStream, 0, outStream.Length);
             serverStream.Flush();
