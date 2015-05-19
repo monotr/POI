@@ -63,77 +63,82 @@ namespace clientSide
                 buffSize = clientSocket.ReceiveBufferSize;
                 serverStream.Read(inStream, 0, buffSize);
                 string returndata = System.Text.Encoding.ASCII.GetString(inStream);
-                if (returndata.Contains("%")) //otro cliente cambia de estado
+
+                string meh = returndata.Substring(0, 1);
+
+                if (returndata.Substring(0, 1) != "\0")
                 {
-                    readData = returndata.Substring(0, returndata.IndexOf("%"));
-                    msg();
-                    int inicio = returndata.IndexOf(":") + 1;
-                    int fin = returndata.IndexOf("%") - 1;
-                    string statusActual = returndata.Substring(inicio, fin);
-
-                    int finName = returndata.IndexOf("-") - 1;
-                    string name = returndata.Substring(0, finName);
-                    
-                    //clientes_grid.Rows.Add
-
-                    //clientesconect.Add(name + " " + statusActual);
-                }
-                else if (!returndata.Contains("Joined") && !returndata.Contains("^") && !returndata.Contains("#") &&
-                    !returndata.Contains("~")) //mensaje recibido
-                {
-                    int inicio = returndata.IndexOf(":") + 1;
-                    int fin = returndata.IndexOf("*") - inicio;
-
-                    int inicioName = returndata.IndexOf("-") + 1;
-                    string nameUser = returndata.Substring(inicioName, inicio - 1);
-
-                    nombreCliente = returndata.Substring(0, inicio - 1);
-                    returndata = returndata.Substring(inicio, fin);
-                    returndata = CryptoEngine.Decrypt(returndata, true);
-                    readData = nameUser + ": " + returndata;
-                    msg();
-                }
-                else if (returndata.Contains("^")) //nuevo cliente conectado
-                {
-                    int inicio2 = returndata.IndexOf("^") - 1;
-                    nombreCliente = returndata.Substring(0, inicio2);
-                    string actualName = nickname.Text;
-                    string estado = returndata.Substring(returndata.IndexOf("+")+1, returndata.IndexOf("-"));
-                    string ipus = returndata.Substring(returndata.IndexOf("-") + 1, returndata.IndexOf("|") - 1);
-
-                        
-                    readData = nombreCliente + " joined the chat room";
-                    msg();
-                }
-                else if (returndata.Contains("#"))
-                {
-                    string temp = returndata.Substring(1, returndata.IndexOf("]") - 1);
-                    string[] parts = temp.Split(',');
-                    deleteGrid();
-                    int users = (parts.Length-1)/3;
-
-                    for (int i = 0; i < users; i++)
+                    if (returndata.Substring(0, 1) == "=") //inicia privada
                     {
-                        addToGrid(parts[(3*i)], parts[(3*i)+1], parts[(3*i)+2]);
+                        //string msg = "¿," + nickname.Text + "," + clientenickname + "," + localIP.ToString() + "," + clientip;
+                        string[] cadena = returndata.Split(',');
+
+                        if (myIP.ToString() == cadena[4])
+                        {
+                            Privado privada = new Privado(cadena[1], cadena[2], cadena[3], cadena[4]);
+                            privada.Show();
+                        }
                     }
-
-                }
-                else if (returndata.Contains("~")) //zumbido
-                {
-                    zumbido_function();
-                }
-
-                else if (returndata.Substring(0, 1) == "¿") //zumbido
-                {
-                    //string msg = "¿," + nickname.Text + "," + clientenickname + "," + localIP.ToString() + "," + clientip;
-                    string []cadena = returndata.Split(',');
-
-                    if (localIP.ToString() == cadena[3])
+                    else if (returndata.Contains("%")) //otro cliente cambia de estado
                     {
-                        Privado privada = new Privado(cadena[1], cadena[2], cadena[3], cadena[4]);
-                        privada.Show();
+                        readData = returndata.Substring(0, returndata.IndexOf("%"));
+                        msg();
+                        int inicio = returndata.IndexOf(":") + 1;
+                        int fin = returndata.IndexOf("%") - 1;
+                        string statusActual = returndata.Substring(inicio, fin);
+
+                        int finName = returndata.IndexOf("-") - 1;
+                        string name = returndata.Substring(0, finName);
+
+                        //clientes_grid.Rows.Add
+
+                        //clientesconect.Add(name + " " + statusActual);
                     }
-                }                
+                    else if (!returndata.Contains("Joined") && !returndata.Contains("^") && !returndata.Contains("#") &&
+                        !returndata.Contains("~") && !returndata.Contains("=")) //mensaje recibido
+                    {
+                        int inicio = returndata.IndexOf(":") + 1;
+                        int fin = returndata.IndexOf("*") - inicio;
+
+                        int inicioName = returndata.IndexOf("-") + 1;
+                        string nameUser = returndata.Substring(inicioName, inicio - 1);
+
+                        nombreCliente = returndata.Substring(0, inicio - 1);
+                        returndata = returndata.Substring(inicio, fin);
+                        returndata = CryptoEngine.Decrypt(returndata, true);
+                        readData = nameUser + ": " + returndata;
+                        msg();
+                    }
+                    else if (returndata.Contains("^")) //nuevo cliente conectado
+                    {
+                        int inicio2 = returndata.IndexOf("^") - 1;
+                        nombreCliente = returndata.Substring(0, inicio2);
+                        string actualName = nickname.Text;
+                        string estado = returndata.Substring(returndata.IndexOf("+") + 1, returndata.IndexOf("-"));
+                        string ipus = returndata.Substring(returndata.IndexOf("-") + 1, returndata.IndexOf("|") - 1);
+
+
+                        readData = nombreCliente + " joined the chat room";
+                        msg();
+                    }
+                    else if (returndata.Contains("#"))
+                    {
+                        string temp = returndata.Substring(1, returndata.IndexOf("]") - 1);
+                        string[] parts = temp.Split(',');
+                        deleteGrid();
+                        int users = (parts.Length - 1) / 3;
+
+                        for (int i = 0; i < users; i++)
+                        {
+                            addToGrid(parts[(3 * i)], parts[(3 * i) + 1], parts[(3 * i) + 2]);
+                        }
+
+                    }
+                    else if (returndata.Contains("~")) //zumbido
+                    {
+                        zumbido_function();
+                    }
+                }
             }
         }
 
@@ -500,7 +505,7 @@ namespace clientSide
 
         private void convprivada_Click(object sender, EventArgs e)
         {
-            string message = "¿," + nickname.Text + "," + clientenickname + "," + myIP.ToString() + "," + clientip;
+            string message = "=," + nickname.Text + "," + clientenickname + "," + myIP.ToString() + "," + clientip;
             byte[] outStream = System.Text.Encoding.ASCII.GetBytes(message);
             serverStream.Write(outStream, 0, outStream.Length);
             serverStream.Flush();

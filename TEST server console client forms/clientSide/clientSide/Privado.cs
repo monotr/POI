@@ -16,6 +16,8 @@ namespace clientSide
 {
     public partial class Privado : Form
     {
+        public IPAddress[] localIP;
+        public IPAddress myIP;
 
         Thread thdUDPServer;
         UdpClient udpClient;
@@ -33,7 +35,7 @@ namespace clientSide
             InitializeComponent();
 
             serverIP = Dns.GetHostAddresses("Cabrera");
-            ipserver = serverIP[0].ToString();
+            ipserver = serverIP[1].ToString();
       
             thdUDPServer = new Thread(new ThreadStart(receiveThread));
             thdUDPServer.Start();
@@ -42,7 +44,16 @@ namespace clientSide
             this.ip1 = ipe1;
             this.ip2 = ipe2;
 
-            if(ipe1 == Dns.GetHostAddresses(Dns.GetHostName()).ToString())
+            localIP = Dns.GetHostAddresses(Dns.GetHostName());
+            foreach (IPAddress address in localIP)
+            {
+                if (address.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    myIP = address;
+                }
+            }
+
+            if(ipe1.Equals(myIP.ToString()))
                 Send_Bytes("$,"+ nick1 + ","+ nick2 + "," + ipe1 + ","+ ipe2);
 
 
@@ -72,7 +83,7 @@ namespace clientSide
 
              while (true)
              {
-                 IPEndPoint RemoteIpEndPoint = new IPEndPoint(serverIP[0], 0);
+                 IPEndPoint RemoteIpEndPoint = new IPEndPoint(serverIP[1], 0);
                  Byte[] receiveBytes = udpClient.Receive(ref RemoteIpEndPoint);
                  string returndata = System.Text.Encoding.ASCII.GetString(receiveBytes);
 
