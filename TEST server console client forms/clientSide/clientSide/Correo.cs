@@ -84,9 +84,19 @@ namespace clientSide
             SmtpServer.Credentials = new System.Net.NetworkCredential(from, contraseña);
             SmtpServer.EnableSsl = true;
 
-            SmtpServer.Send(mail);
+            try
+            {
+                SmtpServer.Send(mail);
 
-
+            }
+            catch
+            {
+                MessageBox.Show("Error al enviar correo");
+            }
+            finally
+            {
+                MessageBox.Show("Se envio correo con exito");
+            }
         }
 
     }

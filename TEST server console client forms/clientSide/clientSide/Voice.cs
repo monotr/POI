@@ -42,7 +42,7 @@ namespace clientSide
 
         public void Send(int port)
         {
-            serverIPAddress = IPAddress.Parse("192.168.173.1");
+            serverIPAddress = IPAddress.Parse("192.168.1.123");
             /*IPAddress[] localIP = Dns.GetHostAddresses("USER");
             foreach (IPAddress address in localIP)
             {
@@ -101,7 +101,7 @@ namespace clientSide
             {
                 UdpClient udpClient = new UdpClient();
                 udpClient.Client.SendBufferSize = 1024 * 1024 * 10;
-                udpClient.Connect(IPAddress.Parse("192.168.173.1"), 2000);
+                udpClient.Connect(IPAddress.Parse("192.168.1.123"), 2000);
                 udpClient.Send(Data_ary, Data_ary.Length);
                 //udpClient.Close(); // no estaba
             }

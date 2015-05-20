@@ -41,6 +41,14 @@
             this.zumbido = new System.Windows.Forms.Button();
             this.emotes = new System.Windows.Forms.Button();
             this.emotesmenu = new System.Windows.Forms.FlowLayoutPanel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.convprivada = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.clientes_grid = new System.Windows.Forms.DataGridView();
+            this.User_Nickname = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.User_Estado = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.User_IP = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnjuego = new System.Windows.Forms.Button();
             this.kappa = new System.Windows.Forms.Button();
             this.smile = new System.Windows.Forms.Button();
             this.sad = new System.Windows.Forms.Button();
@@ -58,14 +66,6 @@
             this.sleepi = new System.Windows.Forms.Button();
             this.bcwarior = new System.Windows.Forms.Button();
             this.death = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.convprivada = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.clientes_grid = new System.Windows.Forms.DataGridView();
-            this.User_Nickname = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.User_Estado = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.User_IP = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnjuego = new System.Windows.Forms.Button();
             this.emotesmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.clientes_grid)).BeginInit();
             this.SuspendLayout();
@@ -200,6 +200,74 @@
             this.emotesmenu.Size = new System.Drawing.Size(152, 195);
             this.emotesmenu.TabIndex = 12;
             this.emotesmenu.Visible = false;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(333, 12);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(40, 13);
+            this.label3.TabIndex = 14;
+            this.label3.Text = "Estado";
+            // 
+            // convprivada
+            // 
+            this.convprivada.Enabled = false;
+            this.convprivada.Location = new System.Drawing.Point(433, 207);
+            this.convprivada.Name = "convprivada";
+            this.convprivada.Size = new System.Drawing.Size(105, 48);
+            this.convprivada.TabIndex = 15;
+            this.convprivada.Text = "Iniciar conversación privada";
+            this.convprivada.UseVisualStyleBackColor = true;
+            this.convprivada.Click += new System.EventHandler(this.convprivada_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(242, 304);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(35, 13);
+            this.label4.TabIndex = 16;
+            this.label4.Text = "label4";
+            // 
+            // clientes_grid
+            // 
+            this.clientes_grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.clientes_grid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.User_Nickname,
+            this.User_Estado,
+            this.User_IP});
+            this.clientes_grid.Location = new System.Drawing.Point(431, 43);
+            this.clientes_grid.Name = "clientes_grid";
+            this.clientes_grid.Size = new System.Drawing.Size(344, 150);
+            this.clientes_grid.TabIndex = 17;
+            this.clientes_grid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.clientes_grid_CellContentClick);
+            this.clientes_grid.SelectionChanged += new System.EventHandler(this.clientes_grid_SelectionChanged);
+            // 
+            // User_Nickname
+            // 
+            this.User_Nickname.HeaderText = "Nickname";
+            this.User_Nickname.Name = "User_Nickname";
+            // 
+            // User_Estado
+            // 
+            this.User_Estado.HeaderText = "Estado";
+            this.User_Estado.Name = "User_Estado";
+            // 
+            // User_IP
+            // 
+            this.User_IP.HeaderText = "IP";
+            this.User_IP.Name = "User_IP";
+            // 
+            // btnjuego
+            // 
+            this.btnjuego.Location = new System.Drawing.Point(554, 216);
+            this.btnjuego.Name = "btnjuego";
+            this.btnjuego.Size = new System.Drawing.Size(97, 39);
+            this.btnjuego.TabIndex = 18;
+            this.btnjuego.Text = "Iniciar Juego";
+            this.btnjuego.UseVisualStyleBackColor = true;
+            this.btnjuego.Click += new System.EventHandler(this.btnjuego_Click);
             // 
             // kappa
             // 
@@ -432,74 +500,6 @@
             this.death.UseVisualStyleBackColor = true;
             this.death.Click += new System.EventHandler(this.death_Click);
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(333, 12);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(40, 13);
-            this.label3.TabIndex = 14;
-            this.label3.Text = "Estado";
-            // 
-            // convprivada
-            // 
-            this.convprivada.Enabled = false;
-            this.convprivada.Location = new System.Drawing.Point(433, 207);
-            this.convprivada.Name = "convprivada";
-            this.convprivada.Size = new System.Drawing.Size(105, 48);
-            this.convprivada.TabIndex = 15;
-            this.convprivada.Text = "Iniciar conversación privada";
-            this.convprivada.UseVisualStyleBackColor = true;
-            this.convprivada.Click += new System.EventHandler(this.convprivada_Click);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(242, 304);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(35, 13);
-            this.label4.TabIndex = 16;
-            this.label4.Text = "label4";
-            // 
-            // clientes_grid
-            // 
-            this.clientes_grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.clientes_grid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.User_Nickname,
-            this.User_Estado,
-            this.User_IP});
-            this.clientes_grid.Location = new System.Drawing.Point(431, 43);
-            this.clientes_grid.Name = "clientes_grid";
-            this.clientes_grid.Size = new System.Drawing.Size(344, 150);
-            this.clientes_grid.TabIndex = 17;
-            this.clientes_grid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.clientes_grid_CellContentClick);
-            this.clientes_grid.SelectionChanged += new System.EventHandler(this.clientes_grid_SelectionChanged);
-            // 
-            // User_Nickname
-            // 
-            this.User_Nickname.HeaderText = "Nickname";
-            this.User_Nickname.Name = "User_Nickname";
-            // 
-            // User_Estado
-            // 
-            this.User_Estado.HeaderText = "Estado";
-            this.User_Estado.Name = "User_Estado";
-            // 
-            // User_IP
-            // 
-            this.User_IP.HeaderText = "IP";
-            this.User_IP.Name = "User_IP";
-            // 
-            // btnjuego
-            // 
-            this.btnjuego.Location = new System.Drawing.Point(554, 216);
-            this.btnjuego.Name = "btnjuego";
-            this.btnjuego.Size = new System.Drawing.Size(97, 39);
-            this.btnjuego.TabIndex = 18;
-            this.btnjuego.Text = "Iniciar Juego";
-            this.btnjuego.UseVisualStyleBackColor = true;
-            this.btnjuego.Click += new System.EventHandler(this.btnjuego_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -524,6 +524,7 @@
             this.Controls.Add(this.label1);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.emotesmenu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.clientes_grid)).EndInit();

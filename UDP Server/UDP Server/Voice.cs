@@ -11,7 +11,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using NAudio.Wave;
-using System.Media.SoundPlayer;
 
 namespace Sending_voice_Over_IP
 {

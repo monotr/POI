@@ -91,7 +91,7 @@
             this.send.Location = new System.Drawing.Point(491, 329);
             this.send.Name = "send";
             this.send.Size = new System.Drawing.Size(99, 26);
-            this.send.TabIndex = 9;
+            this.send.TabIndex = 6;
             this.send.Text = "Send";
             this.send.UseVisualStyleBackColor = true;
             this.send.Click += new System.EventHandler(this.send_Click_1);
@@ -101,7 +101,7 @@
             this.file.Location = new System.Drawing.Point(491, 297);
             this.file.Name = "file";
             this.file.Size = new System.Drawing.Size(99, 26);
-            this.file.TabIndex = 10;
+            this.file.TabIndex = 5;
             this.file.Text = "File";
             this.file.UseVisualStyleBackColor = true;
             this.file.Click += new System.EventHandler(this.file_Click_1);
@@ -119,7 +119,7 @@
             this.subobject_textbox.Location = new System.Drawing.Point(251, 124);
             this.subobject_textbox.Name = "subobject_textbox";
             this.subobject_textbox.Size = new System.Drawing.Size(339, 20);
-            this.subobject_textbox.TabIndex = 5;
+            this.subobject_textbox.TabIndex = 3;
             // 
             // txtcontra
             // 
@@ -127,21 +127,21 @@
             this.txtcontra.Name = "txtcontra";
             this.txtcontra.PasswordChar = '*';
             this.txtcontra.Size = new System.Drawing.Size(339, 20);
-            this.txtcontra.TabIndex = 6;
+            this.txtcontra.TabIndex = 1;
             // 
             // from_textbox
             // 
-            this.from_textbox.Location = new System.Drawing.Point(251, 98);
+            this.from_textbox.Location = new System.Drawing.Point(251, 31);
             this.from_textbox.Name = "from_textbox";
             this.from_textbox.Size = new System.Drawing.Size(339, 20);
-            this.from_textbox.TabIndex = 7;
+            this.from_textbox.TabIndex = 0;
             // 
             // To
             // 
-            this.To.Location = new System.Drawing.Point(251, 31);
+            this.To.Location = new System.Drawing.Point(251, 91);
             this.To.Name = "To";
             this.To.Size = new System.Drawing.Size(339, 20);
-            this.To.TabIndex = 8;
+            this.To.TabIndex = 2;
             // 
             // openFileDialog1
             // 

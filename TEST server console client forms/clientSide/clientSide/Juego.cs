@@ -34,7 +34,7 @@ namespace clientSide
         {
 
         }
-        public Juego(string nickname, string ipe)
+        public Juego(string nickname)
         {
             InitializeComponent();
 

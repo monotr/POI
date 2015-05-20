@@ -35,6 +35,7 @@ namespace clientSide
         int clientindex;
         public IPAddress[] localIP;
         public IPAddress myIP;
+        Thread ctThread;
 
         public Form1()
         {
@@ -231,7 +232,7 @@ namespace clientSide
 
                     //clientes_grid.Rows.Add(nickname.Text, comboEstado.Text, (string)myIP.ToString());
 
-                    Thread ctThread = new Thread(getMessage);
+                    ctThread = new Thread(getMessage);
                     ctThread.Start();
 
                 }
@@ -528,8 +529,14 @@ namespace clientSide
 
         private void btnjuego_Click(object sender, EventArgs e)
         {
-            Juego openjuego = new Juego();
+            Juego openjuego = new Juego(nickname.Text);
             openjuego.Show();
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            try { ctThread.Abort(); }
+            catch { }
         }
 
 
