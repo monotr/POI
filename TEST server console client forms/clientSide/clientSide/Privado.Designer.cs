@@ -37,6 +37,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.btncorreo = new System.Windows.Forms.Button();
+            this.btnvideo = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.clientes_grid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -115,11 +116,22 @@
             this.btncorreo.UseVisualStyleBackColor = true;
             this.btncorreo.Click += new System.EventHandler(this.btncorreo_Click);
             // 
+            // btnvideo
+            // 
+            this.btnvideo.Location = new System.Drawing.Point(217, 276);
+            this.btnvideo.Name = "btnvideo";
+            this.btnvideo.Size = new System.Drawing.Size(75, 23);
+            this.btnvideo.TabIndex = 35;
+            this.btnvideo.Text = "Videochat";
+            this.btnvideo.UseVisualStyleBackColor = true;
+            this.btnvideo.Click += new System.EventHandler(this.btnvideo_Click);
+            // 
             // Privado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(793, 347);
+            this.Controls.Add(this.btnvideo);
             this.Controls.Add(this.btncorreo);
             this.Controls.Add(this.clientes_grid);
             this.Controls.Add(this.textToSend_txt2);
@@ -146,5 +158,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn User_Nickname;
         private System.Windows.Forms.DataGridViewTextBoxColumn User_IP;
         private System.Windows.Forms.Button btncorreo;
+        private System.Windows.Forms.Button btnvideo;
     }
 }

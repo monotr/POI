@@ -65,6 +65,7 @@
             this.User_Nickname = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.User_Estado = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.User_IP = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnjuego = new System.Windows.Forms.Button();
             this.emotesmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.clientes_grid)).BeginInit();
             this.SuspendLayout();
@@ -443,7 +444,7 @@
             // convprivada
             // 
             this.convprivada.Enabled = false;
-            this.convprivada.Location = new System.Drawing.Point(556, 250);
+            this.convprivada.Location = new System.Drawing.Point(433, 207);
             this.convprivada.Name = "convprivada";
             this.convprivada.Size = new System.Drawing.Size(105, 48);
             this.convprivada.TabIndex = 15;
@@ -489,11 +490,22 @@
             this.User_IP.HeaderText = "IP";
             this.User_IP.Name = "User_IP";
             // 
+            // btnjuego
+            // 
+            this.btnjuego.Location = new System.Drawing.Point(554, 216);
+            this.btnjuego.Name = "btnjuego";
+            this.btnjuego.Size = new System.Drawing.Size(97, 39);
+            this.btnjuego.TabIndex = 18;
+            this.btnjuego.Text = "Iniciar Juego";
+            this.btnjuego.UseVisualStyleBackColor = true;
+            this.btnjuego.Click += new System.EventHandler(this.btnjuego_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(829, 339);
+            this.Controls.Add(this.btnjuego);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.convprivada);
             this.Controls.Add(this.label3);
@@ -558,6 +570,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn User_Nickname;
         private System.Windows.Forms.DataGridViewTextBoxColumn User_Estado;
         private System.Windows.Forms.DataGridViewTextBoxColumn User_IP;
+        private System.Windows.Forms.Button btnjuego;
     }
 }
 

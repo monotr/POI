@@ -115,6 +115,14 @@ namespace clientSide
                      partes[2] = CryptoEngine.Decrypt(partes[2], true);
                      conversation.AppendText("\n" + partes[1] + " >> " + partes[2]);
                  }
+                 else if (returndata.Substring(0, 1) == "v")
+                 {
+                     Videochat video = new Videochat(nickname1, nickname2, ip1, ip2);
+                     if (video.InvokeRequired)
+                         video.Invoke(new Action(() => Application.Run(video)));
+                     else
+                         Application.Run(video);
+                 }
                  /*else if (returndata.Substring(0, 1) == "!")
                  {
                      int privad = Convert.ToInt32(returndata.Substring(0,1));
@@ -153,6 +161,17 @@ namespace clientSide
          {
              Correo correo = new Correo();
              correo.Show();
+         }
+
+         private void btnvideo_Click(object sender, EventArgs e)
+         {
+             Videochat video = new Videochat(nickname1, nickname2, ip1, ip2);
+             if (video.InvokeRequired)
+                 video.Invoke(new Action(() => video.Show()));
+             else
+                 video.Show();
+
+             Send_Bytes("v");
          }
     }
 }

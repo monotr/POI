@@ -77,7 +77,7 @@ namespace clientSide
                         {
                             Privado privada = new Privado(cadena[1], cadena[2], cadena[3], cadena[4]);
                             if (privada.InvokeRequired)
-                                privada.Invoke(new Action(() => privada.Show()));
+                                privada.Invoke(new Action(() => Application.Run(privada)));
                             else
                                 Application.Run(privada);
                         }
@@ -524,6 +524,12 @@ namespace clientSide
         private void nickname_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnjuego_Click(object sender, EventArgs e)
+        {
+            Juego openjuego = new Juego();
+            openjuego.Show();
         }
 
 
