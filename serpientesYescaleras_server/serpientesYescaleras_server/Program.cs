@@ -69,7 +69,7 @@ namespace serpientesYescaleras_server
                 if (returndata.Contains('$'))
                 {
                     IPAddress ipAux = RemoteIpEndPoint.Address;
-                    if (clientList.Contains(ipAux.ToString()) && clientList.Count < 3)
+                    if (!clientList.Contains(ipAux.ToString()) && clientList.Count < 2) //cambiar por 3
                     {
                         clientList.Add(ipAux.ToString());
                         string name = returndata.Substring(1, returndata.Length - 1);
@@ -135,6 +135,7 @@ namespace serpientesYescaleras_server
 
                         Console.WriteLine("private conversation : " + nicknames[0] + " & " + nicknames[1]);                               
                         sendThreadCP("$", IPAddress.Parse(listCP[0]));
+                        Thread.Sleep(500);
                         sendThreadCP("$", IPAddress.Parse(listCP[1]));
                     }
                 }

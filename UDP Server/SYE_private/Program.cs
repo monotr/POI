@@ -69,7 +69,7 @@ namespace SYE_private
                 if (returndata.Contains('$'))
                 {
                     IPAddress ipAux = RemoteIpEndPoint.Address;
-                    if (clientList.Contains(ipAux.ToString()) && clientList.Count < 3)
+                    if (!clientList.Contains(ipAux.ToString()) && clientList.Count < 2) //cambiar por 3
                     {
                         clientList.Add(ipAux.ToString());
                         string name = returndata.Substring(1, returndata.Length - 1);

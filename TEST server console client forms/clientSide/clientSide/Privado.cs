@@ -107,7 +107,9 @@ namespace clientSide
                  if (returndata.Substring(0, 1) == "$")
                  {
                      addGrid1();
+                     System.Threading.Thread.Sleep(500);
                      addGrid2();
+                     System.Threading.Thread.Sleep(500);
                  }
                  else if (returndata.Substring(0, 1) == "%")
                  {
