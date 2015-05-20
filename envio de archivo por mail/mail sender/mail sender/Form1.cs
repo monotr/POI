@@ -14,10 +14,12 @@ using System.IO;
 namespace mail_sender
 {
     
-
+    
     public partial class Form1 : Form
     { 
         string to, from, subobject, body,file_path, file_text, path;
+        string correo;
+        string contraseña;
         DialogResult file_result;
 
         public Form1()
@@ -60,6 +62,7 @@ namespace mail_sender
              from = from_textbox.Text;
              subobject = subobject_textbox.Text;
              body = body_textbox.Text;
+             contraseña = txtcontra.Text;
           
 
              MailMessage mail = new MailMessage();
@@ -74,12 +77,17 @@ namespace mail_sender
              mail.Attachments.Add(attachment);
 
              SmtpServer.Port = 587;
-             SmtpServer.Credentials = new System.Net.NetworkCredential("diego_ch231@hotmail.com", "ddd666");
+             SmtpServer.Credentials = new System.Net.NetworkCredential(from, contraseña);
              SmtpServer.EnableSsl = true;
 
              SmtpServer.Send(mail);
 
 
+
+        }
+
+        private void path_texbox_TextChanged(object sender, EventArgs e)
+        {
 
         }
     }

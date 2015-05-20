@@ -39,6 +39,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.path_texbox = new System.Windows.Forms.TextBox();
+            this.txtcontra = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // To
@@ -57,7 +59,7 @@
             // 
             // body_textbox
             // 
-            this.body_textbox.Location = new System.Drawing.Point(207, 101);
+            this.body_textbox.Location = new System.Drawing.Point(207, 142);
             this.body_textbox.Multiline = true;
             this.body_textbox.Name = "body_textbox";
             this.body_textbox.Size = new System.Drawing.Size(339, 128);
@@ -69,7 +71,7 @@
             // 
             // file
             // 
-            this.file.Location = new System.Drawing.Point(447, 235);
+            this.file.Location = new System.Drawing.Point(447, 276);
             this.file.Name = "file";
             this.file.Size = new System.Drawing.Size(99, 26);
             this.file.TabIndex = 1;
@@ -79,7 +81,7 @@
             // 
             // send
             // 
-            this.send.Location = new System.Drawing.Point(447, 267);
+            this.send.Location = new System.Drawing.Point(447, 308);
             this.send.Name = "send";
             this.send.Size = new System.Drawing.Size(99, 26);
             this.send.TabIndex = 1;
@@ -89,7 +91,7 @@
             // 
             // subobject_textbox
             // 
-            this.subobject_textbox.Location = new System.Drawing.Point(207, 62);
+            this.subobject_textbox.Location = new System.Drawing.Point(207, 103);
             this.subobject_textbox.Name = "subobject_textbox";
             this.subobject_textbox.Size = new System.Drawing.Size(339, 20);
             this.subobject_textbox.TabIndex = 0;
@@ -115,7 +117,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 62);
+            this.label3.Location = new System.Drawing.Point(12, 103);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(55, 13);
             this.label3.TabIndex = 2;
@@ -123,10 +125,28 @@
             // 
             // path_texbox
             // 
-            this.path_texbox.Location = new System.Drawing.Point(157, 241);
+            this.path_texbox.Location = new System.Drawing.Point(157, 282);
             this.path_texbox.Name = "path_texbox";
             this.path_texbox.Size = new System.Drawing.Size(275, 20);
             this.path_texbox.TabIndex = 3;
+            this.path_texbox.TextChanged += new System.EventHandler(this.path_texbox_TextChanged);
+            // 
+            // txtcontra
+            // 
+            this.txtcontra.Location = new System.Drawing.Point(207, 62);
+            this.txtcontra.Name = "txtcontra";
+            this.txtcontra.PasswordChar = '*';
+            this.txtcontra.Size = new System.Drawing.Size(339, 20);
+            this.txtcontra.TabIndex = 0;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(12, 62);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(61, 13);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "Contraseña";
             // 
             // Form1
             // 
@@ -135,12 +155,14 @@
             this.ClientSize = new System.Drawing.Size(631, 342);
             this.Controls.Add(this.path_texbox);
             this.Controls.Add(this.label3);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.send);
             this.Controls.Add(this.file);
             this.Controls.Add(this.body_textbox);
             this.Controls.Add(this.subobject_textbox);
+            this.Controls.Add(this.txtcontra);
             this.Controls.Add(this.from_textbox);
             this.Controls.Add(this.To);
             this.Name = "Form1";
@@ -164,6 +186,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox path_texbox;
+        private System.Windows.Forms.TextBox txtcontra;
+        private System.Windows.Forms.Label label4;
     }
 }
 

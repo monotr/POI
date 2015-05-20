@@ -143,8 +143,7 @@ namespace serpientesYescaleras_server
                     Console.WriteLine("message : " + returndata.Substring(1, returndata.IndexOf("]") - 1));
                     for (int i = 0; i < listCP.Count; i++)
                     {
-                        if (RemoteIpEndPoint.Address.ToString() != listCP[i])
-                            sendThreadCP(returndata, IPAddress.Parse(listCP[i]));
+                        sendThreadCP(returndata, IPAddress.Parse(listCP[i]));
                     }
                 }
                 else if (returndata.Substring(0, 1) == "!") // zumbidos

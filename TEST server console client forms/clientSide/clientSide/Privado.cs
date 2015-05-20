@@ -25,6 +25,7 @@ namespace clientSide
         string ipserver;
 
         string nickname1, nickname2, ip1, ip2;
+        bool dos = false;
         public Privado()
         {
            
@@ -56,8 +57,13 @@ namespace clientSide
                 }
             }
 
-            if(ipe2.Equals(myIP.ToString()))
-                Send_Bytes("$,"+ nick1 + ","+ nick2 + "," + ipe1 + ","+ ipe2 + ",NADA"); 
+            if (ipe2.Equals(myIP.ToString()))
+            {
+                Send_Bytes("$," + nick1 + "," + nick2 + "," + ipe1 + "," + ipe2 + ",NADA");
+                dos = true;
+            }
+            else
+                dos = false;
         }
 
         private void addGrid1()
@@ -105,11 +111,9 @@ namespace clientSide
                  }
                  else if (returndata.Substring(0, 1) == "%")
                  {
-                     string message = returndata.Substring(1, returndata.IndexOf("]") - 1);
-                     message = CryptoEngine.Decrypt(message, true);
-
-                     textToSend_txt.Clear();
-                     conversation.AppendText("\n" + " >> " + message);
+                     string[] partes = returndata.Split(',');
+                     partes[2] = CryptoEngine.Decrypt(partes[2], true);
+                     conversation.AppendText("\n" + partes[1] + " >> " + partes[2]);
                  }
                  /*else if (returndata.Substring(0, 1) == "!")
                  {
@@ -134,11 +138,21 @@ namespace clientSide
 
          private void button1_Click(object sender, EventArgs e)
          {
-             string text_to_send = "%" + CryptoEngine.Encrypt(textToSend_txt.Text, true) + "]";
-
-             //byte[] outStream = System.Text.Encoding.ASCII.GetBytes(text_to_send + "$");
+             string text_to_send = "," + CryptoEngine.Encrypt(textToSend_txt.Text, true) + ",]";
+             if (dos)
+                 text_to_send = "%," + nickname2 + text_to_send;
+             else
+                 text_to_send = "%," + nickname1 + text_to_send;
 
              Send_Bytes(text_to_send);
+
+             textToSend_txt.Clear();
+         }
+
+         private void btncorreo_Click(object sender, EventArgs e)
+         {
+             Correo correo = new Correo();
+             correo.Show();
          }
     }
 }
