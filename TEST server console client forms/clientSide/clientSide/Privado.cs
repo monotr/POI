@@ -35,8 +35,10 @@ namespace clientSide
             InitializeComponent();
 
             serverIP = Dns.GetHostAddresses("Cabrera");
-            ipserver = serverIP[1].ToString();
+            //ipserver = serverIP[0].ToString();
+            ipserver = "192.168.1.123";
       
+
             thdUDPServer = new Thread(new ThreadStart(receiveThread));
             thdUDPServer.Start();
 
@@ -96,19 +98,6 @@ namespace clientSide
                  Byte[] receiveBytes = udpClient.Receive(ref RemoteIpEndPoint);
                  string returndata = System.Text.Encoding.ASCII.GetString(receiveBytes);
 
-                 //if (returndata.Contains('|'))
-                 //{
-                 //    playerList.Invoke(new Action(() => playerList.Items.Clear()));
-                 //}
-                 //else if (returndata.Contains('&'))
-                 //{
-                 //    playerList.Invoke(new Action(() => playerList.Items.Add(returndata.Substring(1, returndata.Length-1))));
-                 //}
-                 //else if (returndata.Contains('/'))
-                 //{
-                 //    diceBut.Invoke(new Action(() => diceBut.Enabled = true));
-                 //    turno_label.Invoke(new Action(() => turno_label.Enabled = true));
-                 //}
                  if (returndata.Substring(0, 1) == "$")
                  {
                      addGrid1();
@@ -119,6 +108,7 @@ namespace clientSide
                      string message = returndata.Substring(1, returndata.IndexOf("]") - 1);
                      message = CryptoEngine.Decrypt(message, true);
 
+                     textToSend_txt.Clear();
                      conversation.AppendText("\n" + " >> " + message);
                  }
                  /*else if (returndata.Substring(0, 1) == "!")

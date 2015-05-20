@@ -76,7 +76,10 @@ namespace clientSide
                         if (myIP.ToString() == cadena[4])
                         {
                             Privado privada = new Privado(cadena[1], cadena[2], cadena[3], cadena[4]);
-                            privada.Invoke(new Action(() => privada.Show()));
+                            if (privada.InvokeRequired)
+                                privada.Invoke(new Action(() => privada.Show()));
+                            else
+                                Application.Run(privada);
                         }
                     }
                     else if (returndata.Contains("%")) //otro cliente cambia de estado
@@ -512,7 +515,10 @@ namespace clientSide
 
 
             Privado privada = new Privado(nickname.Text,clientenickname, myIP.ToString(), clientip );
-            privada.Invoke(new Action(() => privada.Show()));
+            if (privada.InvokeRequired)
+                privada.Invoke(new Action(() => privada.Show()));
+            else
+                privada.Show();
         }
 
         private void nickname_TextChanged(object sender, EventArgs e)

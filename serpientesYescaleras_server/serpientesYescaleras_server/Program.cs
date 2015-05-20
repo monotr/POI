@@ -126,7 +126,7 @@ namespace serpientesYescaleras_server
                 {
                     string[] parte = returndata.Split(',');
                     IPAddress ipAux = RemoteIpEndPoint.Address;
-                    if (listCP.Contains(ipAux.ToString()) && listCP.Count < 2)
+                    if (!listCP.Contains(ipAux.ToString()) && listCP.Count < 2)
                     {
                         listCP.Add(parte[3]);
                         nicknames.Add(parte[1]);
@@ -140,6 +140,7 @@ namespace serpientesYescaleras_server
                 }
                 else if (returndata.Substring(0, 1) == "%") // mensajes normales 
                 {
+                    Console.WriteLine("message : " + returndata.Substring(1, returndata.IndexOf("]") - 1));
                     for (int i = 0; i < listCP.Count; i++)
                     {
                         if (RemoteIpEndPoint.Address.ToString() != listCP[i])
