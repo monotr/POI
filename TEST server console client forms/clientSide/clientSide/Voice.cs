@@ -100,10 +100,9 @@ namespace clientSide
             try
             {
                 UdpClient udpClient = new UdpClient();
-                udpClient.Client.SendBufferSize = 1024 * 1024 * 10;
+                udpClient.Client.SendBufferSize = 1024*1024*10;
                 udpClient.Connect(IPAddress.Parse("192.168.1.123"), 2000);
                 udpClient.Send(Data_ary, Data_ary.Length);
-                //udpClient.Close(); // no estaba
             }
             catch { }
             Recordwav();
@@ -144,14 +143,9 @@ namespace clientSide
             IPEndPoint RemoteIpEndPoint = new IPEndPoint(serverIPAddress, 0);
             while (true)
             {
-                try
-                {
-                    Byte[] receiveBytes = udpClient.Receive(ref RemoteIpEndPoint);
-                    //udpClient.Close();
-                    if (receiveBytes != null)
-                        WriteBytes(receiveBytes);
-                }
-                catch { }
+                Byte[] receiveBytes = udpClient.Receive(ref RemoteIpEndPoint);
+                if (receiveBytes != null)
+                    WriteBytes(receiveBytes);
             }
         }
 

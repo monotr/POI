@@ -109,10 +109,7 @@ namespace clientSide
 
             UdpClient udpClient = new UdpClient();
 
-            if(dos)
-                udpClient.Connect(IPAddress.Parse(ip1), 8080);
-            else
-                udpClient.Connect(IPAddress.Parse(ip2), 8080);
+            udpClient.Connect(IPAddress.Parse("192.168.1.123"), 8080);
             udpClient.Send(senddata, senddata.Length);
             //udpClient.Close();
             EspacioCamara.Image = Imagen;
@@ -127,10 +124,7 @@ namespace clientSide
             UdpClient udpClient = new UdpClient(8080);
             IPEndPoint RemoteIpEndPoint;
 
-            if(dos)
-                RemoteIpEndPoint = new IPEndPoint(IPAddress.Parse(ip1), 0);
-            else
-                RemoteIpEndPoint = new IPEndPoint(IPAddress.Parse(ip2), 0);
+            RemoteIpEndPoint = new IPEndPoint(IPAddress.Parse("192.168.1.123"), 0);
 
             while (true)
             {

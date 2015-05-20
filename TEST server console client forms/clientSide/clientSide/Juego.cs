@@ -143,7 +143,7 @@ namespace clientSide
             }
 
             turno++;
-            if (turno == 2) // en vez de 2 era 3
+            if (turno == 3) 
                 turno = 1;
 
             Send_Bytes("!" + turno.ToString());
@@ -190,15 +190,19 @@ namespace clientSide
                 if (returndata.Contains('|'))
                 {
                     playerList.Invoke(new Action(() => playerList.Items.Clear()));
+                    Thread.Sleep(50);
                 }
                 else if (returndata.Contains('&'))
                 {
                     playerList.Invoke(new Action(() => playerList.Items.Add(returndata.Substring(1, returndata.Length-1))));
+                    Thread.Sleep(50);
                 }
                 else if (returndata.Contains('/'))
                 {
                     diceBut.Invoke(new Action(() => diceBut.Enabled = true));
+                    Thread.Sleep(50);
                     turno_label.Invoke(new Action(() => turno_label.Enabled = true));
+                    Thread.Sleep(50);
                 }
                 else if (returndata.Contains('$'))
                 {
@@ -208,10 +212,12 @@ namespace clientSide
                 else if (returndata.Contains('('))
                 {
                     diceBut.Invoke(new Action(() => diceBut.Enabled = false));
+                    Thread.Sleep(50);
                 }
                 else if (returndata.Contains(')'))
                 {
                     diceBut.Invoke(new Action(() => diceBut.Enabled = true));
+                    Thread.Sleep(50);
                 }
             }
         }
