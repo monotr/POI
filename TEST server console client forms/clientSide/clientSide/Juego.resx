@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <metadata name="diceList_image.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="player3_image.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -18463,7 +18466,7 @@
   <data name="dice_image.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAMoAAADKCAIAAABrB0j/AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wAAADsABataJCQAADYNJREFUeF7t3HtMVGcax/GZgQGDV0SrdcnIrQIjRVi6qBWr3GS7gFRRU3VTQGya
+        vwAADr8BOAVTJAAADYNJREFUeF7t3HtMVGcax/GZgQGDV0SrdcnIrQIjRVi6qBWr3GS7gFRRU3VTQGya
         QDCmoU2sNf7TQBVthXihNKG2xqIGxUhTTEoTGoyEBoOJJFUTaI2gotJWBEGZg/vMvI8wHG4zlLebzPw+
         eWvCzDnvO8355syZC2huTQZ/f/9gcAiBgYF8UCfDRPIyGAzvvffemTNnGhsbf//9dwUcTk9PT0tLS1VV
         1b59+yIjI/nA28++vDIzMy9dusQPAZxGe3t7Xl5eWFgYd2AzW/PKzs7u6uri1cBZlZeX+/n5cRM2GD+v
@@ -19738,7 +19741,4 @@
         Zjt1k7bbTWJ9wGy0KbmiQd3Ec1DaK9bGy6G2ez0yBM7l/9k=
 </value>
   </data>
-  <metadata name="diceList_image.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
 </root>

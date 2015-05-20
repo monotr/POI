@@ -144,6 +144,7 @@
             this.playerList.Name = "playerList";
             this.playerList.Size = new System.Drawing.Size(120, 95);
             this.playerList.TabIndex = 8;
+            this.playerList.SelectedIndexChanged += new System.EventHandler(this.playerList_SelectedIndexChanged);
             // 
             // Form1
             // 

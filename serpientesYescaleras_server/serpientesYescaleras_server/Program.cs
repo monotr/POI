@@ -83,7 +83,7 @@ namespace serpientesYescaleras_server
                             sendThread("&Player " + (i+1).ToString() + ": " + jugadores[i], ipAux);
                         }
 
-                        if (clientList.Count == 3)
+                        if (clientList.Count == 2) // antes era 3 en vez de 2
                         {
                             sendThread("/", IPAddress.Parse(clientList[0]));
                         }
@@ -146,12 +146,12 @@ namespace serpientesYescaleras_server
                         sendThreadCP(returndata, IPAddress.Parse(listCP[i]));
                     }
                 }
-                else if (returndata.Substring(0, 1) == "!") // zumbidos
+                else if (returndata.Substring(0, 1) == "v") // videollamada
                 {
                     for (int i = 0; i < listCP.Count; i++)
                     {
                         if (RemoteIpEndPoint.Address.ToString() != listCP[i])
-                            sendThreadCP("z", IPAddress.Parse(listCP[i]));
+                            sendThreadCP("v", IPAddress.Parse(listCP[i]));
                     }
                 }
                 else if (returndata.Substring(0, 1) == "q") // cierra ventana

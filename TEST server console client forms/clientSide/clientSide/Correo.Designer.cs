@@ -62,7 +62,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(56, 83);
+            this.label4.Location = new System.Drawing.Point(56, 57);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(61, 13);
             this.label4.TabIndex = 12;
@@ -71,7 +71,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(56, 57);
+            this.label2.Location = new System.Drawing.Point(56, 98);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(29, 13);
             this.label2.TabIndex = 13;
@@ -94,6 +94,7 @@
             this.send.TabIndex = 9;
             this.send.Text = "Send";
             this.send.UseVisualStyleBackColor = true;
+            this.send.Click += new System.EventHandler(this.send_Click_1);
             // 
             // file
             // 
@@ -103,6 +104,7 @@
             this.file.TabIndex = 10;
             this.file.Text = "File";
             this.file.UseVisualStyleBackColor = true;
+            this.file.Click += new System.EventHandler(this.file_Click_1);
             // 
             // body_textbox
             // 
@@ -121,7 +123,7 @@
             // 
             // txtcontra
             // 
-            this.txtcontra.Location = new System.Drawing.Point(251, 83);
+            this.txtcontra.Location = new System.Drawing.Point(251, 57);
             this.txtcontra.Name = "txtcontra";
             this.txtcontra.PasswordChar = '*';
             this.txtcontra.Size = new System.Drawing.Size(339, 20);
@@ -129,7 +131,7 @@
             // 
             // from_textbox
             // 
-            this.from_textbox.Location = new System.Drawing.Point(251, 57);
+            this.from_textbox.Location = new System.Drawing.Point(251, 98);
             this.from_textbox.Name = "from_textbox";
             this.from_textbox.Size = new System.Drawing.Size(339, 20);
             this.from_textbox.TabIndex = 7;
@@ -145,7 +147,7 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // Form1
+            // Correo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -162,7 +164,7 @@
             this.Controls.Add(this.txtcontra);
             this.Controls.Add(this.from_textbox);
             this.Controls.Add(this.To);
-            this.Name = "Form1";
+            this.Name = "Correo";
             this.Text = "Correo";
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -32,6 +32,10 @@ namespace clientSide
 
         public Juego()
         {
+
+        }
+        public Juego(string nickname, string ipe)
+        {
             InitializeComponent();
 
             posJugador = new int[3];
@@ -56,9 +60,9 @@ namespace clientSide
             turno_label.Enabled = false;
             yourTurn = false;
 
-            serverIP = IPAddress.Parse("192.168.1.242");
+            serverIP = IPAddress.Parse("192.168.1.123");
 
-            nick = "oli";
+            nick = nickname;
 
             thdUDPServer = new Thread(new ThreadStart(receiveThread));
             thdUDPServer.Start();
@@ -68,9 +72,7 @@ namespace clientSide
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Random random = new Random();
-            int randomNumber = random.Next(0, 6);
-            Send_Bytes("%" + randomNumber.ToString());
+            
         }
 
         private void moveFicha(int randomNumber)
@@ -141,7 +143,7 @@ namespace clientSide
             }
 
             turno++;
-            if (turno == 3)
+            if (turno == 2) // en vez de 2 era 3
                 turno = 1;
 
             Send_Bytes("!" + turno.ToString());
@@ -160,15 +162,7 @@ namespace clientSide
 
         private void reset_btn_Click(object sender, EventArgs e)
         {
-            player1_image.Location = new Point(posOriginal[0], posOriginal[1]);
-            player2_image.Location = new Point(posOriginal[2], posOriginal[3]);
-            player3_image.Location = new Point(posOriginal[4], posOriginal[5]);
-
-            turno = 1;
-
-            posJugador[0] = 1;
-            posJugador[1] = 1;
-            posJugador[2] = 1;
+           
         }
 
         private void Send_Bytes(string action)
@@ -220,6 +214,26 @@ namespace clientSide
                     diceBut.Invoke(new Action(() => diceBut.Enabled = true));
                 }
             }
+        }
+
+        private void reset_btn_Click_1(object sender, EventArgs e)
+        {
+            player1_image.Location = new Point(posOriginal[0], posOriginal[1]);
+            player2_image.Location = new Point(posOriginal[2], posOriginal[3]);
+            player3_image.Location = new Point(posOriginal[4], posOriginal[5]);
+
+            turno = 1;
+
+            posJugador[0] = 1;
+            posJugador[1] = 1;
+            posJugador[2] = 1;
+        }
+
+        private void diceBut_Click(object sender, EventArgs e)
+        {
+            Random random = new Random();
+            int randomNumber = random.Next(0, 6);
+            Send_Bytes("%" + randomNumber.ToString());
         }
     }
 }

@@ -29,11 +29,17 @@ namespace clientSide
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
-
         }
 
         private void file_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void send_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void file_Click_1(object sender, EventArgs e)
         {
             file_result = openFileDialog1.ShowDialog();
             if (file_result == System.Windows.Forms.DialogResult.OK)
@@ -48,15 +54,14 @@ namespace clientSide
 
                 }
 
-
-
             }
             path_texbox.Text = file_path;
 
         }
 
-        private void send_Click(object sender, EventArgs e)
+        private void send_Click_1(object sender, EventArgs e)
         {
+
             to = To.Text;
             from = from_textbox.Text;
             subobject = subobject_textbox.Text;
@@ -80,7 +85,6 @@ namespace clientSide
             SmtpServer.EnableSsl = true;
 
             SmtpServer.Send(mail);
-
 
 
         }

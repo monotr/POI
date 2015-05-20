@@ -34,12 +34,12 @@
             this.reset_btn = new System.Windows.Forms.Button();
             this.turno_label = new System.Windows.Forms.Label();
             this.diceBut = new System.Windows.Forms.Button();
+            this.diceList_image = new System.Windows.Forms.ImageList(this.components);
             this.player3_image = new System.Windows.Forms.PictureBox();
             this.player2_image = new System.Windows.Forms.PictureBox();
             this.player1_image = new System.Windows.Forms.PictureBox();
             this.dice_image = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.diceList_image = new System.Windows.Forms.ImageList(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.player3_image)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.player2_image)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.player1_image)).BeginInit();
@@ -63,6 +63,7 @@
             this.reset_btn.TabIndex = 16;
             this.reset_btn.Text = "Reiniciar";
             this.reset_btn.UseVisualStyleBackColor = true;
+            this.reset_btn.Click += new System.EventHandler(this.reset_btn_Click_1);
             // 
             // turno_label
             // 
@@ -82,6 +83,13 @@
             this.diceBut.TabIndex = 11;
             this.diceBut.Text = "Tirar dado";
             this.diceBut.UseVisualStyleBackColor = true;
+            this.diceBut.Click += new System.EventHandler(this.diceBut_Click);
+            // 
+            // diceList_image
+            // 
+            this.diceList_image.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.diceList_image.ImageSize = new System.Drawing.Size(16, 16);
+            this.diceList_image.TransparentColor = System.Drawing.Color.Transparent;
             // 
             // player3_image
             // 
@@ -131,12 +139,6 @@
             this.pictureBox1.Size = new System.Drawing.Size(442, 466);
             this.pictureBox1.TabIndex = 9;
             this.pictureBox1.TabStop = false;
-            // 
-            // diceList_image
-            // 
-            this.diceList_image.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
-            this.diceList_image.ImageSize = new System.Drawing.Size(16, 16);
-            this.diceList_image.TransparentColor = System.Drawing.Color.Transparent;
             // 
             // Juego
             // 
