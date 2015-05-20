@@ -108,7 +108,7 @@ namespace clientSide
                      string message = returndata.Substring(1, returndata.IndexOf("]") - 1);
                      message = CryptoEngine.Decrypt(message, true);
 
-                     //textToSend_txt.Clear();
+                     textToSend_txt.Clear();
                      conversation.AppendText("\n" + " >> " + message);
                  }
                  /*else if (returndata.Substring(0, 1) == "!")
