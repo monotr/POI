@@ -99,7 +99,7 @@ namespace clientSide
                         //clientesconect.Add(name + " " + statusActual);
                     }
                     else if (!returndata.Contains("Joined") && !returndata.Contains("^") && !returndata.Contains("#") &&
-                        !returndata.Contains("~") && !returndata.Contains("=")) //mensaje recibido
+                        !returndata.Contains("~")) //mensaje recibido
                     {
                         int inicio = returndata.IndexOf(":") + 1;
                         int fin = returndata.IndexOf("*") - inicio;

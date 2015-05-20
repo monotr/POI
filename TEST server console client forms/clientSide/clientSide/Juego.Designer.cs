@@ -87,9 +87,14 @@
             // 
             // diceList_image
             // 
-            this.diceList_image.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
-            this.diceList_image.ImageSize = new System.Drawing.Size(16, 16);
+            this.diceList_image.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("diceList_image.ImageStream")));
             this.diceList_image.TransparentColor = System.Drawing.Color.Transparent;
+            this.diceList_image.Images.SetKeyName(0, "d1.png");
+            this.diceList_image.Images.SetKeyName(1, "d2.png");
+            this.diceList_image.Images.SetKeyName(2, "d3.png");
+            this.diceList_image.Images.SetKeyName(3, "d4.png");
+            this.diceList_image.Images.SetKeyName(4, "d5.png");
+            this.diceList_image.Images.SetKeyName(5, "d6.png");
             // 
             // player3_image
             // 
