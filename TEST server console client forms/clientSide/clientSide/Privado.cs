@@ -40,10 +40,6 @@ namespace clientSide
             serverIP = Dns.GetHostAddresses("Cabrera");
             //ipserver = serverIP[0].ToString();
             ipserver = "192.168.1.123";
-      
-
-            thdUDPServer = new Thread(new ThreadStart(receiveThread));
-            thdUDPServer.Start();
 
             this.nickname1 = nick1;
             this.nickname2 = nick2;
@@ -66,6 +62,9 @@ namespace clientSide
             }
             else
                 dos = false;
+
+            thdUDPServer = new Thread(new ThreadStart(receiveThread));
+            thdUDPServer.Start();
         }
 
         private void addGrid1()
