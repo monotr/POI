@@ -109,7 +109,10 @@ namespace clientSide
 
                         nombreCliente = returndata.Substring(0, inicio - 1);
                         returndata = returndata.Substring(inicio, fin);
-                        returndata = CryptoEngine.Decrypt(returndata, true);
+                        if (!btnencript.Checked)
+                        {
+                            returndata = CryptoEngine.Decrypt(returndata, true);
+                        }
                         readData = nameUser + ": " + returndata;
                         msg();
                     }
@@ -137,6 +140,12 @@ namespace clientSide
                             addToGrid(parts[(3 * i)], parts[(3 * i) + 1], parts[(3 * i) + 2]);
                         }
 
+                    }
+
+                    else if (returndata.Contains ("°")) // checkbox de encriptacion
+                    {
+
+                        btnencript.Checked = !btnencript.Checked; 
                     }
                     else if (returndata.Contains("~")) //zumbido
                     {
@@ -184,8 +193,9 @@ namespace clientSide
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            
             string text_to_send = CryptoEngine.Encrypt(textToSend_txt.Text, true);
+           
 
             text_to_send += "*";
 
@@ -537,6 +547,14 @@ namespace clientSide
         {
             try { ctThread.Abort(); }
             catch { }
+        }
+
+        private void btnencript_CheckedChanged(object sender, EventArgs e)
+        {
+            string menssage = "°";
+            byte[] outStream = System.Text.Encoding.ASCII.GetBytes(menssage);
+            serverStream.Write(outStream, 0, outStream.Length);
+            serverStream.Flush();
         }
 
 
