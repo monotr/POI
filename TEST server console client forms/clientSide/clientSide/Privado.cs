@@ -11,6 +11,7 @@ using System.Collections;
 using System.Net.Sockets;
 using System.Net;
 using System.Threading;
+using System.IO;
 
 namespace clientSide
 {
@@ -23,6 +24,8 @@ namespace clientSide
         UdpClient udpClient;
         public IPAddress[] serverIP;
         string ipserver;
+        StreamWriter escribir;
+        StreamReader reader;
 
         string nickname1, nickname2, ip1, ip2;
         bool dos = false;
@@ -115,6 +118,7 @@ namespace clientSide
                  {
                      string[] partes = returndata.Split(',');
                      partes[2] = CryptoEngine.Decrypt(partes[2], true);
+                     
                      conversation.AppendText("\n" + partes[1] + " >> " + partes[2]);
                  }
                  else if (returndata.Substring(0, 1) == "v")
@@ -125,26 +129,11 @@ namespace clientSide
                      else
                          Application.Run(video);
                  }
-                 /*else if (returndata.Substring(0, 1) == "!")
-                 {
-                     int privad = Convert.ToInt32(returndata.Substring(0,1));
-                     diceBut.Invoke(new Action(() => diceBut.Enabled = false));
-                 }
-                 else if (returndata.Substring(0, 1) =="q")
-                 {
-                     int privad = Convert.ToInt32(returndata.Substring(0,1));
-                     diceBut.Invoke(new Action(() => diceBut.Enabled = false));
-                 }
-                 //else if (returndata.Contains('('))
-                 //{
-                 //    diceBut.Invoke(new Action(() => diceBut.Enabled = false));
-                 //}
-                 //else if (returndata.Contains(')'))
-                 //{
-                 //    diceBut.Invoke(new Action(() => diceBut.Enabled = true));
-                 //}*/
+                 
              }
          }
+
+      
 
          private void button1_Click(object sender, EventArgs e)
          {
@@ -153,6 +142,13 @@ namespace clientSide
                  text_to_send = "%," + nickname2 + text_to_send;
              else
                  text_to_send = "%," + nickname1 + text_to_send;
+
+                
+                 
+                
+
+
+           
 
              Send_Bytes(text_to_send);
 
@@ -176,4 +172,8 @@ namespace clientSide
              Send_Bytes("v");
          }
     }
+
+
 }
+
+

@@ -7,7 +7,7 @@ using System.Collections;
 using System.Net.Sockets;
 using System.Net;
 using System.Threading;
-
+using System.IO;
 namespace SYE_private
 {
     class Program
@@ -46,6 +46,9 @@ namespace SYE_private
 
         private static void sendThreadCP(string action, IPAddress playerIP)
         {
+
+            escribirArchivo(action);
+
             byte[] outStream = System.Text.Encoding.ASCII.GetBytes(action);
             try
             {
@@ -112,6 +115,75 @@ namespace SYE_private
         }
 
 
+        private static void escribirArchivo(string text_to_send)
+        {
+
+
+            if (!System.IO.Directory.Exists("conversaciones"))
+            {
+                System.IO.Directory.CreateDirectory("conversaciones");
+            }
+
+            if (!File.Exists("conversaciones\\" + nicknames[0] + "_" + nicknames[1] + ".txt") || !File.Exists("conversaciones\\" + nicknames[1] + "_" + nicknames[0] + ".txt"))
+            {
+                using ( StreamWriter escribir = new StreamWriter("conversaciones\\"  + nicknames[0] + "_" + nicknames[1] + ".txt", true))
+                {
+                     escribir.Write("\nchat: " + text_to_send);
+                }
+            }
+            else if (File.Exists("conversaciones\\" + nicknames[0] + "_" + nicknames[1] + ".txt"))
+            {
+                using (StreamWriter escribir = new StreamWriter("conversaciones\\" + nicknames[0] + "_" + nicknames[1] + ".txt", true))
+                {
+                    escribir.WriteLine("\nchat: " + text_to_send);
+                }
+            }
+
+            else
+            {
+                using (StreamWriter escribir = new StreamWriter("conversaciones\\" + nicknames[1] + "_" + nicknames[0] + ".txt", true))
+                {
+                    escribir.WriteLine("\nchat: " + text_to_send);
+                }
+            }
+        }
+
+        private static void leerArchivo()
+        {
+            string mensaje = "";
+
+            if (File.Exists("conversaciones\\" + nicknames[0] + "_" + nicknames[1] + ".txt") 
+            {
+                using (StreamReader reader = new StreamReader("conversaciones\\" + nicknames[0] + "_" + nicknames[1] + ".txt", true))
+                {
+                    while (reader.Peek() >= 0)
+                    {
+                        mensaje = reader.ReadLine();
+                        sendThreadCP(mensaje, IPAddress.Parse(listCP[0]) );
+                        Thread.Sleep(50);
+                        sendThreadCP(mensaje, IPAddress.Parse(listCP[1]) );
+                        Thread.Sleep(50);   
+                    }
+                }
+            }
+
+            else if (File.Exists("conversaciones\\" + nicknames[1] + "_" + nicknames[0] + ".txt"))
+            {
+                using (StreamReader reader = new StreamReader("conversaciones\\" + nicknames[1] + "_" + nicknames[0] + ".txt", true))
+                {
+                    while (reader.Peek() >= 0)
+                    {
+                        mensaje = reader.ReadLine();
+                        sendThreadCP(mensaje, IPAddress.Parse(listCP[0]) );
+                        Thread.Sleep(50);
+                        sendThreadCP(mensaje, IPAddress.Parse(listCP[1]) );
+                        Thread.Sleep(50);
+                    }
+                }
+            }
+
+        }
+
         public static void receiveThreadCP()
         {
             udpClientCP = new UdpClient(5421);
@@ -135,7 +207,10 @@ namespace SYE_private
 
                         Console.WriteLine("private conversation : " + nicknames[0] + " & " + nicknames[1]);
                         sendThreadCP("$", IPAddress.Parse(listCP[0]));
+                        Thread.Sleep(50);
                         sendThreadCP("$", IPAddress.Parse(listCP[1]));
+                        Thread.Sleep(50);
+                        leerArchivo();
                     }
                 }
                 else if (returndata.Substring(0, 1) == "%") // mensajes normales 
