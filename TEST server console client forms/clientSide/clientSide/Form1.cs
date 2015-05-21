@@ -36,6 +36,7 @@ namespace clientSide
         public IPAddress[] localIP;
         public IPAddress myIP;
         Thread ctThread;
+        bool encripto = false;
 
         public Form1()
         {
@@ -99,7 +100,7 @@ namespace clientSide
                         //clientesconect.Add(name + " " + statusActual);
                     }
                     else if (!returndata.Contains("Joined") && !returndata.Contains("^") && !returndata.Contains("#") &&
-                        !returndata.Contains("~") && !returndata.Contains("°"))  //mensaje recibido
+                        !returndata.Contains("~") && !returndata.Contains("_"))  //mensaje recibido
                     {
                         int inicio = returndata.IndexOf(":") + 1;
                         int fin = returndata.IndexOf("*") - inicio;
@@ -109,7 +110,7 @@ namespace clientSide
 
                         nombreCliente = returndata.Substring(0, inicio - 1);
                         returndata = returndata.Substring(inicio, fin);
-                        if (!btnencript.Checked)
+                        if (btnencript.Checked)
                         {
                             returndata = CryptoEngine.Decrypt(returndata, true);
                         }
@@ -123,7 +124,6 @@ namespace clientSide
                         string actualName = nickname.Text;
                         string estado = returndata.Substring(returndata.IndexOf("+") + 1, returndata.IndexOf("-"));
                         string ipus = returndata.Substring(returndata.IndexOf("-") + 1, returndata.IndexOf("|") - 1);
-
 
                         readData = nombreCliente + " joined the chat room";
                         msg();
@@ -142,10 +142,10 @@ namespace clientSide
 
                     }
 
-                    else if (returndata.Contains ("°")) // checkbox de encriptacion
+                    else if (returndata.Contains ("_")) // checkbox de encriptacion
                     {
-
-                        btnencript.Checked = !btnencript.Checked; 
+                        encripto = !encripto;
+                        btnencript.Checked = encripto; 
                     }
                     else if (returndata.Contains("~")) //zumbido
                     {
@@ -194,7 +194,7 @@ namespace clientSide
         private void button1_Click(object sender, EventArgs e)
         {
 
-            string text_to_send = "";
+            string text_to_send = textToSend_txt.Text;
             if(btnencript.Checked)
                 text_to_send = CryptoEngine.Encrypt(textToSend_txt.Text, true);
            
@@ -231,6 +231,8 @@ namespace clientSide
                     //clientSocket.Connect(myIP, 55555);
                     clientSocket.Connect(Dns.GetHostAddresses("Cabrera"), 9050);
                     label1.Text = "Client Socket Program - Server Connected ... " + localIP.ToString();
+
+
            
                     msg();
                     first = true;
@@ -553,7 +555,7 @@ namespace clientSide
 
         private void btnencript_CheckedChanged(object sender, EventArgs e)
         {
-            string menssage = "°";
+            string menssage = "_";
             byte[] outStream = System.Text.Encoding.ASCII.GetBytes(menssage);
             serverStream.Write(outStream, 0, outStream.Length);
             serverStream.Flush();
