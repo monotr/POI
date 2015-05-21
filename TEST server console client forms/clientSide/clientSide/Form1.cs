@@ -19,7 +19,7 @@ namespace clientSide
         delegate void SetTextCallback(string text);
         int count,val;
         string emo = null;
-        SoundPlayer zumb = new SoundPlayer("C:/Users/Monotr_/Documents/GitHub/POI/TEST server console client forms/clientSide/clientSide/zumbido.wav");
+        SoundPlayer zumb = new SoundPlayer("clientSide/clientSide/zumbido.wav");
 
         System.Net.Sockets.TcpClient clientSocket = new System.Net.Sockets.TcpClient();
         NetworkStream serverStream = default(NetworkStream);
