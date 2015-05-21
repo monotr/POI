@@ -109,16 +109,19 @@ namespace clientSide
                  if (returndata.Substring(0, 1) == "$")
                  {
                      addGrid1();
-                     System.Threading.Thread.Sleep(500);
+                     System.Threading.Thread.Sleep(50);
                      addGrid2();
-                     System.Threading.Thread.Sleep(500);
+                     System.Threading.Thread.Sleep(50);
                  }
                  else if (returndata.Substring(0, 1) == "%")
                  {
                      string[] partes = returndata.Split(',');
                      partes[2] = CryptoEngine.Decrypt(partes[2], true);
-                     
-                     conversation.AppendText("\n" + partes[1] + " >> " + partes[2]);
+
+                     if (conversation.InvokeRequired)
+                         conversation.Invoke(new Action(() => conversation.AppendText("\n" + partes[1] + " >> " + partes[2])));
+                     else
+                         conversation.AppendText("\n" + partes[1] + " >> " + partes[2]);
                  }
                  else if (returndata.Substring(0, 1) == "v")
                  {
