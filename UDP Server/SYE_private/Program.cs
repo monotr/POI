@@ -15,7 +15,9 @@ namespace SYE_private
         static UdpClient udpClientSyE, udpClientCP;
         private static List<string> jugadores, clientList;
         private static List<string> listCP, nicknames;
-        private static StreamWriter escritor;
+
+        private static string lastMsg;
+
         static Thread thdReceive, thdReceiveCP;
 
         static void Main(string[] args)
@@ -24,6 +26,8 @@ namespace SYE_private
             jugadores = new List<string>();
             listCP = new List<string>();
             nicknames = new List<string>();
+
+            lastMsg = "";
 
             thdReceive = new Thread(new ThreadStart(receiveThreadSYE));
             thdReceive.Start();
@@ -44,10 +48,12 @@ namespace SYE_private
             catch { }
         }
 
-        private static void sendThreadCP(string action, IPAddress playerIP)
+        private static void sendThreadCP(string action, IPAddress playerIP, bool isReading)
         {
+            if (action.Length != 1 && !action.Equals(lastMsg) && !isReading)
+                escribirArchivo(action);
 
-            escribirArchivo(action);
+            lastMsg = action;
 
             byte[] outStream = System.Text.Encoding.ASCII.GetBytes(action);
             try
@@ -119,17 +125,18 @@ namespace SYE_private
         {
             if (File.Exists("conversaciones\\" + nicknames[0] + "_" + nicknames[1] + ".txt"))
             {
-                using (escritor)
+                using (StreamWriter escribir = new StreamWriter("conversaciones\\" + nicknames[0] + "_" + nicknames[1] + ".txt", true))
                 {
-                    escritor.WriteLine(text_to_send);
+                    escribir.WriteLine(text_to_send);
+                    escribir.Close();
                 }
             }
-
             else
             {
-                using (escritor)
+                using (StreamWriter escribir = new StreamWriter("conversaciones\\" + nicknames[1] + "_" + nicknames[0] + ".txt", true))
                 {
-                    escritor.WriteLine(text_to_send);
+                    escribir.WriteLine(text_to_send);
+                    escribir.Close();
                 }
             }
         }
@@ -138,31 +145,33 @@ namespace SYE_private
         {
             string mensaje = "";
 
-            if (!System.IO.Directory.Exists("conversaciones"))
+            if (!System.IO.Directory.Exists("conversaciones\\"))
             {
-                System.IO.Directory.CreateDirectory("conversaciones");
+                System.IO.Directory.CreateDirectory("conversaciones\\");
             }
 
-            if (!File.Exists("conversaciones\\" + nicknames[0] + "_" + nicknames[1] + ".txt") || !File.Exists("conversaciones\\" + nicknames[1] + "_" + nicknames[0] + ".txt"))
+            if (!File.Exists("conversaciones\\" + nicknames[0] + "_" + nicknames[1] + ".txt") &&
+                !File.Exists("conversaciones\\" + nicknames[1] + "_" + nicknames[0] + ".txt"))
             {
                 using ( StreamWriter escribir = new StreamWriter("conversaciones\\"  + nicknames[0] + "_" + nicknames[1] + ".txt", true))
                 {
-                     escribir.Write("Conversacion entre: " +  nicknames[0] + " y " +  nicknames[1]);
+                     escribir.Write("");
+                     escribir.Close();
                 }
             }
             else if (File.Exists("conversaciones\\" + nicknames[0] + "_" + nicknames[1] + ".txt"))
             {
                 using (StreamReader reader = new StreamReader("conversaciones\\" + nicknames[0] + "_" + nicknames[1] + ".txt", true))
                 {
-                    escritor = new StreamWriter("conversaciones\\" + nicknames[0] + "_" + nicknames[1] + ".txt", true);
                     while (reader.Peek() >= 0)
                     {
                         mensaje = reader.ReadLine();
-                        sendThreadCP(mensaje, IPAddress.Parse(listCP[0]) );
+                        sendThreadCP(mensaje, IPAddress.Parse(listCP[0]), true);
                         Thread.Sleep(50);
-                        sendThreadCP(mensaje, IPAddress.Parse(listCP[1]) );
-                        Thread.Sleep(50);   
+                        sendThreadCP(mensaje, IPAddress.Parse(listCP[1]), true);
+                        Thread.Sleep(50);
                     }
+                    reader.Close();
                 }
             }
 
@@ -170,15 +179,15 @@ namespace SYE_private
             {
                 using (StreamReader reader = new StreamReader("conversaciones\\" + nicknames[1] + "_" + nicknames[0] + ".txt", true))
                 {
-                    escritor = new StreamWriter("conversaciones\\" + nicknames[1] + "_" + nicknames[0] + ".txt", true);
                     while (reader.Peek() >= 0)
                     {
                         mensaje = reader.ReadLine();
-                        sendThreadCP(mensaje, IPAddress.Parse(listCP[0]) );
+                        sendThreadCP(mensaje, IPAddress.Parse(listCP[0]), true);
                         Thread.Sleep(50);
-                        sendThreadCP(mensaje, IPAddress.Parse(listCP[1]) );
+                        sendThreadCP(mensaje, IPAddress.Parse(listCP[1]), true);
                         Thread.Sleep(50);
                     }
+                    reader.Close();
                 }
             }
 
@@ -205,12 +214,14 @@ namespace SYE_private
                         nicknames.Add(parte[2]);
                         listCP.Add(parte[4]);
 
-                        Console.WriteLine("private conversation : " + nicknames[0] + " & " + nicknames[1]);
-                        sendThreadCP("$", IPAddress.Parse(listCP[0]));
-                        Thread.Sleep(50);
-                        sendThreadCP("$", IPAddress.Parse(listCP[1]));
-                        Thread.Sleep(50);
                         leerArchivo();
+
+                        Console.WriteLine("private conversation : " + nicknames[0] + " & " + nicknames[1]);
+                        sendThreadCP("$", IPAddress.Parse(listCP[0]), false);
+                        Thread.Sleep(50);
+                        sendThreadCP("$", IPAddress.Parse(listCP[1]), false);
+                        Thread.Sleep(50);
+                        
                     }
                 }
                 else if (returndata.Substring(0, 1) == "%") // mensajes normales 
@@ -218,7 +229,7 @@ namespace SYE_private
                     Console.WriteLine("message : " + returndata.Substring(1, returndata.IndexOf("]") - 1));
                     for (int i = 0; i < listCP.Count; i++)
                     {
-                        sendThreadCP(returndata, IPAddress.Parse(listCP[i]));
+                        sendThreadCP(returndata, IPAddress.Parse(listCP[i]), false);
                     }
                 }
                 else if (returndata.Substring(0, 1) == "v") // videollamada
@@ -226,7 +237,7 @@ namespace SYE_private
                     for (int i = 0; i < listCP.Count; i++)
                     {
                         if (RemoteIpEndPoint.Address.ToString() != listCP[i])
-                            sendThreadCP("v", IPAddress.Parse(listCP[i]));
+                            sendThreadCP("v", IPAddress.Parse(listCP[i]), false);
                     }
                 }
                 else if (returndata.Substring(0, 1) == "q") // cierra ventana
@@ -234,7 +245,7 @@ namespace SYE_private
                     for (int i = 0; i < listCP.Count; i++)
                     {
                         if (RemoteIpEndPoint.Address.ToString() != listCP[i])
-                            sendThreadCP("q", IPAddress.Parse(listCP[i]));
+                            sendThreadCP("q", IPAddress.Parse(listCP[i]), false);
                     }
                 }
             }
