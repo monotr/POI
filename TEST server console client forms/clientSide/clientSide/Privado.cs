@@ -24,8 +24,7 @@ namespace clientSide
         UdpClient udpClient;
         public IPAddress[] serverIP;
         string ipserver;
-        StreamWriter escribir;
-        StreamReader reader;
+       
 
         string nickname1, nickname2, ip1, ip2;
         bool dos = false;

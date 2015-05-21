@@ -15,7 +15,7 @@ namespace SYE_private
         static UdpClient udpClientSyE, udpClientCP;
         private static List<string> jugadores, clientList;
         private static List<string> listCP, nicknames;
-
+        private static StreamWriter escritor;
         static Thread thdReceive, thdReceiveCP;
 
         static void Main(string[] args)
@@ -117,7 +117,26 @@ namespace SYE_private
 
         private static void escribirArchivo(string text_to_send)
         {
+            if (File.Exists("conversaciones\\" + nicknames[0] + "_" + nicknames[1] + ".txt"))
+            {
+                using (escritor)
+                {
+                    escritor.WriteLine(text_to_send);
+                }
+            }
 
+            else
+            {
+                using (escritor)
+                {
+                    escritor.WriteLine(text_to_send);
+                }
+            }
+        }
+
+        private static void leerArchivo()
+        {
+            string mensaje = "";
 
             if (!System.IO.Directory.Exists("conversaciones"))
             {
@@ -128,34 +147,14 @@ namespace SYE_private
             {
                 using ( StreamWriter escribir = new StreamWriter("conversaciones\\"  + nicknames[0] + "_" + nicknames[1] + ".txt", true))
                 {
-                     escribir.Write("\nchat: " + text_to_send);
+                     escribir.Write("Conversacion entre: " +  nicknames[0] + " y " +  nicknames[1]);
                 }
             }
             else if (File.Exists("conversaciones\\" + nicknames[0] + "_" + nicknames[1] + ".txt"))
             {
-                using (StreamWriter escribir = new StreamWriter("conversaciones\\" + nicknames[0] + "_" + nicknames[1] + ".txt", true))
-                {
-                    escribir.WriteLine("\nchat: " + text_to_send);
-                }
-            }
-
-            else
-            {
-                using (StreamWriter escribir = new StreamWriter("conversaciones\\" + nicknames[1] + "_" + nicknames[0] + ".txt", true))
-                {
-                    escribir.WriteLine("\nchat: " + text_to_send);
-                }
-            }
-        }
-
-        private static void leerArchivo()
-        {
-            string mensaje = "";
-
-            if (File.Exists("conversaciones\\" + nicknames[0] + "_" + nicknames[1] + ".txt") 
-            {
                 using (StreamReader reader = new StreamReader("conversaciones\\" + nicknames[0] + "_" + nicknames[1] + ".txt", true))
                 {
+                    escritor = new StreamWriter("conversaciones\\" + nicknames[0] + "_" + nicknames[1] + ".txt", true);
                     while (reader.Peek() >= 0)
                     {
                         mensaje = reader.ReadLine();
@@ -171,6 +170,7 @@ namespace SYE_private
             {
                 using (StreamReader reader = new StreamReader("conversaciones\\" + nicknames[1] + "_" + nicknames[0] + ".txt", true))
                 {
+                    escritor = new StreamWriter("conversaciones\\" + nicknames[1] + "_" + nicknames[0] + ".txt", true);
                     while (reader.Peek() >= 0)
                     {
                         mensaje = reader.ReadLine();
