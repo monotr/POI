@@ -85,7 +85,7 @@
             this.button1.Location = new System.Drawing.Point(20, 268);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 1;
+            this.button1.TabIndex = 4;
             this.button1.Text = "Enviar";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -95,7 +95,7 @@
             this.button2.Location = new System.Drawing.Point(184, 38);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 2;
+            this.button2.TabIndex = 1;
             this.button2.Text = "Conectar";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
@@ -105,8 +105,9 @@
             this.nickname.Location = new System.Drawing.Point(78, 40);
             this.nickname.Name = "nickname";
             this.nickname.Size = new System.Drawing.Size(100, 20);
-            this.nickname.TabIndex = 5;
+            this.nickname.TabIndex = 0;
             this.nickname.TextChanged += new System.EventHandler(this.nickname_TextChanged);
+            this.nickname.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.nickname_KeyPress);
             // 
             // label2
             // 
@@ -121,8 +122,9 @@
             // 
             this.conversation.Location = new System.Drawing.Point(20, 67);
             this.conversation.Name = "conversation";
+            this.conversation.ReadOnly = true;
             this.conversation.Size = new System.Drawing.Size(387, 119);
-            this.conversation.TabIndex = 7;
+            this.conversation.TabIndex = 10;
             this.conversation.Text = "";
             this.conversation.TextChanged += new System.EventHandler(this.conversation_TextChanged);
             // 
@@ -132,7 +134,7 @@
             this.comboEstado.Location = new System.Drawing.Point(374, 9);
             this.comboEstado.Name = "comboEstado";
             this.comboEstado.Size = new System.Drawing.Size(164, 21);
-            this.comboEstado.TabIndex = 8;
+            this.comboEstado.TabIndex = 7;
             this.comboEstado.SelectedIndexChanged += new System.EventHandler(this.comboEstado_SelectedIndexChanged);
             this.comboEstado.ValueMemberChanged += new System.EventHandler(this.comboEstado_ValueMemberChanged);
             // 
@@ -142,7 +144,8 @@
             this.textToSend_txt.Multiline = true;
             this.textToSend_txt.Name = "textToSend_txt";
             this.textToSend_txt.Size = new System.Drawing.Size(387, 62);
-            this.textToSend_txt.TabIndex = 4;
+            this.textToSend_txt.TabIndex = 3;
+            this.textToSend_txt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textToSend_txt_KeyPress);
             // 
             // textToSend_txt2
             // 
@@ -159,7 +162,7 @@
             this.zumbido.Location = new System.Drawing.Point(343, 268);
             this.zumbido.Name = "zumbido";
             this.zumbido.Size = new System.Drawing.Size(25, 25);
-            this.zumbido.TabIndex = 10;
+            this.zumbido.TabIndex = 6;
             this.zumbido.Text = "Z";
             this.zumbido.UseVisualStyleBackColor = true;
             this.zumbido.Click += new System.EventHandler(this.zumbido_Click);
@@ -169,7 +172,7 @@
             this.emotes.Location = new System.Drawing.Point(374, 268);
             this.emotes.Name = "emotes";
             this.emotes.Size = new System.Drawing.Size(25, 25);
-            this.emotes.TabIndex = 10;
+            this.emotes.TabIndex = 5;
             this.emotes.Text = "button3";
             this.emotes.UseVisualStyleBackColor = true;
             this.emotes.Click += new System.EventHandler(this.emotes_Click);
@@ -507,7 +510,7 @@
             this.btnencript.Location = new System.Drawing.Point(245, 274);
             this.btnencript.Name = "btnencript";
             this.btnencript.Size = new System.Drawing.Size(68, 17);
-            this.btnencript.TabIndex = 19;
+            this.btnencript.TabIndex = 8;
             this.btnencript.Text = "Encriptar";
             this.btnencript.UseVisualStyleBackColor = true;
             this.btnencript.CheckedChanged += new System.EventHandler(this.btnencript_CheckedChanged);

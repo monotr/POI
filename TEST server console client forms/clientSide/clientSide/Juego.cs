@@ -219,10 +219,20 @@ namespace clientSide
                     diceBut.Invoke(new Action(() => diceBut.Enabled = true));
                     Thread.Sleep(50);
                 }
+                else if (returndata.Contains('r'))
+                {
+                    resetear();
+                }
             }
         }
 
         private void reset_btn_Click_1(object sender, EventArgs e)
+        {
+            resetear();
+            Send_Bytes("r");
+        }
+
+        private void resetear()
         {
             player1_image.Location = new Point(posOriginal[0], posOriginal[1]);
             player2_image.Location = new Point(posOriginal[2], posOriginal[3]);

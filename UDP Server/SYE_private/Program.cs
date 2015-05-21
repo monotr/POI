@@ -117,6 +117,14 @@ namespace SYE_private
                             sendThread(")", IPAddress.Parse(clientList[i]));
                     }
                 }
+                else if (returndata.Contains('r'))
+                {
+                   for (int i = 0; i < jugadores.Count; i++)
+                    {
+                        sendThread("r", IPAddress.Parse(clientList[i]));
+                    }
+                }
+
             }
         }
 

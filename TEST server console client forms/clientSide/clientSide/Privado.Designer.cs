@@ -75,8 +75,9 @@
             // 
             this.conversation.Location = new System.Drawing.Point(15, 75);
             this.conversation.Name = "conversation";
+            this.conversation.ReadOnly = true;
             this.conversation.Size = new System.Drawing.Size(387, 119);
-            this.conversation.TabIndex = 24;
+            this.conversation.TabIndex = 0;
             this.conversation.Text = "";
             // 
             // textToSend_txt
@@ -85,14 +86,15 @@
             this.textToSend_txt.Multiline = true;
             this.textToSend_txt.Name = "textToSend_txt";
             this.textToSend_txt.Size = new System.Drawing.Size(387, 62);
-            this.textToSend_txt.TabIndex = 21;
+            this.textToSend_txt.TabIndex = 1;
+            this.textToSend_txt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textToSend_txt_KeyPress);
             // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(15, 276);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 19;
+            this.button1.TabIndex = 2;
             this.button1.Text = "Enviar";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -111,7 +113,7 @@
             this.btncorreo.Location = new System.Drawing.Point(116, 276);
             this.btncorreo.Name = "btncorreo";
             this.btncorreo.Size = new System.Drawing.Size(75, 23);
-            this.btncorreo.TabIndex = 34;
+            this.btncorreo.TabIndex = 3;
             this.btncorreo.Text = "Correo";
             this.btncorreo.UseVisualStyleBackColor = true;
             this.btncorreo.Click += new System.EventHandler(this.btncorreo_Click);
@@ -121,7 +123,7 @@
             this.btnvideo.Location = new System.Drawing.Point(217, 276);
             this.btnvideo.Name = "btnvideo";
             this.btnvideo.Size = new System.Drawing.Size(75, 23);
-            this.btnvideo.TabIndex = 35;
+            this.btnvideo.TabIndex = 4;
             this.btnvideo.Text = "Videochat";
             this.btnvideo.UseVisualStyleBackColor = true;
             this.btnvideo.Click += new System.EventHandler(this.btnvideo_Click);

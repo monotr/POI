@@ -212,54 +212,64 @@ namespace clientSide
 
         private void button2_Click(object sender, EventArgs e)
         {
-            while (!clientSocket.Connected)
+            conect();
+        }
+
+        private void conect()
+        {
+            if (nickname.Text != "")
             {
-                try
+                while (!clientSocket.Connected)
                 {
-                    readData = "Conected to Chat Server ... \n";
-                    myIP = IPAddress.Parse("192.168.0.5");
-
-                    //localIP = Dns.GetHostAddresses("Cabrera");
-                    localIP = Dns.GetHostAddresses(Dns.GetHostName());
-                    foreach (IPAddress address in localIP)
+                    try
                     {
-                        if (address.AddressFamily == AddressFamily.InterNetwork)
+                        readData = "Conected to Chat Server ... \n";
+                        myIP = IPAddress.Parse("192.168.0.5");
+
+                        //localIP = Dns.GetHostAddresses("Cabrera");
+                        localIP = Dns.GetHostAddresses(Dns.GetHostName());
+                        foreach (IPAddress address in localIP)
                         {
-                            myIP = address;
+                            if (address.AddressFamily == AddressFamily.InterNetwork)
+                            {
+                                myIP = address;
+                            }
                         }
+                        //clientSocket.Connect(myIP, 55555);
+                        clientSocket.Connect(Dns.GetHostAddresses("Cabrera"), 9050);
+                        label1.Text = "Client Socket Program - Server Connected ... " + localIP.ToString();
+
+                        nickname.Enabled = false;
+                        button2.Enabled = false;
+
+                        msg();
+                        first = true;
+
+                        serverStream = clientSocket.GetStream();
+
+                        byte[] outStream = System.Text.Encoding.ASCII.GetBytes("$" + nickname.Text + "|" + comboEstado.Text + "|" + (string)myIP.ToString() + "|NADA");
+                        //byte[] outStream = System.Text.Encoding.ASCII.GetBytes("hola $");
+                        serverStream.Write(outStream, 0, outStream.Length);
+                        serverStream.Flush();
+
+                        //clientes_grid.Rows.Add(nickname.Text, comboEstado.Text, (string)myIP.ToString());
+
+                        ctThread = new Thread(getMessage);
+                        ctThread.Start();
+
                     }
-                    //clientSocket.Connect(myIP, 55555);
-                    clientSocket.Connect(Dns.GetHostAddresses("Cabrera"), 9050);
-                    label1.Text = "Client Socket Program - Server Connected ... " + localIP.ToString();
-
-
-           
-                    msg();
-                    first = true;
-
-                    serverStream = clientSocket.GetStream();
-
-                    byte[] outStream = System.Text.Encoding.ASCII.GetBytes("$" + nickname.Text + "|" + comboEstado.Text + "|" + (string)myIP.ToString() + "|NADA");
-                    //byte[] outStream = System.Text.Encoding.ASCII.GetBytes("hola $");
-                    serverStream.Write(outStream, 0, outStream.Length);
-                    serverStream.Flush();
-
-                    //clientes_grid.Rows.Add(nickname.Text, comboEstado.Text, (string)myIP.ToString());
-
-                    ctThread = new Thread(getMessage);
-                    ctThread.Start();
-
-                }
-                catch
-                {
-                    //Console.Clear();
+                    catch
+                    {
+                        //Console.Clear();
+                    }
                 }
             }
         }
 
         private void conversation_TextChanged(object sender, EventArgs e)
         {
-
+            conversation.SelectionStart = conversation.Text.Length;
+            conversation.ScrollToCaret();
         }
 
         private void comboEstado_SelectedIndexChanged(object sender, EventArgs e)
@@ -559,6 +569,40 @@ namespace clientSide
             byte[] outStream = System.Text.Encoding.ASCII.GetBytes(menssage);
             serverStream.Write(outStream, 0, outStream.Length);
             serverStream.Flush();
+        }
+
+        private void textToSend_txt_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Return)
+            {
+                try
+                {
+                    string text_to_send = textToSend_txt.Text;
+                    if (btnencript.Checked)
+                        text_to_send = CryptoEngine.Encrypt(textToSend_txt.Text, true);
+
+
+                    text_to_send += "*";
+
+                    byte[] outStream = System.Text.Encoding.ASCII.GetBytes(text_to_send + "$");
+                    serverStream.Write(outStream, 0, outStream.Length);
+                    serverStream.Flush();
+                }
+                finally
+                {
+                    textToSend_txt.Clear();
+                    e.Handled = true;
+                }
+            }
+            
+        }
+
+        private void nickname_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Return)
+            {
+                conect();
+            }
         }
 
 

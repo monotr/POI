@@ -173,6 +173,24 @@ namespace clientSide
 
              Send_Bytes("v");
          }
+
+         private void textToSend_txt_KeyPress(object sender, KeyPressEventArgs e)
+         {
+             if (e.KeyChar == (char)Keys.Return)
+             {
+                 
+                 string text_to_send = "," + CryptoEngine.Encrypt(textToSend_txt.Text, true) + ",]";
+                 if (dos)
+                     text_to_send = "%," + nickname2 + text_to_send;
+                 else
+                     text_to_send = "%," + nickname1 + text_to_send;
+
+                 Send_Bytes(text_to_send);
+
+                 textToSend_txt.Clear();
+                 e.Handled = true;
+             }
+         }
     }
 
 
