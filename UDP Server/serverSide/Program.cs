@@ -193,10 +193,10 @@ namespace serverSide
                         Console.WriteLine(clNo + " quiere iniciar chat privado");
                         Program.broadcast(dataFromClient, clNo, false, 1);
                     }
-                    else if (dataFromClient.Contains("°"))
+                    else if (dataFromClient.Contains("_"))
                     {
-                        Console.WriteLine(clNo + " quiere encriptar");
-                        Program.broadcast(dataFromClient, clNo, false, 1);
+                        Console.WriteLine(clNo + " quiere encriptar _");
+                        Program.broadcast("_", clNo, false, 1);
                     }
                     rCount = Convert.ToString(requestCount);
                 }
