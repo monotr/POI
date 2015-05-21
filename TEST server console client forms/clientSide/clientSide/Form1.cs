@@ -99,7 +99,7 @@ namespace clientSide
                         //clientesconect.Add(name + " " + statusActual);
                     }
                     else if (!returndata.Contains("Joined") && !returndata.Contains("^") && !returndata.Contains("#") &&
-                        !returndata.Contains("~")) //mensaje recibido
+                        !returndata.Contains("~") && !returndata.Contains("°"))  //mensaje recibido
                     {
                         int inicio = returndata.IndexOf(":") + 1;
                         int fin = returndata.IndexOf("*") - inicio;
@@ -193,8 +193,10 @@ namespace clientSide
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
-            string text_to_send = CryptoEngine.Encrypt(textToSend_txt.Text, true);
+
+            string text_to_send = "";
+            if(btnencript.Checked)
+                text_to_send = CryptoEngine.Encrypt(textToSend_txt.Text, true);
            
 
             text_to_send += "*";
